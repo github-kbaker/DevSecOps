@@ -2,7 +2,7 @@ Learn to create an automated workflow that automatically brings up Docker contai
 
 We use a revolutionary approach that enable you to legitimately claim this on your resume:
 
-   <strong>"Automated an end-to-end CI/CD Jenkins Groovy workflow, triggered by changes in GitHub, to auto-scale NGINX in Docker."</strong>
+   <strong>"Automated an end-to-end CI/CD Jenkins Groovy workflow, triggered by changes in GitHub, to auto-scale NGINX in Docker within the Digital Ocean cloud."</strong>
 
 Here's what:
 
