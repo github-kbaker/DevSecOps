@@ -1,6 +1,10 @@
 Learn to create an automated workflow that automatically brings up Docker containers in the cloud with monitoring and auto-scaling.
 
-We use a revolutionary approach that gets you productive in the least amount of time doing the following:
+We use a revolutionary approach that enable you to legitimately claim this on your resume:
+
+   <strong>"Created an end-to-end CI/CD workflow triggered by changes in GitHub"</strong>
+
+Here's what:
 
 * Follow our manual procedures step-by-step to setup cloud accounts.
 * Configure and run automated scripts to set it all up.
@@ -15,7 +19,7 @@ With this course, you skip the fumbling around because we have already figured i
 
 This course provides everything you need to get it done:
 
-1. Instructions on doing the manual aspects (setup accounts)
+1. Instructions on doing the manual aspects (setup accounts, obtain certificate for HTTPS)
 2. A private repository on GitHub with Web Hooks to recognize changes
 3. Bash scripts to setup the utility environment above (Jenkins, database, Graphana)
 4. Groovy scripts in a Jenkins server on Cloudbees to update servers
