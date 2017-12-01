@@ -113,7 +113,7 @@ kubectl logs monolith
 
 # Manually open a 3rd terminal to use the -f flag to get a stream of the logs happening in real-time:
 # kubectl logs -f monolith
-   # Other commands cannot be entered on this terminal.
+   # Because this runs continuously, other commands cannot be entered on this terminal.
 
 # Back on the 2nd terminal, interact with the monolith to see the logs updating (in terminal 3):
 # curl http://127.0.0.1:10080
@@ -194,8 +194,27 @@ kubectl get pods secure-monolith --show-labels
 kubectl describe services monolith | grep Endpoints
    # Endpoints: 10.4.1.6:443
 
-# Hit one of our nodes again:
+# See the rest of the info:
+kubectl describe services monolith
+   # Name:                     monolith
+   # Namespace:                default
+   # Labels:                   <none>
+   # Annotations:              <none>
+   # Selector:                 app=monolith,secure=enabled
+   # Type:                     NodePort
+   # IP:                       10.7.240.49
+   # Port:                     <unset>  443/TCP
+   # TargetPort:               443/TCP
+   # NodePort:                 <unset>  31000/TCP
+   # Endpoints:                10.4.1.6:443
+   # Session Affinity:         None
+   # External Traffic Policy:  Cluster
+   # Events:                   <none>
+
+# Obtain the EXTERNAL_IP for one of the gke nodes:
 gcloud compute instances list
+
+# TODO: How to extract the EXTERNAL IP address into an environment variable?
 
 # View:
 # curl -k https://<EXTERNAL_IP>:31000
@@ -208,23 +227,36 @@ gcloud compute instances list
    # frontend - Routes traffic to the auth and hello services.
    # See http://kubernetes.io/docs/user-guide/deployments/#what-is-a-deployment
 
-# Notice deployments/auth.yaml specifies creation of 1 replica called "auth" from Kelsey:
+# Deploy 1 replica called "auth" from Kelsey:
 kubectl create -f deployments/auth.yaml
+   # deployment "auth" created
 
 # Create a service for your auth deployment:
 kubectl create -f services/auth.yaml
+   # service "auth" created
 
 # Create and expose the hello app Deployment:
 kubectl create -f deployments/hello.yaml
+   # deployment "hello" created
+
 kubectl create -f services/hello.yaml
+   # service "hello" created
 
 # Create and expose the frontend Deployment:
 kubectl create configmap nginx-frontend-conf --from-file=nginx/frontend.conf
+   # configmap "nginx-frontend-conf" created
+
 kubectl create -f deployments/frontend.yaml
+   # deployment "frontend" created
+
 kubectl create -f services/frontend.yaml
+   # service "frontend" created
 
 # Interact with the frontend by grabbing it's External IP and then curling to it:
 kubectl get services frontend
+   # NAME       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)         AGE
+   # frontend   LoadBalancer   10.7.247.150   <pending>     443:30738/TCP   25s
+
 # curl -k https://<EXTERNAL-IP>
 
 # Delete using a script:
