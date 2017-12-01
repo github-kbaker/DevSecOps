@@ -1,13 +1,32 @@
 # This bash script uses Kubernetes to establish within Google cloud a multi-service application.
 
+git clone https://github.com/googlecodelabs/orchestrate-with-kubernetes.git
+cd orchestrate-with-kubernetes/kubernetes
+ls
+
+# Define Zone within Google Cloud:
+# bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-zone.sh)
+gcloud config set compute/zone us-central1-b
+
+# cleanup.sh deployments  nginx  pods  services  tls
 # Clean up (delete) what was created in previous session:
 chmod +x cleanup.sh
 ./cleanup.sh
 
-gcloud container clusters delete io --zone 
+# List what GKE clusters are left over from previous run:
+gcloud compute instances list
+   # NAME                                     ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
+   # gke-io-default-pool-c8cd677e-gfzq        us-central1-b  n1-standard-1               10.128.0.8   35.192.220.202   RUNNING
+   # gke-io-default-pool-c8cd677e-nqrb        us-central1-b  n1-standard-1               10.128.0.7   35.202.233.114   RUNNING
+   # gke-io-default-pool-c8cd677e-xhv8        us-central1-b  n1-standard-1               10.128.0.9   35.193.71.132    RUNNING
 
-# Define Zone within Google Cloud = gcloud config set compute/zone us-central1-b
-bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-zone.sh)
+# If they exist, delete them:
+gcloud container clusters delete io --zone us-central1-b
+   # The following clusters will be deleted.
+   # - [io] in [us-central1-f]
+   # Do you want to continue (Y/n)?  Y
+   # Deleting cluster io...done.
+   # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
 
 # Start up a cluster:
 gcloud container clusters create io
@@ -18,11 +37,6 @@ gcloud container clusters create io
    # NAME  ZONE           MASTER_VERSION  MASTER_IP     MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
    # io    us-central1-b  1.7.8-gke.0     35.193.92.75  n1-standard-1  1.7.8-gke.0   3          RUNNING
    
-git clone https://github.com/googlecodelabs/orchestrate-with-kubernetes.git
-cd orchestrate-with-kubernetes/kubernetes
-ls
-   # cleanup.sh deployments  nginx  pods  services  tls
-
 # Launch a single instance of the nginx container:
 kubectl run nginx --image=nginx:1.10.0
    # deployment "nginx" created
@@ -48,36 +62,45 @@ kubectl get services
 
 # Create a single 10MB pod kelseyhightower's monolith image, listening on port 80, with a health UI on port 81:
 kubectl create -f pods/monolith.yaml
+   # pod "monolith" created
 
 # list pods running in the default namespace:
 kubectl get pods
+   # NAME                     READY     STATUS    RESTARTS   AGE
+   # monolith                 1/1       Running   0          26s
+   # nginx-1803751077-wcb7d   1/1       Running   0          1h
 
-# Information about the monolith pod created:
+# Get information about pods named monolith:
 kubectl describe pods monolith
+   # This lists IP address (such as 10.4.0.4), Status, Containers, Conditions, Events.
 
 # Map a local port to a port inside the monolith pod:
 
-# Manually open a 2nd terminal, run this command to set up port-forwarding:
+# Manually open a 2nd terminal (clicking the "+" to "Add Cloud Shell session") to set up port-forwarding:
 kubectl port-forward monolith 10080:80
+   # Forwarding from 127.0.0.1:10080 -> 80
 
-# Manually open a 3rd terminal to talking to our pod:
+# Manually open a 3rd terminal (Cloud Shell session) to talking to our pod:
 # curl http://127.0.0.1:10080
-   # hello should appear
+   # {"message":"Hello"}
 
-# hit a secure endpoint:
+# Also on the 3rd terminal, hit a secure endpoint:
 # curl http://127.0.0.1:10080/secure
+   # authorization failed
 
-# Manually log in to get an auth token back from our Monolith:
-# curl -u user http://127.0.0.1:10080/login
-   # use the super-secret password "password" to login.
+# Because Cloud shell doesn't handle copying long strings well:
+# In the 3rd terminal, Capture in an environment variable the token returned in response to manually log in:
+TOKEN=$(curl http://127.0.0.1:10080/login -u user|jq -r '.token')
+   # Enter host password for user 'user':
+# Manually type in the (super-secret) password "password" to login.
    # Logging in caused a JWT token to print out
-   # TOKEN=$(curl http://127.0.0.1:10080/login -u user|jq -r '.token')
+   # {"token":"eyJhbGci..."}
 
 # Copy the token and use it to hit our secure endpoint with curl into an environment variable for use in the previous step.
-# This is because Cloud shell doesn't handle copying long strings well.
-# curl -H "Authorization: Bearer $TOKEN" http://127.0.0.1:10080/secure
+curl -H "Authorization: Bearer $TOKEN" http://127.0.0.1:10080/secure
+   # {"message":"Hello"}
 
-# Ciew app logs for the monolith Pod:
+# View app logs entries for the monolith Pod:
 kubectl logs monolith
 
 # Open a 3rd terminal and use the -f flag to get a stream of the logs happening in real-time:
@@ -110,12 +133,7 @@ kubectl create -f services/monolith.yaml
 gcloud compute firewall-rules create allow-monolith-nodeport \
   --allow=tcp:31000
    
-# Get an IP address for one of the nodes, 
 gcloud compute instances list
-   # NAME                                     ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
-   # gke-io-default-pool-c8cd677e-gfzq        us-central1-b  n1-standard-1               10.128.0.8   35.192.220.202   RUNNING
-   # gke-io-default-pool-c8cd677e-nqrb        us-central1-b  n1-standard-1               10.128.0.7   35.202.233.114   RUNNING
-   # gke-io-default-pool-c8cd677e-xhv8        us-central1-b  n1-standard-1               10.128.0.9   35.193.71.132    RUNNING
    
 # Try hitting the secure-monolith service:
 # curl -k https://<EXTERNAL_IP>:31000
@@ -177,3 +195,4 @@ kubectl get services frontend
 chmod +x cleanup.sh
 ./cleanup.sh
 
+gcloud container clusters delete io --zone 
