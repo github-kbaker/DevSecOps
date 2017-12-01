@@ -105,5 +105,38 @@ kubectl create -f services/monolith.yaml
 gcloud compute firewall-rules create allow-monolith-nodeport \
   --allow=tcp:31000
    
+# Get an IP address for one of the nodes, 
+gcloud compute instances list
+   # NAME                                     ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
+   # gke-io-default-pool-c8cd677e-gfzq        us-central1-b  n1-standard-1               10.128.0.8   35.192.220.202   RUNNING
+   # gke-io-default-pool-c8cd677e-nqrb        us-central1-b  n1-standard-1               10.128.0.7   35.202.233.114   RUNNING
+   # gke-io-default-pool-c8cd677e-xhv8        us-central1-b  n1-standard-1               10.128.0.9   35.193.71.132    RUNNING
+   
+# Try hitting the secure-monolith service:
+# curl -k https://<EXTERNAL_IP>:31000
 
+# By default the monolith service is not setup with endpoints. 
+# Troubleshoot an issue like this is to use the kubectl get pods command with a label query.
 
+# List pods running with the monolith label:
+kubectl get pods -l "app=monolith"
+
+# But what about "app=monolith" and "secure=enabled"?
+kubectl get pods -l "app=monolith,secure=enabled"
+
+Notice this label query does not print any results. It seems like we need to add the "secure=enabled" label to them.
+
+# Add "secure=enabled" label to the secure-monolith Pod. 
+kubectl label pods secure-monolith 'secure=enabled'
+
+# Check and see whether labels have been updated:
+kubectl get pods secure-monolith --show-labels
+
+# View the list of endpoints on the monolith service:
+kubectl describe services monolith | grep Endpoints
+
+# Hit one of our nodes again:
+gcloud compute instances list
+
+# View:
+# curl -k https://<EXTERNAL_IP>:31000
