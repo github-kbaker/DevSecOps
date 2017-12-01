@@ -80,11 +80,11 @@ kubectl describe pods monolith
 kubectl port-forward monolith 10080:80
    # Forwarding from 127.0.0.1:10080 -> 80
 
-# Manually open a 3rd terminal (Cloud Shell session) to talking to our pod:
+# In the 2nd terminal (Cloud Shell session) (in HOME folder) to talking to our pod:
 # curl http://127.0.0.1:10080
    # {"message":"Hello"}
 
-# Also on the 3rd terminal, hit a secure endpoint:
+# Also on the 2nd terminal, hit a secure endpoint:
 # curl http://127.0.0.1:10080/secure
    # authorization failed
 
@@ -102,26 +102,50 @@ curl -H "Authorization: Bearer $TOKEN" http://127.0.0.1:10080/secure
 
 # View app logs entries for the monolith Pod:
 kubectl logs monolith
+   # 2017/12/01 16:45:26 Starting server...
+   # 2017/12/01 16:45:26 Health service listening on 0.0.0.0:81
+   # 2017/12/01 16:45:26 HTTP service listening on 0.0.0.0:80
+   # 127.0.0.1:52500 - - [Fri, 01 Dec 2017 16:55:19 UTC] "GET / HTTP/1.1" curl/7.38.0
+   # 127.0.0.1:52630 - - [Fri, 01 Dec 2017 16:56:08 UTC] "GET /secure HTTP/1.1" curl/7.38.0
+   # 127.0.0.1:52824 - - [Fri, 01 Dec 2017 16:57:26 UTC] "GET /login HTTP/1.1" curl/7.38.0
+   # 127.0.0.1:53178 - - [Fri, 01 Dec 2017 16:59:43 UTC] "GET /login HTTP/1.1" curl/7.38.0
+   # 127.0.0.1:53578 - - [Fri, 01 Dec 2017 17:02:24 UTC] "GET /secure HTTP/1.1" curl/7.38.0
 
-# Open a 3rd terminal and use the -f flag to get a stream of the logs happening in real-time:
+# Manually open a 3rd terminal to use the -f flag to get a stream of the logs happening in real-time:
 # kubectl logs -f monolith
+   # Other commands cannot be entered on this terminal.
 
-# Now if you use curl to interact with the monolith, you can see the logs updating (in terminal 3):
+# Back on the 2nd terminal, interact with the monolith to see the logs updating (in terminal 3):
 # curl http://127.0.0.1:10080
 
 # Open an interactive shell inside the Monolith Pod to troubleshoot from within a container:
 # kubectl exec monolith --stdin --tty -c monolith /bin/sh
-
-# Shell into the monolith container we can test external connectivity using the ping command:
+   # The cursor changes to /# 
+   
+# Shell into the monolith container to see if we can test external connectivity:
 # ping -c 3 google.com
+   # ING google.com (209.85.200.101): 56 data bytes
+   # 64 bytes from 209.85.200.101: seq=0 ttl=52 time=0.789 ms
+   # 64 bytes from 209.85.200.101: seq=1 ttl=52 time=0.410 ms
+   # 64 bytes from 209.85.200.101: seq=2 ttl=52 time=0.402 ms
+   # --- google.com ping statistics ---
+   # 3 packets transmitted, 3 packets received, 0% packet loss
+   # round-trip min/avg/max = 0.402/0.533/0.789 ms
+
+# Return:
 # exit
 
 # See http://kubernetes.io/docs/user-guide/services/
 
 # Create secure-monolith pods and their configuration data:
 kubectl create secret generic tls-certs --from-file tls/
+   # secret "tls-certs" created
+   
 kubectl create configmap nginx-proxy-conf --from-file nginx/proxy.conf
+   # configmap "nginx-proxy-conf" created
+
 kubectl create -f pods/secure-monolith.yaml
+   # pod "secure-monolith" created
 
 # Expose the secure-monolith Pod externally by creating a Kubernetes service using services/monolith.yaml:
 # selector is used to automatically find and expose any pods with the labels "app=monolith" and "secure=enabled"
@@ -132,9 +156,14 @@ kubectl create -f services/monolith.yaml
 # Allow traffic to the monolith service on the exposed nodeport:
 gcloud compute firewall-rules create allow-monolith-nodeport \
   --allow=tcp:31000
-   
+   # Creating firewall ... Done
+
 gcloud compute instances list
-   
+   # Creating firewall...|Created [https://www.googleapis.com/compute/v1/projects/cicd-182518/global/firewalls/allow-monolith-nodeport].
+   # Creating firewall...done.
+   # NAME                     NETWORK  DIRECTION  PRIORITY  ALLOW      DENY
+   # allow-monolith-nodeport  default  INGRESS    1000      tcp:31000
+
 # Try hitting the secure-monolith service:
 # curl -k https://<EXTERNAL_IP>:31000
 
@@ -143,20 +172,27 @@ gcloud compute instances list
 
 # List pods running with the monolith label:
 kubectl get pods -l "app=monolith"
+   # AME              READY     STATUS    RESTARTS   AGE
+   # monolith          1/1       Running   0          30m
+   # secure-monolith   2/2       Running   0          2m
 
 # But what about "app=monolith" and "secure=enabled"?
 kubectl get pods -l "app=monolith,secure=enabled"
-
-Notice this label query does not print any results. It seems like we need to add the "secure=enabled" label to them.
+   # No resources found.
+   # This is because we need to add the "secure=enabled" label to them.
 
 # Add "secure=enabled" label to the secure-monolith Pod. 
 kubectl label pods secure-monolith 'secure=enabled'
+   # pod "secure-monolith" labeled
 
 # Check and see whether labels have been updated:
 kubectl get pods secure-monolith --show-labels
+   # NAME              READY     STATUS    RESTARTS   AGE       LABELS
+   # secure-monolith   2/2       Running   0          6m        app=monolith,secure=enabled
 
 # View the list of endpoints on the monolith service:
 kubectl describe services monolith | grep Endpoints
+   # Endpoints: 10.4.1.6:443
 
 # Hit one of our nodes again:
 gcloud compute instances list
