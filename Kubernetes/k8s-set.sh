@@ -1,5 +1,10 @@
-# Delete what was created in previous session:
-# TBD
+# This bash script uses Kubernetes to establish within Google cloud a multi-service application.
+
+# Clean up (delete) what was created in previous session:
+chmod +x cleanup.sh
+./cleanup.sh
+
+gcloud container clusters delete io --zone 
 
 # Define Zone within Google Cloud = gcloud config set compute/zone us-central1-b
 bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-zone.sh)
@@ -140,3 +145,35 @@ gcloud compute instances list
 
 # View:
 # curl -k https://<EXTERNAL_IP>:31000
+
+#### Deployment
+
+# break the monolith app into three separate pieces:
+   # auth - Generates JWT tokens for authenticated users.
+   # hello - Greet authenticated users.
+   # frontend - Routes traffic to the auth and hello services.
+   # See http://kubernetes.io/docs/user-guide/deployments/#what-is-a-deployment
+
+# Notice deployments/auth.yaml specifies creation of 1 replica called "auth" from Kelsey:
+kubectl create -f deployments/auth.yaml
+
+# Create a service for your auth deployment:
+kubectl create -f services/auth.yaml
+
+# Create and expose the hello app Deployment:
+kubectl create -f deployments/hello.yaml
+kubectl create -f services/hello.yaml
+
+# Create and expose the frontend Deployment:
+kubectl create configmap nginx-frontend-conf --from-file=nginx/frontend.conf
+kubectl create -f deployments/frontend.yaml
+kubectl create -f services/frontend.yaml
+
+# Interact with the frontend by grabbing it's External IP and then curling to it:
+kubectl get services frontend
+# curl -k https://<EXTERNAL-IP>
+
+# Delete using a script:
+chmod +x cleanup.sh
+./cleanup.sh
+
