@@ -90,4 +90,20 @@ kubectl logs monolith
 
 # See http://kubernetes.io/docs/user-guide/services/
 
-# cat pods/secure-monolith.yaml
+# Create secure-monolith pods and their configuration data:
+kubectl create secret generic tls-certs --from-file tls/
+kubectl create configmap nginx-proxy-conf --from-file nginx/proxy.conf
+kubectl create -f pods/secure-monolith.yaml
+
+# Expose the secure-monolith Pod externally by creating a Kubernetes service using services/monolith.yaml:
+# selector is used to automatically find and expose any pods with the labels "app=monolith" and "secure=enabled"
+kubectl create -f services/monolith.yaml
+   # service "monolith" created
+   # See http://releases.k8s.io/release-1.2/docs/user-guide/services-firewalls.md
+   
+# Allow traffic to the monolith service on the exposed nodeport:
+gcloud compute firewall-rules create allow-monolith-nodeport \
+  --allow=tcp:31000
+   
+
+
