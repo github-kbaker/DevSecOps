@@ -322,4 +322,6 @@ gcloud container clusters delete io --zone us-central1-b
    #  - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
 # manually respond Y - TODO: A way to provide it?
+   # Deleting cluster io...done.
+   # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
