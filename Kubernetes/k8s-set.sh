@@ -300,6 +300,26 @@ kubectl get services frontend
 # Delete using a script:
 chmod +x cleanup.sh
 ./cleanup.sh
+   # pod "monolith" deleted
+   # pod "secure-monolith" deleted
+   # Error from server (NotFound): pods "healthy-monolith" not found
+   # service "monolith" deleted
+   # service "auth" deleted
+   # service "frontend" deleted
+   # service "hello" deleted
+   # deployment "auth" deleted
+   # deployment "frontend" deleted
+   # deployment "hello" deleted
+   # Error from server (NotFound): deployments.extensions "hello-canary" not found
+   # Error from server (NotFound): deployments.extensions "hello-green" not found
+   # secret "tls-certs" deleted
+   # configmap "nginx-frontend-conf" deleted
+   # configmap "nginx-proxy-conf" deleted
+   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-gcloud container clusters delete io --zone 
+gcloud container clusters delete io --zone us-central1-b
+   # The following clusters will be deleted.
+   #  - [io] in [us-central1-b]
+   # Do you want to continue (Y/n)?  Y
+# manually respond Y - TODO: A way to provide it?
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
