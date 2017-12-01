@@ -12,7 +12,7 @@ The lab covers:
 https://github.com/kelseyhightower/app
 App is hosted on GitHub and provides an example 12-Factor application. 
 
-During this lab you will be working with the following Docker images:
+This lab makes use of Docker images created by a Developer Advocate at Google:
 
 * https://hub.docker.com/r/kelseyhightower/monolith - Monolith includes auth and hello services.
 * https://hub.docker.com/r/kelseyhightower/auth - Auth microservice. Generates JWT tokens for authenticated users.
