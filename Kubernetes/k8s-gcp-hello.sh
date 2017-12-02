@@ -6,7 +6,7 @@
 
 export MY_ZONE="us-central1-b"
 
-git clone https://github.com/googlecodelabs/orchestrate-with-kubernetes.git
+git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
 cd orchestrate-with-kubernetes/kubernetes
 ls
 
