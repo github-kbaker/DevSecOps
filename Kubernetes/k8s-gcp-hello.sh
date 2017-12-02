@@ -4,8 +4,10 @@
 # In a Goolge Cloud Console run this script using this command:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/k8s-gcp-hello.sh)
 
+# PROTIP: Define environment variable for use in several commands below:
 export MY_ZONE="us-central1-b"
 
+# PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
 cd orchestrate-with-kubernetes/kubernetes
 ls
@@ -323,11 +325,11 @@ chmod +x cleanup.sh
    # configmap "nginx-proxy-conf" deleted
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-gcloud container clusters delete io --zone ${MY_ZONE}
+gcloud -q container clusters delete io --zone ${MY_ZONE}
+   # PROTIP: -q automatically responds with default answer capitalized (Y=yes), which avoids a pause for manual attention.
    # The following clusters will be deleted.
    #  - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
-# manually respond Y - TODO: A way to provide it?
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
