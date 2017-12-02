@@ -14,6 +14,8 @@ Along the way, PROTIP comments highlight tips and tricks of the pros, such as:
 1. How to check for errors at each step so the script stops upon error.
 1. How to avoid using the wrong geographic zone (a mistake can can cost a lot of money).
 1. How to ensure that the same data is used by several commands.
+1. How to make sure that changes to a GitHub repository do not disrupt your script.
+1. How to automatically update a GitHub repository you forked to your own account.
 
 Here is what you'll do:
 BTW, If you get stuck, we provide one-on-one coaching and mentoring sessions while we share screens.
