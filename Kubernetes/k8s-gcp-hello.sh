@@ -1,5 +1,5 @@
 # This bash script uses Kubernetes to establish within Google cloud a multi-service application.
-# Run this script using this command:
+# In a Goolge Cloud Console run this script using this command:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/k8s-gcp-hello.sh)
 
 git clone https://github.com/googlecodelabs/orchestrate-with-kubernetes.git
