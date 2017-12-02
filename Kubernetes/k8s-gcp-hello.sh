@@ -9,6 +9,10 @@
 # In a Goolge Cloud Console run this script using this command:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh)
 
+# Print out every command before it is executed:
+trap '[[ $BASH_COMMAND != echo* ]] && echo $BASH_COMMAND' DEBUG
+set -v
+
 # PROTIP: Define environment variable for use in several commands below:
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
 export MY_ZONE="us-central1-b"
