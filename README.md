@@ -4,7 +4,7 @@ This repo contains assets for a hands-on DevSecOps class which enables you to le
 
 This is not a bunch of talk and fancy PowerPoint.
 
-Our approach is that you follow our step-by-step instructions so you can see the scripts run, first-hand.
+Our approach is that you manually follow our step-by-step instructions so you can see the scripts run, first-hand.
 
 Along the way, PROTIP comments highlight tips and tricks of the pros, such as:
 
