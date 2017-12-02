@@ -15,13 +15,16 @@ set -v
 
 # PROTIP: Define environment variable for use in several commands below:
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
-export MY_ZONE="us-central1-b"
+MY_ZONE="us-central1-b"
+echo "MY_ZONE=$MY_ZONE"
 gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
+MY_FOLDER="orchestrate-with-kubernetes/kubernetes"
+echo "MY_FOLDER=$MY_FOLDER"
 git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
-cd orchestrate-with-kubernetes/kubernetes
+cd ${MY_FOLDER}
 ls
    # cleanup.sh deployments  nginx  pods  services  tls
    
@@ -59,7 +62,7 @@ gcloud container clusters create io
    # io    us-central1-b  1.7.8-gke.0     35.193.92.75  n1-standard-1  1.7.8-gke.0   3          RUNNING
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
    
-echo "**** Launch a single instance of the nginx container:"
+echo "**** Launch a single instance of the nginx container (default account):"
 kubectl run nginx --image=nginx:1.10.0
    # deployment "nginx" created
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
@@ -83,6 +86,8 @@ kubectl get services
    # nginx        LoadBalancer   10.7.250.125   <pending>     80:30839/TCP   1m
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
+# TODO: Get the EXTERNAL-IP (pending)
+
 # View the HTML that comes back from calling the EXTERNAL-IP:
 # curl http://<External IP>:80
 
@@ -100,20 +105,34 @@ kubectl get pods
 
 echo "**** Get information about pods named monolith:"
 kubectl describe pods monolith
-   # This lists IP address (such as 10.4.0.4), Status, Containers, Conditions, Events.
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   # This lists IP address (such as 10.4.0.4), Status, Containers, Conditions, Events:
+   # Type    Reason                 Age   From                                        Message
+   #  ----    ------                 ----  ----                                        -------
+   #  Normal  Scheduled              16s   default-scheduler                           Successfully assigned monolith to gke-io-default-pool-930e673b-hptb
+   #  Normal  SuccessfulMountVolume  16s   kubelet, gke-io-default-pool-930e673b-hptb  MountVolume.SetUp succeeded for volume "default-token-bs46v"
+   #  Normal  Pulling                16s   kubelet, gke-io-default-pool-930e673b-hptb  pulling image "kelseyhightower/monolith:1.0.0"
+   #  Normal  Pulled                 14s   kubelet, gke-io-default-pool-930e673b-hptb  Successfully pulled image "kelseyhightower/monolith:1.0.0"
+   #  Normal  Created                14s   kubelet, gke-io-default-pool-930e673b-hptb  Created container
+   #  Normal  Started                14s   kubelet, gke-io-default-pool-930e673b-hptb  Started container
+  if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # Map a local port to a port inside the monolith pod:
 
-# Manually open a 2nd terminal (clicking the "+" to "Add Cloud Shell session") to set up port-forwarding:
+# TODO: Manually open a 2nd terminal (clicking the "+" to "Add Cloud Shell session") to set up port-forwarding:
 kubectl port-forward monolith 10080:80
    # Forwarding from 127.0.0.1:10080 -> 80
+   # NOTE: No additional commands can be issued while this service runs.
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
+# Restore $MY_ZONE 
+# bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
+cd ${MY_FOLDER}
+
+### 
 # In the 2nd terminal (Cloud Shell session) (in HOME folder) to talking to our pod:
 # curl http://127.0.0.1:10080
    # {"message":"Hello"}
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # Also on the 2nd terminal, hit a secure endpoint:
 # curl http://127.0.0.1:10080/secure
@@ -123,7 +142,7 @@ kubectl port-forward monolith 10080:80
 # In the 3rd terminal, Capture in an environment variable the token returned in response to manually log in:
 TOKEN=$(curl http://127.0.0.1:10080/login -u user|jq -r '.token')
    # Enter host password for user 'user':
-# Manually type in the (super-secret) password "password" to login.
+# TODO: MANUALLY type in the (super-secret) password "password" to login.
    # Logging in caused a JWT token to print out
    # {"token":"eyJhbGci..."}
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
@@ -145,12 +164,14 @@ kubectl logs monolith
    # 127.0.0.1:53578 - - [Fri, 01 Dec 2017 17:02:24 UTC] "GET /secure HTTP/1.1" curl/7.38.0
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
+# TODO:
 # Manually open a 3rd terminal to use the -f flag to get a stream of the logs happening in real-time:
 # kubectl logs -f monolith
    # Because this runs continuously, other commands cannot be entered on this terminal.
 
 # Back on the 2nd terminal, interact with the monolith to see the logs updating (in terminal 3):
 # curl http://127.0.0.1:10080
+   # {"message":"Hello"}
 
 # Open an interactive shell inside the Monolith Pod to troubleshoot from within a container:
 # kubectl exec monolith --stdin --tty -c monolith /bin/sh
@@ -204,7 +225,7 @@ gcloud compute instances list
    # allow-monolith-nodeport  default  INGRESS    1000      tcp:31000
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-# Try hitting the secure-monolith service:
+# TODO: Try hitting the secure-monolith service:
 # curl -k https://<EXTERNAL_IP>:31000
 
 # By default the monolith service is not setup with endpoints. 
@@ -217,7 +238,7 @@ kubectl get pods -l "app=monolith"
    # secure-monolith   2/2       Running   0          2m
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-echo "**** But what about app=monolith and secure=enabled?"
+echo "**** See that app=monolith and secure=enabled not found:"
 kubectl get pods -l "app=monolith,secure=enabled"
    # No resources found.
    # This is because we need to add the "secure=enabled" label to them.
@@ -258,17 +279,24 @@ kubectl describe services monolith
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 echo "**** Obtain the EXTERNAL_IP for one of the gke nodes:"
-gcloud compute instances list
+gcloud compute instances list >instances.txt
+   # NAME                               ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
+   # gke-io-default-pool-930e673b-9pjv  us-central1-b  n1-standard-1               10.128.0.4   146.148.95.253   RUNNING
+   # gke-io-default-pool-930e673b-hptb  us-central1-b  n1-standard-1               10.128.0.2   104.198.199.247  RUNNING
+   # gke-io-default-pool-930e673b-xdnb  us-central1-b  n1-standard-1               10.128.0.3   35.184.0.158     RUNNING
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-# TODO: How to extract the EXTERNAL IP address into an environment variable?
+# PROTIP: Extract from 2nd line (header included) value under 5th column (EXTERNAL_ID) :
+EXTERNAL_IP=$(awk 'NR == 2 {print $5}' instances.txt)
+echo "MY_EXTERNAL_IP=$MY_EXTERNAL_IP"
 
-# View:
-# curl -k https://<EXTERNAL_IP>:31000
+# echo "**** View EXTERNAL_IP:"
+curl -k https://${MY_EXTERNAL_IP}:31000
+   # {"message":"Hello"}
 
 #### Deployment
 
-echo "**** break the monolith app into three separate pieces:"
+# Break the monolith app into three separate pieces:"
    # auth - Generates JWT tokens for authenticated users.
    # hello - Greet authenticated users.
    # frontend - Routes traffic to the auth and hello services.
@@ -289,6 +317,7 @@ kubectl create -f deployments/hello.yaml
    # deployment "hello" created
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
+echo "**** Create hello listener app service:"
 kubectl create -f services/hello.yaml
    # service "hello" created
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
@@ -298,10 +327,12 @@ kubectl create configmap nginx-frontend-conf --from-file=nginx/frontend.conf
    # configmap "nginx-frontend-conf" created
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
+echo "**** Create and expose the frontend Deployment:"
 kubectl create -f deployments/frontend.yaml
    # deployment "frontend" created
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
+echo "**** Create hello frontend app service:"
 kubectl create -f services/frontend.yaml
    # service "frontend" created
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
@@ -312,7 +343,11 @@ kubectl get services frontend
    # frontend   LoadBalancer   10.7.247.150   <pending>     443:30738/TCP   25s
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-# curl -k https://<EXTERNAL-IP>
+# TODO: Extract the EXTERNAL IP address into an environment variable?
+
+# <EXTERNAL-IP>
+# curl -k https://35.202.246.109
+   # {"message":"Hello"}
 
 echo "**** Delete using a script:"
 chmod +x cleanup.sh
@@ -339,6 +374,7 @@ gcloud -q container clusters delete io --zone ${MY_ZONE}
    # The following clusters will be deleted.
    #  - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
+
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
@@ -348,3 +384,6 @@ cd ..
 cd ..
 pwd
 rm -rf orchestrate-with-kubernetes
+ls
+
+echo "**** End of script."
