@@ -338,5 +338,3 @@ gcloud -q container clusters delete io --zone ${MY_ZONE}
 cd ..
 cd ..
 rm -rf orchestrate-with-kubernetes
-
-
