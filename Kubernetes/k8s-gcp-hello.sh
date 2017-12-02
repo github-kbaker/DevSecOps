@@ -5,9 +5,9 @@
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh)
 
 # PROTIP: Define environment variable for use in several commands below:
-bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
-# export MY_ZONE="us-central1-b"
-# gcloud config set compute/zone ${MY_ZONE}
+# bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
+export MY_ZONE="us-central1-b"
+gcloud config set compute/zone ${MY_ZONE}
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
