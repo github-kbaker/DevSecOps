@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # This bash script uses Kubernetes to establish within Google cloud a multi-service sample application named hello.
 # This automates manual steps within the Orchestrating the Cloud with Kubernetes lab at https://google.qwiklabs.com/focuses/7012
 
