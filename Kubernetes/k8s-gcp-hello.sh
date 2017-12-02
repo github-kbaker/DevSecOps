@@ -1,6 +1,10 @@
-# This bash script uses Kubernetes to establish within Google cloud a multi-service application.
+# This bash script uses Kubernetes to establish within Google cloud a multi-service application
+# named hello as a sample.
+
 # In a Goolge Cloud Console run this script using this command:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/k8s-gcp-hello.sh)
+
+export MY_ZONE="us-central1-b"
 
 git clone https://github.com/googlecodelabs/orchestrate-with-kubernetes.git
 cd orchestrate-with-kubernetes/kubernetes
@@ -8,14 +12,14 @@ ls
 
 # Define Zone within Google Cloud:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-zone.sh)
-gcloud config set compute/zone us-central1-b
-if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+gcloud config set compute/zone ${MY_ZONE}
+   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # cleanup.sh deployments  nginx  pods  services  tls
 # Clean up (delete) what was created in previous session:
 chmod +x cleanup.sh
 ./cleanup.sh
-if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # List what GKE clusters are left over from previous run:
 gcloud compute instances list
@@ -319,7 +323,7 @@ chmod +x cleanup.sh
    # configmap "nginx-proxy-conf" deleted
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-gcloud container clusters delete io --zone us-central1-b
+gcloud container clusters delete io --zone ${MY_ZONE}
    # The following clusters will be deleted.
    #  - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
