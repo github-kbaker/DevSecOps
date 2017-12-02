@@ -8,7 +8,6 @@ Our approach is that you manually follow our step-by-step instructions so you ca
 
 Along the way, PROTIP comments highlight tips and tricks of the pros, such as:
 
-1. What are the best and most popular tools and utilities the top pros use.
 1. How to setup your laptop quickly (using dotfiles and brew/chocolatey).
 1. How to write bash scripts to be "idempotent", so you can run them again and again.
 1. How to check for errors at each step so the script stops upon error.
@@ -20,8 +19,8 @@ Along the way, PROTIP comments highlight tips and tricks of the pros, such as:
 Here is what you'll do:
 BTW, If you get stuck, we provide one-on-one coaching and mentoring sessions while we share screens.
 
-1. Sign up for a Google cloud account.
-1. Sign up for accounts on GitHub, Docker.
+1. Setup your laptop with the best and most popular tools and utilities the top pros use.
+1. Sign up for accounts on Gmail, Google Cloud, GitHub, Docker, etc.
 1. Clone sample repositories on your own laptop.
 
 0. Generate based on Swagger OpenAPI specs file.
