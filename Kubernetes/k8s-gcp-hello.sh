@@ -9,3 +9,4 @@
 export MY_ZONE="us-central1-b"
 gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
+
