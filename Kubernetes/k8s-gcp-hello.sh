@@ -10,49 +10,53 @@
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh)
 
 # Print out every command before it is executed:
-trap '[[ $BASH_COMMAND != echo* ]] && echo $BASH_COMMAND' DEBUG
+echo2() { # to add blank line between echo2 statements:
+  local fmt="$1"; shift
+  # shellcheck disable=SC2059
+  printf "\n$fmt\n" "$@"
+}
 set -v
 
 # PROTIP: Define environment variable for use in several commands below:
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
 MY_ZONE="us-central1-b"
-echo "MY_ZONE=$MY_ZONE"
+echo2 "MY_ZONE=$MY_ZONE"
 gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 MY_FOLDER="orchestrate-with-kubernetes/kubernetes"
-echo "MY_FOLDER=$MY_FOLDER"
+echo2 "MY_FOLDER=$MY_FOLDER"
 git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
 cd ${MY_FOLDER}
 ls
    # cleanup.sh deployments  nginx  pods  services  tls
    
-echo "**** List what GKE clusters are left over from previous run:"
+echo2 "**** List what GKE clusters are left over from previous run:"
 gcloud compute instances list
    # NAME                                     ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
    # gke-io-default-pool-c8cd677e-gfzq        us-central1-b  n1-standard-1               10.128.0.8   35.192.220.202   RUNNING
    # gke-io-default-pool-c8cd677e-nqrb        us-central1-b  n1-standard-1               10.128.0.7   35.202.233.114   RUNNING
    # gke-io-default-pool-c8cd677e-xhv8        us-central1-b  n1-standard-1               10.128.0.9   35.193.71.132    RUNNING
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Delete what was created in previous session:"
+echo2 "**** Delete what was created in previous session:"
 chmod +x cleanup.sh  # to avoid -bash: ./cleanup.sh: Permission denied
 ./cleanup.sh
    # This error is expected when run the first time:
    # The connection to the server localhost:8080 was refused - did you specify the right host or port?
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** If they exist, delete them:"
+echo2 "**** If they exist, delete them:"
 gcloud container clusters delete io --zone ${MY_ZONE}
    # The following clusters will be deleted.
    # - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Start up a cluster:"
+echo2 "**** Start up a cluster:"
 gcloud container clusters create io
    # Response takes several minutes: Creating cluster io ...|
    # reating cluster io...done.
@@ -60,31 +64,31 @@ gcloud container clusters create io
    # kubeconfig entry generated for io.
    # NAME  ZONE           MASTER_VERSION  MASTER_IP     MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
    # io    us-central1-b  1.7.8-gke.0     35.193.92.75  n1-standard-1  1.7.8-gke.0   3          RUNNING
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
    
-echo "**** Launch a single instance of the nginx container (default account):"
+echo2 "**** Launch a single instance of the nginx container (default account):"
 kubectl run nginx --image=nginx:1.10.0
    # deployment "nginx" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** View containers running in pods:"
+echo2 "**** View containers running in pods:"
 kubectl get pods
    # NAME                     READY     STATUS    RESTARTS   AGE
    # nginx-1803751077-wcb7d   1/1       Running   0          1m
    # See https://kubernetes.io/docs/concepts/workloads/pods/pod/
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Expose outside Kubernetes the nginx container through a LoadBalancer:"
+echo2 "**** Expose outside Kubernetes the nginx container through a LoadBalancer:"
 kubectl expose deployment nginx --port 80 --type LoadBalancer
    # service "nginx" exposed
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Run every minute until the EXTERNAL-IP goes from <pending>:"
+echo2 "**** Run every minute until the EXTERNAL-IP goes from <pending>:"
 kubectl get services
    # NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
    # kubernetes   ClusterIP      10.7.240.1     <none>        443/TCP        20m
    # nginx        LoadBalancer   10.7.250.125   <pending>     80:30839/TCP   1m
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # TODO: Get the EXTERNAL-IP (pending)
 
@@ -94,16 +98,16 @@ kubectl get services
 # Create a single 10MB pod kelseyhightower's monolith image, listening on port 80, with a health UI on port 81:
 kubectl create -f pods/monolith.yaml
    # pod "monolith" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** list pods running in the default namespace:"
+echo2 "**** list pods running in the default namespace:"
 kubectl get pods
    # NAME                     READY     STATUS    RESTARTS   AGE
    # monolith                 1/1       Running   0          26s
    # nginx-1803751077-wcb7d   1/1       Running   0          1h
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Get information about pods named monolith:"
+echo2 "**** Get information about pods named monolith:"
 kubectl describe pods monolith
    # This lists IP address (such as 10.4.0.4), Status, Containers, Conditions, Events:
    # Type    Reason                 Age   From                                        Message
@@ -114,7 +118,7 @@ kubectl describe pods monolith
    #  Normal  Pulled                 14s   kubelet, gke-io-default-pool-930e673b-hptb  Successfully pulled image "kelseyhightower/monolith:1.0.0"
    #  Normal  Created                14s   kubelet, gke-io-default-pool-930e673b-hptb  Created container
    #  Normal  Started                14s   kubelet, gke-io-default-pool-930e673b-hptb  Started container
-  if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+  if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # Map a local port to a port inside the monolith pod:
 
@@ -122,7 +126,7 @@ kubectl describe pods monolith
 kubectl port-forward monolith 10080:80
    # Forwarding from 127.0.0.1:10080 -> 80
    # NOTE: No additional commands can be issued while this service runs.
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # Restore $MY_ZONE 
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
@@ -132,7 +136,7 @@ cd ${MY_FOLDER}
 # In the 2nd terminal (Cloud Shell session) (in HOME folder) to talking to our pod:
 # curl http://127.0.0.1:10080
    # {"message":"Hello"}
-   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   #if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # Also on the 2nd terminal, hit a secure endpoint:
 # curl http://127.0.0.1:10080/secure
@@ -145,14 +149,14 @@ TOKEN=$(curl http://127.0.0.1:10080/login -u user|jq -r '.token')
 # TODO: MANUALLY type in the (super-secret) password "password" to login.
    # Logging in caused a JWT token to print out
    # {"token":"eyJhbGci..."}
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Copy the token and use it to hit our secure endpoint into an environment variable for use in the previous step:"
+echo2 "**** Copy the token and use it to hit our secure endpoint into an environment variable for use in the previous step:"
 curl -H "Authorization: Bearer $TOKEN" http://127.0.0.1:10080/secure
    # {"message":"Hello"}
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** View app logs entries for the monolith Pod:"
+echo2 "**** View app logs entries for the monolith Pod:"
 kubectl logs monolith
    # 2017/12/01 16:45:26 Starting server...
    # 2017/12/01 16:45:26 Health service listening on 0.0.0.0:81
@@ -162,7 +166,7 @@ kubectl logs monolith
    # 127.0.0.1:52824 - - [Fri, 01 Dec 2017 16:57:26 UTC] "GET /login HTTP/1.1" curl/7.38.0
    # 127.0.0.1:53178 - - [Fri, 01 Dec 2017 16:59:43 UTC] "GET /login HTTP/1.1" curl/7.38.0
    # 127.0.0.1:53578 - - [Fri, 01 Dec 2017 17:02:24 UTC] "GET /secure HTTP/1.1" curl/7.38.0
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # TODO:
 # Manually open a 3rd terminal to use the -f flag to get a stream of the logs happening in real-time:
@@ -192,38 +196,38 @@ kubectl logs monolith
 
 # See http://kubernetes.io/docs/user-guide/services/
 
-echo "**** Create secure-monolith pods and their configuration data:"
+echo2 "**** Create secure-monolith pods and their configuration data:"
 kubectl create secret generic tls-certs --from-file tls/
    # secret "tls-certs" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
    
 kubectl create configmap nginx-proxy-conf --from-file nginx/proxy.conf
    # configmap "nginx-proxy-conf" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 kubectl create -f pods/secure-monolith.yaml
    # pod "secure-monolith" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # Expose the secure-monolith Pod externally by creating a Kubernetes service using services/monolith.yaml:
 # selector is used to automatically find and expose any pods with the labels "app=monolith" and "secure=enabled"
 kubectl create -f services/monolith.yaml
    # service "monolith" created
    # See http://releases.k8s.io/release-1.2/docs/user-guide/services-firewalls.md
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
    
-echo "**** Allow traffic to the monolith service on the exposed nodeport:"
+echo2 "**** Allow traffic to the monolith service on the exposed nodeport:"
 gcloud compute firewall-rules create allow-monolith-nodeport \
   --allow=tcp:31000
    # Creating firewall ... Done
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 gcloud compute instances list
    # Creating firewall...|Created [https://www.googleapis.com/compute/v1/projects/cicd-182518/global/firewalls/allow-monolith-nodeport].
    # Creating firewall...done.
    # NAME                     NETWORK  DIRECTION  PRIORITY  ALLOW      DENY
    # allow-monolith-nodeport  default  INGRESS    1000      tcp:31000
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # TODO: Try hitting the secure-monolith service:
 # curl -k https://<EXTERNAL_IP>:31000
@@ -231,36 +235,36 @@ gcloud compute instances list
 # By default the monolith service is not setup with endpoints. 
 # Troubleshoot an issue like this is to use the kubectl get pods command with a label query.
 
-echo "**** List pods running with the monolith label:"
+echo2 "**** List pods running with the monolith label:"
 kubectl get pods -l "app=monolith"
    # AME              READY     STATUS    RESTARTS   AGE
    # monolith          1/1       Running   0          30m
    # secure-monolith   2/2       Running   0          2m
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** See that app=monolith and secure=enabled not found:"
+echo2 "**** See that app=monolith and secure=enabled not found:"
 kubectl get pods -l "app=monolith,secure=enabled"
    # No resources found.
    # This is because we need to add the "secure=enabled" label to them.
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Add "secure=enabled" label to the secure-monolith Pod:"
+echo2 "**** Add "secure=enabled" label to the secure-monolith Pod:"
 kubectl label pods secure-monolith 'secure=enabled'
    # pod "secure-monolith" labeled
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Check and see whether labels have been updated:"
+echo2 "**** Check and see whether labels have been updated:"
 kubectl get pods secure-monolith --show-labels
    # NAME              READY     STATUS    RESTARTS   AGE       LABELS
    # secure-monolith   2/2       Running   0          6m        app=monolith,secure=enabled
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** View the list of endpoints on the monolith service:"
+echo2 "**** View the list of endpoints on the monolith service:"
 kubectl describe services monolith | grep Endpoints
    # Endpoints: 10.4.1.6:443
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** See the rest of the info:"
+echo2 "**** See the rest of the info:"
 kubectl describe services monolith
    # Name:                     monolith
    # Namespace:                default
@@ -276,21 +280,21 @@ kubectl describe services monolith
    # Session Affinity:         None
    # External Traffic Policy:  Cluster
    # Events:                   <none>
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Obtain the EXTERNAL_IP for one of the gke nodes:"
+echo2 "**** Obtain the EXTERNAL_IP for one of the gke nodes:"
 gcloud compute instances list >instances.txt
    # NAME                               ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
    # gke-io-default-pool-930e673b-9pjv  us-central1-b  n1-standard-1               10.128.0.4   146.148.95.253   RUNNING
    # gke-io-default-pool-930e673b-hptb  us-central1-b  n1-standard-1               10.128.0.2   104.198.199.247  RUNNING
    # gke-io-default-pool-930e673b-xdnb  us-central1-b  n1-standard-1               10.128.0.3   35.184.0.158     RUNNING
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # PROTIP: Extract from 2nd line (header included) value under 5th column (EXTERNAL_ID) :
 EXTERNAL_IP=$(awk 'NR == 2 {print $5}' instances.txt)
-echo "MY_EXTERNAL_IP=$MY_EXTERNAL_IP"
+echo2 "MY_EXTERNAL_IP=$MY_EXTERNAL_IP"
 
-# echo "**** View EXTERNAL_IP:"
+# echo2 "**** View EXTERNAL_IP:"
 curl -k https://${MY_EXTERNAL_IP}:31000
    # {"message":"Hello"}
 
@@ -302,46 +306,46 @@ curl -k https://${MY_EXTERNAL_IP}:31000
    # frontend - Routes traffic to the auth and hello services.
    # See http://kubernetes.io/docs/user-guide/deployments/#what-is-a-deployment
 
-echo "**** Deploy 1 replica called "auth" from Kelsey:"
+echo2 "**** Deploy 1 replica called "auth" from Kelsey:"
 kubectl create -f deployments/auth.yaml
    # deployment "auth" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Create a service for your auth deployment:"
+echo2 "**** Create a service for your auth deployment:"
 kubectl create -f services/auth.yaml
    # service "auth" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Create and expose the hello app Deployment:"
+echo2 "**** Create and expose the hello app Deployment:"
 kubectl create -f deployments/hello.yaml
    # deployment "hello" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Create hello listener app service:"
+echo2 "**** Create hello listener app service:"
 kubectl create -f services/hello.yaml
    # service "hello" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Create and expose the frontend Deployment:"
+echo2 "**** Create and expose the frontend Deployment:"
 kubectl create configmap nginx-frontend-conf --from-file=nginx/frontend.conf
    # configmap "nginx-frontend-conf" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Create and expose the frontend Deployment:"
+echo2 "**** Create and expose the frontend Deployment:"
 kubectl create -f deployments/frontend.yaml
    # deployment "frontend" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Create hello frontend app service:"
+echo2 "**** Create hello frontend app service:"
 kubectl create -f services/frontend.yaml
    # service "frontend" created
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Interact with the frontend by grabbing it's External IP and then curling to it:"
+echo2 "**** Interact with the frontend by grabbing it's External IP and then curling to it:"
 kubectl get services frontend
    # NAME       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)         AGE
    # frontend   LoadBalancer   10.7.247.150   <pending>     443:30738/TCP   25s
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 # TODO: Extract the EXTERNAL IP address into an environment variable?
 
@@ -349,7 +353,7 @@ kubectl get services frontend
 # curl -k https://35.202.246.109
    # {"message":"Hello"}
 
-echo "**** Delete using a script:"
+echo2 "**** Delete using a script:"
 chmod +x cleanup.sh
 ./cleanup.sh
    # pod "monolith" deleted
@@ -367,7 +371,7 @@ chmod +x cleanup.sh
    # secret "tls-certs" deleted
    # configmap "nginx-frontend-conf" deleted
    # configmap "nginx-proxy-conf" deleted
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
 gcloud -q container clusters delete io --zone ${MY_ZONE}
    # PROTIP: -q automatically responds with default answer capitalized (Y=yes), which avoids a pause for manual attention.
@@ -377,13 +381,13 @@ gcloud -q container clusters delete io --zone ${MY_ZONE}
 
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   if [ $? -eq 0 ]; then echo2 OK else echo2 FAIL fi
 
-echo "**** Remove Git repository:"
+echo2 "**** Remove Git repository:"
 cd ..
 cd ..
 pwd
 rm -rf orchestrate-with-kubernetes
 ls
 
-echo "**** End of script."
+echo2 "**** End of script."
