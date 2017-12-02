@@ -1,21 +1,18 @@
-# This bash script uses Kubernetes to establish within Google cloud a multi-service application
-# named hello as a sample.
+# This bash script uses Kubernetes to establish within Google cloud a multi-service sample application named hello.
 
 # In a Goolge Cloud Console run this script using this command:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/k8s-gcp-hello.sh)
 
 # PROTIP: Define environment variable for use in several commands below:
-export MY_ZONE="us-central1-b"
+bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
+# export MY_ZONE="us-central1-b"
+# gcloud config set compute/zone ${MY_ZONE}
+   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
 cd orchestrate-with-kubernetes/kubernetes
 ls
-
-# Define Zone within Google Cloud:
-# bash <(curl -s https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-zone.sh)
-gcloud config set compute/zone ${MY_ZONE}
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # cleanup.sh deployments  nginx  pods  services  tls
 # Clean up (delete) what was created in previous session:
