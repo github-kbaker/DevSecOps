@@ -333,3 +333,9 @@ gcloud -q container clusters delete io --zone ${MY_ZONE}
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+
+# Remove Git repository
+cd ..
+rm -rf orchestrate-with-kubernetes
+
+
