@@ -8,4 +8,3 @@
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
 export MY_ZONE="us-central1-b"
 gcloud config set compute/zone ${MY_ZONE}
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
