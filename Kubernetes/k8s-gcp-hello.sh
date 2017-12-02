@@ -29,9 +29,9 @@ gcloud compute instances list
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # If they exist, delete them:
-gcloud container clusters delete io --zone us-central1-b
+gcloud container clusters delete io --zone ${MY_ZONE}
    # The following clusters will be deleted.
-   # - [io] in [us-central1-f]
+   # - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
