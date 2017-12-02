@@ -10,7 +10,8 @@ Along the way, PROTIP comments highlight tips and tricks of the pros, such as:
 
 1. How to write bash scripts to be "idempotent", so you can run them again and again.
 2. How to check for errors at each step so the script stops upon error.
-3. How to setup your laptop quickly (using dotfiles and brew/chocolatey).
+3. How to avoid using the wrong geographic zone (a mistake can can cost a lot of money).
+4. How to setup your laptop quickly (using dotfiles and brew/chocolatey).
 
 Here is what you'll do:
 BTW, If you get stuck, we provide one-on-one coaching and mentoring sessions while we share screens.
