@@ -13,11 +13,13 @@ bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gc
 git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
 cd orchestrate-with-kubernetes/kubernetes
 ls
-
-# cleanup.sh deployments  nginx  pods  services  tls
-# Clean up (delete) what was created in previous session:
-chmod +x cleanup.sh
+   # cleanup.sh deployments  nginx  pods  services  tls
+   
+# Delete what was created in previous session:
+chmod +x cleanup.sh  # to avoid -bash: ./cleanup.sh: Permission denied
 ./cleanup.sh
+   # This error is expected when run the first time:
+   # The connection to the server localhost:8080 was refused - did you specify the right host or port?
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # List what GKE clusters are left over from previous run:
