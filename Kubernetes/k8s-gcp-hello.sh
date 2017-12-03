@@ -9,12 +9,14 @@
 # In a Goolge Cloud Console run this script using this command:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh)
 
-# Print out every command before it is executed:
-echo2() { # to add blank line between echo2 statements:
+# PROTIP: How to automatically add blank line between echo2 statements:
+echo2() { # define an alternative echo utility function:
   local fmt="$1"; shift
   # shellcheck disable=SC2059
   printf "\n$fmt\n" "$@"
 }
+
+# Display commands to the console for better troubleshooting during script development:
 set -v
 
 # PROTIP: Define environment variable for use in several commands below:
