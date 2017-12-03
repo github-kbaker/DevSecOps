@@ -18,3 +18,5 @@ This lab makes use of Docker images created by a Developer Advocate at Google:
 * https://hub.docker.com/r/kelseyhightower/auth - Auth microservice. Generates JWT tokens for authenticated users.
 * https://hub.docker.com/r/kelseyhightower/hello - Hello microservice. Greets authenticated users.
 * https://hub.docker.com/r/ngnix - Frontend to the auth and hello services.
+
+https://github.com/kelseyhightower/craft-kubernetes-workshop
