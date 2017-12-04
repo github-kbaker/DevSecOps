@@ -37,6 +37,8 @@ if [ -f $MY_REPO ]; then
 else
     echo "**** MY_FOLDER=$MY_REPO does not exist. Creating..."
 fi
+set -v
+
     git clone https://github.com/wilsonmar/${MY_REPO}.git
     cd ${MY_REPO}
     cd ${MY_FOLDER}
