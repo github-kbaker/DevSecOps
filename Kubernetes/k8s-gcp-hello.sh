@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # From https://github.com/wilsonmar/DevSecOps/blob/master/Kubernetes/k8s-gcp-hello.sh
 # Described on tutorial page https://wilsonmar.github.io/kubernetes
-# https://www.shellcheck.net/
+# https://www.shellcheck.net/ from https://github.com/koalaman/shellcheck
 
 # This bash script uses Kubernetes to establish within Google cloud a multi-service sample application named hello.
 # This automates manual steps within the Orchestrating the Cloud with Kubernetes lab at https://google.qwiklabs.com/focuses/7012
@@ -16,6 +16,9 @@
 
 echo "**** Fail out if if any step in a pipeline fails."
 set -o pipefail
+
+# echo "**** Start elasped timer."
+STARTTIME=$(date +%s)
 
 #MY_RUNTYPE="CLEAN"
 MY_RUNTYPE="ALL"
@@ -91,7 +94,9 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
 
 if [ "$MY_RUNTYPE" == "CLEAN" ]; then 
-    echo "**** $MY_RUNTYPE done. Exiting."
+    # PROTIP: Display elasped time taken by the script.
+    ENDTIME=$(date +%s)
+    echo "**** $MY_RUNTYPE done. Exiting after $($ENDTIME - $STARTTIME) seconds elasped."
     exit 1
 #else "ALL"
 fi
@@ -109,6 +114,7 @@ gcloud container clusters create ${MY_CLUSTER}
    # io    us-central1-b  1.7.8-gke.0     35.193.92.75  n1-standard-1  1.7.8-gke.0   3          RUNNING
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
+# PROTIP: Obtain and display version of utilities used in the script.
 K8S_VERSION=$(curl -sS https://storage.googleapis.com/kubernetes-release/release/stable.txt) 
 echo "**** K8S_VERSION=\"$K8S_VERSION\" ."
 
@@ -165,6 +171,9 @@ kubectl describe pods monolith
    #  Normal  Created                14s   kubelet, gke-io-default-pool-930e673b-hptb  Created container
    #  Normal  Started                14s   kubelet, gke-io-default-pool-930e673b-hptb  Started container
   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+
+ENDTIME=$(date +%s)
+echo "**** $($ENDTIME - $STARTTIME) seconds elasped."
 
 echo "**** Existing until coding opens a 2nd terminal...."
 exit 1
@@ -431,5 +440,5 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
 
 echo "**** Repository \"$MY_REPO\" not removed for troubleshooting."
 
-
-echo "**** End of script."
+ENDTIME=$(date +%s)
+echo "**** End of script after $($ENDTIME - $STARTTIME) seconds elasped."
