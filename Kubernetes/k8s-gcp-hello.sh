@@ -21,13 +21,14 @@ gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
-pwd
+echo "**** HOME = $HOME."
+pwd  # Google Cloud Console lands on /home/$userid = $HOME
 MY_REPO="orchestrate-with-kubernetes"
 if [ -f $MY_REPO ]; then
-    echo "Folder $MY_REPO exists. Deleting."
+    echo "**** Folder $MY_REPO exists. Deleting."
     rm -rf $MY_REPO
 else
-    echo "MY_FOLDER=$MY_REPO does not exist. Creating..."
+    echo "**** MY_FOLDER=$MY_REPO does not exist. Creating..."
 fi
     pwd
     git clone https://github.com/wilsonmar/${MY_REPO}.git
