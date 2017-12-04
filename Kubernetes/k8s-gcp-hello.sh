@@ -57,11 +57,12 @@ gcloud compute instances list
    # Enabling service compute.googleapis.com on project 199233508891...
    # Waiting for async operation operations/tmo-acf.78cb9ee3-8314-4b48-82b3-a727542220a3 to complete...
 
+   # Listed 0 items.
+   
    # NAME                                     ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
    # gke-io-default-pool-c8cd677e-gfzq        us-central1-b  n1-standard-1               10.128.0.8   35.192.220.202   RUNNING
    # gke-io-default-pool-c8cd677e-nqrb        us-central1-b  n1-standard-1               10.128.0.7   35.202.233.114   RUNNING
    # gke-io-default-pool-c8cd677e-xhv8        us-central1-b  n1-standard-1               10.128.0.9   35.193.71.132    RUNNING
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 echo "**** Delete what was created in previous session:"
 chmod +x cleanup.sh  # to avoid -bash: ./cleanup.sh: Permission denied
