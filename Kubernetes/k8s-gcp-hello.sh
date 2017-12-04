@@ -52,6 +52,11 @@ cd ${MY_FOLDER}
 
 echo "**** List what GCE clusters are left over from previous run:"
 gcloud compute instances list
+   # API [compute.googleapis.com] not enabled on project [199233508891].
+   # Would you like to enable and retry?  (Y/n)?  Y
+   # Enabling service compute.googleapis.com on project 199233508891...
+   # Waiting for async operation operations/tmo-acf.78cb9ee3-8314-4b48-82b3-a727542220a3 to complete...
+
    # NAME                                     ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
    # gke-io-default-pool-c8cd677e-gfzq        us-central1-b  n1-standard-1               10.128.0.8   35.192.220.202   RUNNING
    # gke-io-default-pool-c8cd677e-nqrb        us-central1-b  n1-standard-1               10.128.0.7   35.202.233.114   RUNNING
@@ -404,11 +409,7 @@ gcloud -q container clusters delete io --zone ${MY_ZONE}
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-echo "**** Remove Git repository:"
-cd ..
-cd ..
-pwd
-rm -rf orchestrate-with-kubernetes
-ls
+echo "**** Repository \"$MY_REPO\" not removed for troubleshooting."
+
 
 echo "**** End of script."
