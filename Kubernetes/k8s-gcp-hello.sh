@@ -18,7 +18,7 @@ echo "**** Fail out if if any step in a pipeline fails."
 set -o pipefail
 
 # echo "**** Start elasped timer."
-STARTTIME=$(date +%s)
+STARTTIME="$(date -u +%s)"
 
 MY_RUNTYPE="CLEAN"
 #MY_RUNTYPE="ALL"
@@ -95,7 +95,7 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
 
 if [ "$MY_RUNTYPE" == "CLEAN" ]; then 
     # PROTIP: Display elasped time taken by the script.
-    ENDTIME=$(date +%s)
+    ENDTIME="$(date -u +%s)"
     echo "**** $MY_RUNTYPE done. Exiting after $($ENDTIME - $STARTTIME) seconds elasped."
     exit 1
 #else "ALL"
@@ -172,10 +172,7 @@ kubectl describe pods monolith
    #  Normal  Started                14s   kubelet, gke-io-default-pool-930e673b-hptb  Started container
   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-ENDTIME=$(date +%s)
-echo "**** $($ENDTIME - $STARTTIME) seconds elasped."
-
-ENDTIME=$(date +%s)
+ENDTIME="$(date -u +%s)"
 echo "**** Existing until coding opens a 2nd terminal, after $($ENDTIME - $STARTTIME) seconds elasped."
 exit 1
 
@@ -443,5 +440,5 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
 
 echo "**** Repository \"$MY_REPO\" not removed for troubleshooting."
 
-ENDTIME=$(date +%s)
+ENDTIME="$(date -u +%s)"
 echo "**** End of script after $($ENDTIME - $STARTTIME) seconds elasped."
