@@ -29,6 +29,10 @@ if [ -f $MY_FOLDER ]; then
 else
     echo "MY_FOLDER=$MY_FOLDER  does not exist. Creating..."
 fi
+exit
+
+
+
 
     cd ${MY_FOLDER}
     pwd
