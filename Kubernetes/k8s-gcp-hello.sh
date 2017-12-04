@@ -33,8 +33,8 @@ fi
 
 MY_REPO="orchestrate-with-kubernetes"
 ls
-if [ -d RMY_REPO ]; then
-    echo "**** MY_REPO \"${MY_REPO}\" exists. Deleting."
+if [ -d $MY_REPO ]; then
+    echo "**** MY_REPO \"${MY_REPO}\" exists. Deleting..."
     rm -rf {$MY_REPO}
 else
     echo "**** MY_REPO \"${MY_REPO}\" does not exist. Creating..."
