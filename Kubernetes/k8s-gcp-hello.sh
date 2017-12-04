@@ -35,10 +35,11 @@ MY_REPO="orchestrate-with-kubernetes"
 if [ -d "$MY_REPO" ]; then
     echo "**** MY_REPO \"$MY_REPO\" exists. Deleting..."
     rm -rf ${MY_REPO}
-    ls
+    #ls
 else
     echo "**** MY_REPO \"$MY_REPO\" does not exist. Creating..."
 fi
+
 git clone https://github.com/wilsonmar/${MY_REPO}.git
         # Cloning into 'orchestrate-with-kubernetes'...
         # remote: Counting objects: 90, done.
@@ -46,8 +47,8 @@ git clone https://github.com/wilsonmar/${MY_REPO}.git
         # Unpacking objects: 100% (90/90), done.
 cd ${MY_REPO}
 cd ${MY_FOLDER}
-    pwd
-    ls
+pwd
+ls
     # cleanup.sh deployments  nginx  pods  services  tls
 exit
 
