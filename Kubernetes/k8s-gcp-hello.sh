@@ -13,8 +13,8 @@
 # Display commands to the console for better troubleshooting during script development:
 #set -v
 
-MY_RUNTYPE="CLEAN"
-#MY_RUNTYPE="ALL"
+#MY_RUNTYPE="CLEAN"
+MY_RUNTYPE="ALL"
 echo "**** MY_RUNTYPE=$MY_RUNTYPE ."
 
 
