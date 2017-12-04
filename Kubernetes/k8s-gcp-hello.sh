@@ -84,6 +84,7 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
 
 echo "**** Start up cluster MY_CLUSTER \"$MY_CLUSTER\" :"
 gcloud container clusters create ${MY_CLUSTER}
+   # NOTE: No --additional-zones ... to setup instances in each zone within the cluster.
    # Response takes several minutes: Creating cluster io ...|
    # reating cluster io...done.
    # Created [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
