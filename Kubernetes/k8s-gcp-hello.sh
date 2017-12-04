@@ -20,8 +20,8 @@ set -o pipefail
 # echo "**** Start elasped timer."
 STARTTIME=$(date +%s)
 
-#MY_RUNTYPE="CLEAN"
-MY_RUNTYPE="ALL"
+MY_RUNTYPE="CLEAN"
+#MY_RUNTYPE="ALL"
 echo "**** MY_RUNTYPE=$MY_RUNTYPE ."
 
 
@@ -175,8 +175,11 @@ kubectl describe pods monolith
 ENDTIME=$(date +%s)
 echo "**** $($ENDTIME - $STARTTIME) seconds elasped."
 
-echo "**** Existing until coding opens a 2nd terminal...."
+ENDTIME=$(date +%s)
+echo "**** Existing until coding opens a 2nd terminal, after $($ENDTIME - $STARTTIME) seconds elasped."
 exit 1
+
+
 
 # Map a local port to a port inside the monolith pod:
 echo "**** Manually open a 2nd terminal (clicking the \"+\" to "Add Cloud Shell session") to set up port-forwarding:"
