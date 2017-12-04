@@ -72,18 +72,19 @@ chmod +x cleanup.sh  # to avoid -bash: ./cleanup.sh: Permission denied
    # The connection to the server localhost:8080 was refused - did you specify the right host or port?
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-echo "**** If they exist, delete them:"
+MY_CLUSTER="io"
+echo "**** If MY_CLUSTER \"$MY_CLUSTER\" exists, delete them:"
 # PROTIP: To avoid answering manually, use parameter -q to automatically accept default answer Y for Yes.
-gcloud -q container clusters delete io --zone ${MY_ZONE}
+gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
    # The following clusters will be deleted.
    # - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
-   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-echo "**** Start up a cluster:"
-gcloud container clusters create io
+
+echo "**** Start up cluster MY_CLUSTER \"$MY_CLUSTER\" :"
+gcloud container clusters create ${MY_CLUSTER}
    # Response takes several minutes: Creating cluster io ...|
    # reating cluster io...done.
    # Created [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
@@ -402,7 +403,7 @@ chmod +x cleanup.sh
    # configmap "nginx-proxy-conf" deleted
    if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-gcloud -q container clusters delete io --zone ${MY_ZONE}
+gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
    # PROTIP: -q automatically responds with default answer capitalized (Y=yes), which avoids a pause for manual attention.
    # The following clusters will be deleted.
    #  - [io] in [us-central1-b]
