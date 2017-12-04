@@ -46,9 +46,10 @@ git clone https://github.com/wilsonmar/${MY_REPO}.git
         # Unpacking objects: 100% (90/90), done.
 cd ${MY_REPO}
 cd ${MY_FOLDER}
-
+    pwd
     ls
     # cleanup.sh deployments  nginx  pods  services  tls
+exit
 
 echo "**** List what GCE clusters are left over from previous run:"
 gcloud compute instances list
