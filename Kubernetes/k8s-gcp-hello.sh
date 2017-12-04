@@ -39,17 +39,16 @@ if [ -d "$MY_REPO" ]; then
 else
     echo "**** MY_REPO \"$MY_REPO\" does not exist. Creating..."
 fi
-set -v
-    ls
-    git clone https://github.com/wilsonmar/${MY_REPO}.git
-    cd ${MY_REPO}
-    cd ${MY_FOLDER}
+git clone https://github.com/wilsonmar/${MY_REPO}.git
+        # Cloning into 'orchestrate-with-kubernetes'...
+        # remote: Counting objects: 90, done.
+        # remote: Total 90 (delta 0), reused 0 (delta 0), pack-reused 90
+        # Unpacking objects: 100% (90/90), done.
+cd ${MY_REPO}
+cd ${MY_FOLDER}
+
     ls
     # cleanup.sh deployments  nginx  pods  services  tls
-
-exit
-
-
 
 echo "**** List what GKE clusters are left over from previous run:"
 gcloud compute instances list
