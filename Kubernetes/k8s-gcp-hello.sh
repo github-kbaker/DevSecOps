@@ -23,6 +23,8 @@ gcloud config set compute/zone ${MY_ZONE}
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 echo "**** HOME = $HOME."
 pwd  # Google Cloud Console lands on /home/$userid = $HOME
+rm README-cloudshell.txt
+
 MY_REPO="orchestrate-with-kubernetes"
 if [ -f $MY_REPO ]; then
     echo "**** Folder $MY_REPO exists. Deleting."
@@ -31,6 +33,9 @@ else
     echo "**** MY_FOLDER=$MY_REPO does not exist. Creating..."
 fi
     pwd
+exit
+
+
     git clone https://github.com/wilsonmar/${MY_REPO}.git
     cd ${MY_REPO}
     cd ${MY_FOLDER}
