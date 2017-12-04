@@ -21,16 +21,17 @@ gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
-MY_FOLDER="orchestrate-with-kubernetes/kubernetes"
 pwd
-if [ -f $MY_FOLDER ]; then
-    echo "File $FILE exists. Deleting."
+MY_REPO="orchestrate-with-kubernetes"
+if [ -f $MY_REPO ]; then
+    echo "Folder $MY_REPO exists. Deleting."
     rm -rf orchestrate-with-kubernetes
 else
-    echo "MY_FOLDER=$MY_FOLDER  does not exist. Creating..."
+    echo "MY_FOLDER=$MY_REPO does not exist. Creating..."
 fi
 exit
 
+MY_FOLDER="orchestrate-with-kubernetes/kubernetes"
 
 
 
