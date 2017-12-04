@@ -50,7 +50,7 @@ cd ${MY_FOLDER}
     ls
     # cleanup.sh deployments  nginx  pods  services  tls
 
-echo "**** List what GKE clusters are left over from previous run:"
+echo "**** List what GCE clusters are left over from previous run:"
 gcloud compute instances list
    # NAME                                     ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP      STATUS
    # gke-io-default-pool-c8cd677e-gfzq        us-central1-b  n1-standard-1               10.128.0.8   35.192.220.202   RUNNING
@@ -139,7 +139,7 @@ kubectl describe pods monolith
   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 # Map a local port to a port inside the monolith pod:
-exit
+#exit
 
 
 
