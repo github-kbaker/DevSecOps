@@ -88,7 +88,7 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
 
 if [ "$MY_RUNTYPE" == "CLEAN" ]; then 
     echo "**** $MY_RUNTYPE done. Exiting."
-    exit
+    exit 1
 #else "ALL"
 fi
 
@@ -162,7 +162,8 @@ kubectl describe pods monolith
    #  Normal  Started                14s   kubelet, gke-io-default-pool-930e673b-hptb  Started container
   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-exit
+echo "**** Existing until coding opens a 2nd terminal...."
+exit 1
 
 # Map a local port to a port inside the monolith pod:
 echo "**** Manually open a 2nd terminal (clicking the "+" to "Add Cloud Shell session") to set up port-forwarding:"
