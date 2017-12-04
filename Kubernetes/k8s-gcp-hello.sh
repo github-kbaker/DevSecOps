@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # From https://github.com/wilsonmar/DevSecOps/blob/master/Kubernetes/k8s-gcp-hello.sh
 # Described on tutorial page https://wilsonmar.github.io/kubernetes
+# https://www.shellcheck.net/
 
 # This bash script uses Kubernetes to establish within Google cloud a multi-service sample application named hello.
 # This automates manual steps within the Orchestrating the Cloud with Kubernetes lab at https://google.qwiklabs.com/focuses/7012
@@ -12,6 +13,9 @@
 
 # Display commands to the console for better troubleshooting during script development:
 #set -v
+
+echo "**** Fail out if if any step in a pipeline fails."
+set -o pipefail
 
 #MY_RUNTYPE="CLEAN"
 MY_RUNTYPE="ALL"
@@ -105,7 +109,7 @@ gcloud container clusters create ${MY_CLUSTER}
    # io    us-central1-b  1.7.8-gke.0     35.193.92.75  n1-standard-1  1.7.8-gke.0   3          RUNNING
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-export K8S_VERSION=$(curl -sS https://storage.googleapis.com/kubernetes-release/release/stable.txt) 
+K8S_VERSION=$(curl -sS https://storage.googleapis.com/kubernetes-release/release/stable.txt) 
 echo "**** K8S_VERSION=\"$K8S_VERSION\" ."
 
 echo "**** Launch a single instance of the nginx container (default account):"
@@ -166,7 +170,7 @@ echo "**** Existing until coding opens a 2nd terminal...."
 exit 1
 
 # Map a local port to a port inside the monolith pod:
-echo "**** Manually open a 2nd terminal (clicking the "+" to "Add Cloud Shell session") to set up port-forwarding:"
+echo "**** Manually open a 2nd terminal (clicking the \"+\" to "Add Cloud Shell session") to set up port-forwarding:"
 echo "kubectl port-forward monolith 10080:80"
    # Forwarding from 127.0.0.1:10080 -> 80
 echo "NOTE: No additional commands can be issued while this service runs."
@@ -290,7 +294,7 @@ kubectl get pods -l "app=monolith,secure=enabled"
    # This is because we need to add the "secure=enabled" label to them.
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-echo "**** Add "secure=enabled" label to the secure-monolith Pod:"
+echo "**** Add \"secure=enabled\" label to the secure-monolith Pod:"
 kubectl label pods secure-monolith 'secure=enabled'
    # pod "secure-monolith" labeled
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
@@ -337,7 +341,7 @@ EXTERNAL_IP=$(awk 'NR == 2 {print $5}' instances.txt)
 echo "MY_EXTERNAL_IP=$MY_EXTERNAL_IP"
 
 # echo "**** View EXTERNAL_IP:"
-curl -k https://${MY_EXTERNAL_IP}:31000
+curl -k "https://${MY_EXTERNAL_IP}:31000"
    # {"message":"Hello"}
 
 #### Deployment
@@ -348,7 +352,7 @@ curl -k https://${MY_EXTERNAL_IP}:31000
    # frontend - Routes traffic to the auth and hello services.
    # See http://kubernetes.io/docs/user-guide/deployments/#what-is-a-deployment
 
-echo "**** Deploy 1 replica called "auth" from Kelsey:"
+echo "**** Deploy 1 replica called \"auth\" from Kelsey:"
 kubectl create -f deployments/auth.yaml
    # deployment "auth" created
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
