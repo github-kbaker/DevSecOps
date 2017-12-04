@@ -68,9 +68,9 @@ gcloud compute instances list
 echo "**** Delete what was created in previous session:"
 chmod +x cleanup.sh  # to avoid -bash: ./cleanup.sh: Permission denied
 ./cleanup.sh
-   # This error is expected when run the first time:
+   # When run the first time, this error is expected :
    # The connection to the server localhost:8080 was refused - did you specify the right host or port?
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 echo "**** If they exist, delete them:"
 gcloud container clusters delete io --zone ${MY_ZONE}
