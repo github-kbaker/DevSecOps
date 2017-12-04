@@ -22,20 +22,21 @@ gcloud config set compute/zone ${MY_ZONE}
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 echo "**** Cleanup from $HOME."
-pwd  # Google Cloud Console lands on /home/$userid = $HOME
+    # Google Cloud Console lands on /home/$userid = $HOME
 
 MY_FILE="README-cloudshell.txt"
 if [ -f $MY_FILE ]; then 
-   rm -rf $MY_FILE 
+    echo "**** Deleting $MY_FILE ..."
+    rm -rf $MY_FILE 
+    ls
 fi
-ls
 
 MY_REPO="orchestrate-with-kubernetes"
-if [ -f $MY_REPO ]; then
-    echo "**** Folder $MY_REPO exists. Deleting."
-    rm -rf $MY_REPO
+if [ -f ${MY_REPO} ]; then
+    echo "**** Folder ${MY_REPO} exists. Deleting."
+    rm -rf {$MY_REPO}
 else
-    echo "**** MY_FOLDER=$MY_REPO does not exist. Creating..."
+    echo "**** MY_FOLDER=${MY_REPO} does not exist. Creating..."
 fi
 set -v
 
