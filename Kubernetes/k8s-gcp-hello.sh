@@ -22,11 +22,16 @@ gcloud config set compute/zone ${MY_ZONE}
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 MY_FOLDER="orchestrate-with-kubernetes/kubernetes"
-echo "MY_FOLDER=$MY_FOLDER"
-git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
-cd ${MY_FOLDER}
-ls
-   # cleanup.sh deployments  nginx  pods  services  tls
+if [ -f $MY_FOLDER ]; then
+    echo "File $FILE exists."
+else
+    echo "MY_FOLDER=$MY_FOLDER  does not exist."
+    echo "File $FILE does not exist. Creating..."
+    cd ${MY_FOLDER}
+    git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
+    ls
+    # cleanup.sh deployments  nginx  pods  services  tls
+fi
    
 echo "**** List what GKE clusters are left over from previous run:"
 gcloud compute instances list
