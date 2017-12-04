@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # From https://github.com/wilsonmar/DevSecOps/blob/master/Kubernetes/k8s-gcp-hello.sh
 # Described on tutorial page https://wilsonmar.github.io/kubernetes
 
