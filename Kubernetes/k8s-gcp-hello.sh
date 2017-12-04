@@ -46,8 +46,9 @@ git clone https://github.com/wilsonmar/${MY_REPO}.git && cd ${MY_REPO}
         # remote: Total 90 (delta 0), reused 0 (delta 0), pack-reused 90
         # Unpacking objects: 100% (90/90), done.
 pwd
+ls
     echo "**** Use Kubernetes folder"
-cd Kubernetes
+cd kubernetes
 pwd
 ls
     # cleanup.sh deployments  nginx  pods  services  tls
