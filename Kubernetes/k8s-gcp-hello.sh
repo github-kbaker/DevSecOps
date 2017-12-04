@@ -21,9 +21,14 @@ gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
-echo "**** HOME = $HOME."
+echo "**** Cleanup from $HOME."
 pwd  # Google Cloud Console lands on /home/$userid = $HOME
-rm README-cloudshell.txt
+
+MY_FILE="README-cloudshell.txt"
+if [ -f $MY_FILE ]; then 
+   rm -rf $MY_FILE 
+fi
+ls
 
 MY_REPO="orchestrate-with-kubernetes"
 if [ -f $MY_REPO ]; then
@@ -32,10 +37,6 @@ if [ -f $MY_REPO ]; then
 else
     echo "**** MY_FOLDER=$MY_REPO does not exist. Creating..."
 fi
-    pwd
-exit
-
-
     git clone https://github.com/wilsonmar/${MY_REPO}.git
     cd ${MY_REPO}
     cd ${MY_FOLDER}
