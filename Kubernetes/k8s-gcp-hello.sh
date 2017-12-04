@@ -73,7 +73,8 @@ chmod +x cleanup.sh  # to avoid -bash: ./cleanup.sh: Permission denied
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 echo "**** If they exist, delete them:"
-gcloud container clusters delete io --zone ${MY_ZONE}
+# PROTIP: To avoid answering manually, use parameter -q to automatically accept default answer Y for Yes.
+gcloud -q container clusters delete io --zone ${MY_ZONE}
    # The following clusters will be deleted.
    # - [io] in [us-central1-b]
    # Do you want to continue (Y/n)?  Y
