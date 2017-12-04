@@ -32,11 +32,11 @@ if [ -f $MY_FILE ]; then
 fi
 
 MY_REPO="orchestrate-with-kubernetes"
-if [ -f ${MY_REPO} ]; then
-    echo "**** Folder ${MY_REPO} exists. Deleting."
+if [ -d ${MY_REPO} ]; then
+    echo "**** Folder \"${MY_REPO}\" exists. Deleting."
     rm -rf {$MY_REPO}
 else
-    echo "**** MY_FOLDER=${MY_REPO} does not exist. Creating..."
+    echo "**** MY_FOLDER \"${MY_REPO}\" does not exist. Creating..."
 fi
 set -v
 
