@@ -13,10 +13,15 @@
 # Display commands to the console for better troubleshooting during script development:
 #set -v
 
+MY_RUNTYPE="CLEAN"
+#MY_RUNTYPE="ALL"
+echo "**** MY_RUNTYPE=$MY_RUNTYPE ."
+
+
 # PROTIP: Define environment variable for use in several commands below:
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
 MY_ZONE="us-central1-b"
-echo "MY_ZONE=$MY_ZONE"
+echo "**** MY_ZONE=$MY_ZONE"
 gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
@@ -81,7 +86,12 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
 
-exit
+if [ "$MY_RUNTYPE" == "CLEAN" ]; then 
+    echo "**** $MY_RUNTYPE done. Exiting."
+    exit
+#else "ALL"
+fi
+
 echo "*************** Creating ..."
 
 echo "**** Start up cluster MY_CLUSTER \"$MY_CLUSTER\" :"
