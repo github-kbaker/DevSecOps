@@ -50,7 +50,6 @@ cd kubernetes
 echo "**** Present directory contents:"
 ls
     # cleanup.sh deployments  nginx  pods  services  tls
-exit
 
 echo "**** List what GCE clusters are left over from previous run:"
 gcloud compute instances list
