@@ -92,7 +92,10 @@ gcloud container clusters create ${MY_CLUSTER}
    # NAME  ZONE           MASTER_VERSION  MASTER_IP     MACHINE_TYPE   NODE_VERSION  NUM_NODES  STATUS
    # io    us-central1-b  1.7.8-gke.0     35.193.92.75  n1-standard-1  1.7.8-gke.0   3          RUNNING
    #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
-   
+
+export K8S_VERSION=$(curl -sS https://storage.googleapis.com/kubernetes-release/release/stable.txt) 
+echo "**** K8S_VERSION=\"$K8S_VERSION\" ."
+
 echo "**** Launch a single instance of the nginx container (default account):"
 kubectl run nginx --image=nginx:1.10.0
    # deployment "nginx" created
