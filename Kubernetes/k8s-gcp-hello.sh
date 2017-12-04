@@ -40,14 +40,14 @@ else
     echo "**** MY_REPO \"$MY_REPO\" does not exist. Creating..."
 fi
 
-git clone https://github.com/wilsonmar/${MY_REPO}.git
+git clone https://github.com/wilsonmar/${MY_REPO}.git && cd ${MY_REPO}
         # Cloning into 'orchestrate-with-kubernetes'...
         # remote: Counting objects: 90, done.
         # remote: Total 90 (delta 0), reused 0 (delta 0), pack-reused 90
         # Unpacking objects: 100% (90/90), done.
+pwd
 cd ${MY_REPO}
 cd ${MY_FOLDER}
-pwd
 ls
     # cleanup.sh deployments  nginx  pods  services  tls
 exit
