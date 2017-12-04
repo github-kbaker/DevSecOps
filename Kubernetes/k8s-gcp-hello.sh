@@ -80,7 +80,7 @@ gcloud -q container clusters delete io --zone ${MY_ZONE}
    # Do you want to continue (Y/n)?  Y
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
-   if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
 echo "**** Start up a cluster:"
 gcloud container clusters create io
