@@ -21,11 +21,11 @@ gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
-echo "**** Cleanup from $HOME."
+echo "**** Cleanup at HOME folder \"$HOME\" :"
     # Google Cloud Console lands on /home/$userid = $HOME
 
 MY_FILE="README-cloudshell.txt"
-if [ -f $MY_FILE ]; then 
+if [ -f "$MY_FILE" ]; then 
     echo "**** Deleting $MY_FILE ..."
     rm -rf $MY_FILE 
     ls
@@ -36,6 +36,7 @@ ls
 if [ -d "$MY_REPO" ]; then
     echo "**** MY_REPO \"$MY_REPO\" exists. Deleting..."
     rm -rf {$MY_REPO}
+    ls
 else
     echo "**** MY_REPO \"$MY_REPO\" does not exist. Creating..."
 fi
