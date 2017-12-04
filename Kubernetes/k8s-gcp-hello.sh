@@ -81,6 +81,8 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
 
+exit
+echo "*************** Creating ..."
 
 echo "**** Start up cluster MY_CLUSTER \"$MY_CLUSTER\" :"
 gcloud container clusters create ${MY_CLUSTER}
