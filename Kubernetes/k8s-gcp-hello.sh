@@ -22,6 +22,7 @@ gcloud config set compute/zone ${MY_ZONE}
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 MY_FOLDER="orchestrate-with-kubernetes/kubernetes"
+pwd
 if [ -f $MY_FOLDER ]; then
     echo "File $FILE exists. Deleting."
     rm -rf orchestrate-with-kubernetes
@@ -30,6 +31,7 @@ else
 fi
 
     cd ${MY_FOLDER}
+    pwd
     git clone https://github.com/wilsonmar/orchestrate-with-kubernetes.git
     ls
     # cleanup.sh deployments  nginx  pods  services  tls
