@@ -147,22 +147,18 @@ kubectl describe pods monolith
    #  Normal  Started                14s   kubelet, gke-io-default-pool-930e673b-hptb  Started container
   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-# Map a local port to a port inside the monolith pod:
 exit
 
-
-
-# TODO: Manually open a 2nd terminal (clicking the "+" to "Add Cloud Shell session") to set up port-forwarding:
-kubectl port-forward monolith 10080:80
+# Map a local port to a port inside the monolith pod:
+echo "**** Manually open a 2nd terminal (clicking the "+" to "Add Cloud Shell session") to set up port-forwarding:"
+echo "kubectl port-forward monolith 10080:80"
    # Forwarding from 127.0.0.1:10080 -> 80
-   # NOTE: No additional commands can be issued while this service runs.
-   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
+echo "NOTE: No additional commands can be issued while this service runs."
 
 # Restore $MY_ZONE 
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
-cd ${MY_FOLDER}
+# cd ${MY_FOLDER}
 
-### 
 # In the 2nd terminal (Cloud Shell session) (in HOME folder) to talking to our pod:
 # curl http://127.0.0.1:10080
    # {"message":"Hello"}
