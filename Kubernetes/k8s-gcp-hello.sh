@@ -175,8 +175,9 @@ kubectl describe pods monolith
    #  Normal  Started                14s   kubelet, gke-io-default-pool-930e673b-hptb  Started container
   #if [ $? -eq 0 ]; then echo OK else echo FAIL fi
 
-ENDTIME="$(date -u +%s)"
-echo "**** Existing until coding opens a 2nd terminal, after $($ENDTIME - $STARTTIME) seconds elasped."
+TIME_END=$(date -u +%s);
+DIFF=$((TIME_END-TIME_START))
+echo "**** Exiting until coding opens a 2nd terminal, $((DIFF/60))m $((DIFF%60))s seconds elasped."
 exit 1
 
 
