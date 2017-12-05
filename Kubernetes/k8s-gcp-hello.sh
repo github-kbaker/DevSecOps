@@ -20,10 +20,10 @@ set -o pipefail
 # echo "**** Start elasped timer."
 STARTTIME="$(date -u +%s)"
 
-MY_RUNTYPE="CLEAN"
-#MY_RUNTYPE="ALL"
-echo "**** MY_RUNTYPE=$MY_RUNTYPE ."
-
+MY_RUNTYPE="$1"  # First parameter.
+if [[ "$MY_RUNTYPE" == "CLEAN" ]]; then
+    echo "**** MY_RUNTYPE=$MY_RUNTYPE from first command parameter."
+fi
 
 # PROTIP: Define environment variable for use in several commands below:
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
