@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # From https://github.com/wilsonmar/DevSecOps/blob/master/Kubernetes/k8s-gcp-hello.sh
 # Described on tutorial page https://wilsonmar.github.io/kubernetes
-# https://www.shellcheck.net/ from https://github.com/koalaman/shellcheck
+# PROTIP: No errors in scan at https://www.shellcheck.net/ from https://github.com/koalaman/shellcheck
 
 # This bash script uses Kubernetes to establish within Google cloud a multi-service sample application named hello.
 # This automates manual steps within the Orchestrating the Cloud with Kubernetes lab at https://google.qwiklabs.com/focuses/7012
@@ -18,12 +18,13 @@ echo "**** Fail out if if any step in a pipeline fails."
 set -o pipefail
 
 # echo "**** Start elasped timer."
-STARTTIME="$(date -u +%s)"
+TIME_START="$(date -u +%s)"
 
-MY_RUNTYPE="$1"  # First parameter.
-if [[ "$MY_RUNTYPE" == "CLEAN" ]]; then
-    echo "**** MY_RUNTYPE=$MY_RUNTYPE from first command parameter."
-fi
+
+MY_RUNTYPE=$1   # Use $1 from command line to supply at runtime.
+#MY_RUNTYPE="ALL"
+echo "**** MY_RUNTYPE=$MY_RUNTYPE ."
+
 
 # PROTIP: Define environment variable for use in several commands below:
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
@@ -95,8 +96,9 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
 
 if [ "$MY_RUNTYPE" == "CLEAN" ]; then 
     # PROTIP: Display elasped time taken by the script.
-    ENDTIME="$(date -u +%s)"
-    echo "**** $MY_RUNTYPE done. Exiting after $($ENDTIME - $STARTTIME) seconds elasped."
+    TIME_END=$(date -u +%s);
+    DIFF=$((TIME_END-TIME_START))
+    echo "**** End of script after $((DIFF/60))m $((DIFF%60))s seconds elasped."
     exit 1
 #else "ALL"
 fi
@@ -440,5 +442,6 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
 
 echo "**** Repository \"$MY_REPO\" not removed for troubleshooting."
 
-ENDTIME="$(date -u +%s)"
-echo "**** End of script after $($ENDTIME - $STARTTIME) seconds elasped."
+TIME_END=$(date -u +%s);
+DIFF=$((TIME_END-TIME_START))
+echo "**** End of script after $((DIFF/60))m $((DIFF%60))s seconds elasped."
