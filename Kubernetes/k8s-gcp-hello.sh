@@ -9,7 +9,8 @@
 # If running from a remote Gcloud CLI, first login.
 
 # In a Goolge Cloud Console run this script using this command:
-# bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh)
+# bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh) CLEAN
+# Parameter CLEAN stops processing.
 
 # Display commands to the console for better troubleshooting during script development:
 #set -v
