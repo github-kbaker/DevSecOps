@@ -54,6 +54,7 @@ else
     echo "**** MY_REPO \"$MY_REPO\" does not exist. Creating..."
 fi
 
+PROTIP: Execute follow-on CD command only if previous step was successful:
 git clone https://github.com/wilsonmar/${MY_REPO}.git && cd ${MY_REPO}
         # Cloning into 'orchestrate-with-kubernetes'...
         # remote: Counting objects: 90, done.
