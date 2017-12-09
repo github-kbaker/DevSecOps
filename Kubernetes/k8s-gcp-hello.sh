@@ -29,18 +29,28 @@ MY_RUNTYPE=$1
 #MY_RUNTYPE="ALL"
 echo "**** MY_RUNTYPE=$MY_RUNTYPE"
 
-
 # PROTIP: Define environment variable for use in several commands below:
 # bash <(curl -O https://raw.githubusercontent.com/wilsonmar/Dockerfiles/master/gcp-set-my-zone.sh)
-MY_ZONE="us-central1-b"
-echo "**** MY_ZONE=$MY_ZONE"
+# PROTIP: -z tests for zero value (empty).  -v is only available on new versions of Bash.
+if [ -z "$MY_ZONE" ]; then  # not empty
+   MY_ZONE="us-central1-b"  # set default value.
+   # For list of possible values...
+fi
+echo "**** MY_ZONE=\"$MY_ZONE\""
+
 gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
+
+if [ -z "$MY_CLUSTER" ]; then  # not empty
+    MY_CLUSTER="io"
+fi
+echo "**** MY_CLUSTER=\"$MY_CLUSTER\" "
 
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 echo "**** Cleanup at HOME folder \"$HOME\" :"
     # Google Cloud Console lands on /home/$userid = $HOME
 
+# Remove file Google places in $HOME folder every time:
 MY_FILE="README-cloudshell.txt"
 if [ -f "$MY_FILE" ]; then 
     echo "**** Deleting $MY_FILE ..."
