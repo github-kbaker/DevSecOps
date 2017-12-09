@@ -107,6 +107,8 @@ gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
    # Deleting cluster io...done.
    # Deleted [https://container.googleapis.com/v1/projects/cicd-182518/zones/us-central1-b/clusters/io].
 
+# TODO: if [ -z "$MY_RUNTYPE" ]; then  # not empty
+# TODO: Do not allow unknown parameter values.
 if [ "$MY_RUNTYPE" == "CLEAN" ]; then 
     # PROTIP: Display elasped time taken by the script.
     TIME_END=$(date -u +%s);
