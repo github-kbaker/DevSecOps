@@ -8,9 +8,12 @@
 
 # If running from a remote Gcloud CLI, first login.
 
-# In a Goolge Cloud Console run this script using this command:
+# In a Goolge Cloud Console run this script using this command to clean out remants from prior runs:
 # bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh) CLEAN
 # Parameter CLEAN stops processing.
+
+# To create a Kubernetes cluster, run this script without a parameter :
+# bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/Kubernetes/k8s-gcp-hello.sh)
 
 # Display commands to the console for better troubleshooting during script development:
 #set -v
@@ -18,13 +21,13 @@
 echo "**** Fail out if if any step in a pipeline fails."
 set -o pipefail
 
-# echo "**** Start elasped timer."
+# echo "**** Start elasped timer:"
 TIME_START="$(date -u +%s)"
 
-
-MY_RUNTYPE=$1   # Use $1 from command line to supply at runtime.
+# Read first parameter from command line supplied at runtime to invoke:
+MY_RUNTYPE=$1
 #MY_RUNTYPE="ALL"
-echo "**** MY_RUNTYPE=$MY_RUNTYPE ."
+echo "**** MY_RUNTYPE=$MY_RUNTYPE"
 
 
 # PROTIP: Define environment variable for use in several commands below:
@@ -105,9 +108,9 @@ if [ "$MY_RUNTYPE" == "CLEAN" ]; then
 #else "ALL"
 fi
 
-echo "*************** Creating ..."
+echo "*************** Creating Cont..."
 
-echo "**** Start up cluster MY_CLUSTER \"$MY_CLUSTER\" :"
+echo "**** Create containers in clusters named by variable MY_CLUSTER \"$MY_CLUSTER\" :"
 gcloud container clusters create ${MY_CLUSTER}
    # NOTE: No --additional-zones ... to setup instances in each zone within the cluster.
    # Response takes several minutes: Creating cluster io ...|
