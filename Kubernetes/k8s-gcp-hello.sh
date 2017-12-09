@@ -41,11 +41,6 @@ echo "**** MY_ZONE=\"$MY_ZONE\""
 gcloud config set compute/zone ${MY_ZONE}
    # Updated property [compute/zone].
 
-if [ -z "$MY_CLUSTER" ]; then  # not empty
-    MY_CLUSTER="io"
-fi
-echo "**** MY_CLUSTER=\"$MY_CLUSTER\" "
-
 # PROTIP: Use repo forked from googlecodelabs to ensure that this remains working:
 echo "**** Cleanup at HOME folder \"$HOME\" :"
     # Google Cloud Console lands on /home/$userid = $HOME
@@ -99,7 +94,10 @@ chmod +x cleanup.sh  # to avoid -bash: ./cleanup.sh: Permission denied
    # When run the first time, this error is expected :
    # The connection to the server localhost:8080 was refused - did you specify the right host or port?
 
-MY_CLUSTER="io"
+
+if [ -z "$MY_CLUSTER" ]; then  # not empty
+    MY_CLUSTER="io"  # define default value.
+fi
 echo "**** If MY_CLUSTER \"$MY_CLUSTER\" exists, delete them:"
 # PROTIP: To avoid answering manually, use parameter -q to automatically accept default answer Y for Yes.
 gcloud -q container clusters delete ${MY_CLUSTER} --zone ${MY_ZONE}
