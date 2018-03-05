@@ -5,8 +5,8 @@
 # Let me know you're using this - wilsonmar@gmail.com
 
 # To run this, open a Terminal window and manually:
-#   chmod +x osx-init-script.md
-#   ./osx-init-script.md
+#   chmod +x osx-init.sh
+#   ./osx-init.sh
 #
 # Installed: XCode > Homebrew > git > ruby, node > npm > apm
 #
