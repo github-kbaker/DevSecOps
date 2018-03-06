@@ -3,11 +3,12 @@
 # Described on tutorial page https://wilsonmar.github.io/anomaly-analysis
 # PROTIP: No errors in scan at https://www.shellcheck.net/ from https://github.com/koalaman/shellcheck
 
-# This bash script runs on Mac OSX to install Numata's assets to ...
+# This bash script runs on Mac OSX to install Numata's assets in the current folder.
+# To run this, open a Terminal window, create a temp folder, and manually run:
+# bash <(curl -s https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/HTM/htm-init.sh)
 
-# To run this, open a Terminal window and manually:
-#   chmod +x htm-init.sh
-#   ./htm-init.sh
+# Steps here are based on https://discourse.numenta.org/t/how-to-run-htm-school-visualizations/2346
+# to install https://numenta.com/applications/htm-studio/
 
 # Display commands to the console for better troubleshooting during script development:
 #set -v
@@ -22,6 +23,24 @@ TIME_START="$(date -u +%s)"
 MY_RUNTYPE=$1
 #MY_RUNTYPE="ALL"
 echo "**** MY_RUNTYPE=$MY_RUNTYPE"
+
+# install xcode
+# Install Node 6.10+
+# Install Python 2.7
+#pip>=8.1.2
+#setuptools>=25.2.0
+#wheel>=0.29.0
+#numpy
+#C++ 11 compiler like gcc (4.8+) or clang
+# Install NUPic per https://github.com/numenta/nupic
+    # pip install nupic
+    # Test # From the root of the repo:
+    # py.test tests/unit
+# Install Webpack per https://webpack.js.org/guides/installation/
+
+# HTM Server: https://github.com/htm-community/nupic-history-server30
+# HTM 3D Animation: https://github.com/numenta/cell-viz/28
+# HTM Visualization Client: https://github.com/htm-community/htm-school-viz20
 
 
 GITHUB_ACCT="wilsonmar"   # change for yourself.
