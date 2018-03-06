@@ -460,6 +460,8 @@ brew install cloudfoundry/tap/cf-cli
 fancy_echo "Google Cloud SDK: (python 2.7)"
 brew tap caskroom/cask
 brew cask install google-cloud-sdk
+   gcloud -v  # Google Cloud SDK 190.0.
+   # gcloud components update
 
 #brew install -g azure-cli  # https://docs.microsoft.com/cli/azure/overview
 #brew cask install heroku-toolbelt
