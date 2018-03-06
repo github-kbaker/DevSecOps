@@ -49,6 +49,10 @@ else
 fi
 
 
+fancy_echo "Configre Terminal to show all files:"
+defaults write com.apple.finder AppleShowAllFiles YES
+
+
 ## Networking
 # See https://serverfault.com/questions/102416/iptables-equivalent-for-mac-os-x
 # WaterRoof or Flying Buttress to iptables
@@ -57,22 +61,18 @@ fi
 ## ~/.bash_profile
 # Add $PATH
 # TODO: Check if file is present: ~/.bash_profile
+
+
+## TODO: Install homebrew using whatever Ruby is installed.
+
+#brew tap caskroom/cask
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 #fancy_echo "Brew Doctor before starting ..."
 #brew doctor
 
-fancy_echo "Configre Terminal to show all files:"
-defaults write com.apple.finder AppleShowAllFiles YES
-
 # TODO: Define proxy:
 # See https://www.predix.io/resources/tutorials/tutorial-details.html?tutorial_id=1565
-
-## For support:
-# See http://macappstore.org/real-vnc/ 
-# and https://www.realvnc.com/en/connect/download/viewer/
-# brew cask install real-vnc
-# (no uninstaller)
 
 
 # brew cask install git
@@ -117,6 +117,9 @@ brew install -g coreutils
 #brew install -g gnu-grep --with-default-names
 
 #brew install -g findutils  --with-default-names
+
+brew cask install powershell
+    # see https://docs.microsoft.com/en-us/powershell/scripting/setup/installing-powershell-core-on-macos-and-linux?view=powershell-6
 
 # To analyze network traffic and files (from https://www.wireshark.org/)
 #brew install wireshark
@@ -329,6 +332,12 @@ brew cask install teamviewer
 #brew cask install joinme
 # GONE: brew cask install gotomeeting
 # blue jeans? (used by ATT)
+
+# brew cask install real-vnc
+    # See http://macappstore.org/real-vnc/ 
+    # and https://www.realvnc.com/en/connect/download/viewer/
+    # (no uninstaller)
+
 
 #brew cask install webex-nbr-player  # had error.
 # So Download webexplayer_intel.dmg http://macappstore.org/webex-nbr-player/
