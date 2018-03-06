@@ -53,6 +53,7 @@ if [ -f "$MY_FILE" ]; then
     ls
 fi
 
+GITHUB_ACCT="wilsonmar"   # change for yourself.
 MY_REPO="orchestrate-with-kubernetes"
 if [ -d "$MY_REPO" ]; then
     echo "**** MY_REPO \"$MY_REPO\" exists. Deleting..."
@@ -62,8 +63,8 @@ else
     echo "**** MY_REPO \"$MY_REPO\" does not exist. Creating..."
 fi
 
-PROTIP: Execute follow-on CD command only if previous step was successful:
-git clone https://github.com/wilsonmar/${MY_REPO}.git && cd ${MY_REPO}
+# PROTIP: Execute follow-on CD command only if previous step was successful:
+git clone https://github.com/${GITHUB_ACCT}/${MY_REPO}.git && cd ${MY_REPO}
         # Cloning into 'orchestrate-with-kubernetes'...
         # remote: Counting objects: 90, done.
         # remote: Total 90 (delta 0), reused 0 (delta 0), pack-reused 90
