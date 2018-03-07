@@ -222,7 +222,7 @@ brew cask install 1password
 # brew install lastpass-cli
 # brew cask install keepassx
 
-brew cask install kindle
+brew cask install kindle   # 32-bit
 brew cask install evernote
 
 fancy_echo "Installing Text Editors & IDEs:"
@@ -324,13 +324,13 @@ brew cask install skype  # unselect show birthdays
 brew cask install slack
 brew cask install google-hangouts
 brew cask install sococo
-brew cask install zoom
+brew cask install zoom   # 32-bit
 brew cask install whatsapp
 brew cask install teamviewer
 # GONE? brew cask install Colloquy. ## IRC http://colloquy.info/downloads.html
 #brew cask install hipchat
 #brew cask install joinme
-# GONE: brew cask install gotomeeting
+# GONE: brew cask install gotomeeting   # 32-bit
 # blue jeans? (used by ATT)
 
 # brew cask install real-vnc
@@ -339,7 +339,7 @@ brew cask install teamviewer
     # (no uninstaller)
 
 
-#brew cask install webex-nbr-player  # had error.
+#brew cask install webex-nbr-player  # 32-bit, had error.
 # So Download webexplayer_intel.dmg http://macappstore.org/webex-nbr-player/
 # curl https://welcome.webex.com/client/T31L/mac/intel/webexnbrplayer_intel.dmg
 
