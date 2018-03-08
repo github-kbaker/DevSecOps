@@ -226,8 +226,11 @@ brew cask install 1password
 # brew install lastpass-cli
 # brew cask install keepassx
 
-brew cask install kindle   # 32-bit
-brew cask install evernote
+brew cask install kindle    # 32-bit Installed to "~/Applications" by default.
+brew cask install evernote  # Installed to "~/Applications" by default.
+# Microsoft OneNote
+# "CHM Reader" of legacy Compiled HTML files.
+# Amphetamine for Mac
 
 fancy_echo "Installing Text Editors & IDEs:"
 brew cask install sublime-text
@@ -319,13 +322,13 @@ brew cask install adobe-air
 # DISCONTINUED: brew cask install google-notifier
 brew cask install silverlight
 
-brew cask install flux  # yellow screen at night to minimize blue light before sleep.
+#brew cask install flux  # to minimize blue light before sleep. Installed to "~/Applications" by default.
 
 fancy_echo "Installing Collaboration / screen sharing:"
 #https://zapier.com/blog/disable-mic-webcam-notifications/
 brew cask install skype  # unselect show birthdays
 #brew cask install skype-for-business  # unselect show birthdays
-brew cask install slack
+brew cask install slack  # installed to "~/Applications" by default.
 brew cask install google-hangouts
 brew cask install sococo
 brew cask install zoom   # 32-bit
@@ -371,6 +374,7 @@ brew cask install teamviewer
 # See https://www.macworld.com/article/2863171/waltr-converts-and-copies-just-about-any-media-file-to-your-iphone-and-ipad.html
 
 brew cask install imageoptim  # shrink image files.
+brew cask install sketch      # SVG editor installed to "~/Applications" by default.
 #brew cask install omnigraffle
 
 #fancy_echo "Installing Camtasia for video capture and editing:"
