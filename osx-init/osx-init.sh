@@ -68,6 +68,8 @@ defaults write com.apple.finder AppleShowAllFiles YES
 #brew tap caskroom/cask
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
+brew analytics off
+
 #fancy_echo "Brew Doctor before starting ..."
 #brew doctor
 
@@ -94,7 +96,6 @@ brew cask install iterm2
 brew install -g wget
 brew install -g tree
 brew install -g htop
-
 # https://github.com/caskroom/homebrew-cask/blob/master/Casks/the-unarchiver.rb
 # brew cask install the-unarchiver  
 
@@ -141,6 +142,9 @@ brew cask install powershell
 # Compare text files:
 brew cask install p4merge 
 # kdiff3 # https://www.slant.co/options/4399/alternatives/~kdiff3-alternatives
+# brew install colordiff
+# brew install irssi
+# brew install links
 
 
 #brew cask install java
