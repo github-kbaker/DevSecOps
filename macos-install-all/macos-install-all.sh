@@ -2746,7 +2746,7 @@ if [[ $CLOUD == *"heroku"* ]]; then  # contains heroku.
       # Cloning into '/usr/local/Homebrew/Library/Taps/heroku/homebrew-brew'...
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         fancy_echo "heroku-cli upgrading ..."
+         fancy_echo "Upgrading heroku ..."
          heroku -v
          brew upgrade heroku/brew/heroku
       fi
