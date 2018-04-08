@@ -688,8 +688,11 @@ if [ ! -d "$HOME/$UTIL_REPO" ]; then
    # List branch and latest commit SHA:
    GIT_BRANCH=$(git_parse_branch)$(git_parse_hash) && echo ${GIT_BRANCH}
 fi
-cd $HOME/$UTIL_REPO
-
+if [ ! -d "$HOME/$UTIL_REPO" ]; then
+   fancy_echo "Directory $HOME/$UTIL_REPO missing despite cloning ..."
+else
+   cd $HOME/$UTIL_REPO
+fi
       # see video: https://asciinema.org/a/41811?autoplay=1
 pwd  >>$THISSCRIPT
 
@@ -2734,6 +2737,23 @@ if [[ $CLOUD == *"azure"* ]]; then  # contains azure.
       # ... and many other lines.
 fi
 
+
+if [[ $CLOUD == *"heroku"* ]]; then  # contains heroku.
+   if ! command -v heroku >/dev/null; then  # not installed.
+      # https://devcenter.heroku.com/articles/heroku-cli
+      fancy_echo "Installing heroku using Homebrew ..."
+      brew install heroku/brew/heroku
+      # Cloning into '/usr/local/Homebrew/Library/Taps/heroku/homebrew-brew'...
+   else
+      if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
+         fancy_echo "heroku-cli upgrading ..."
+         heroku -v
+         brew upgrade heroku/brew/heroku
+      fi
+   fi
+   echo -e "$(heroku -v)" >>$THISSCRIPT  
+      # heroku-cli/6.16.8-ae149be (darwin-x64) node-v9.10.1
+fi
 
 
 if [[ $CLOUD == *"openstack"* ]]; then  # contains openstack.
