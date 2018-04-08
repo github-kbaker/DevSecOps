@@ -1,0 +1,29 @@
+./macos-install-all.sh  starting with logging to file:
+./macos-install-all.sh.2018-04-08T12:29:59-0600-994.log ...
+ProductName:	Mac OS X
+ProductVersion:	10.13.3
+BuildVersion:	17D102
+Darwin Wilsons-MacBook-Pro.local 17.4.0 Darwin Kernel Version 17.4.0: Sun Dec 17 09:19:54 PST 2017; root:xnu-4570.41.2~1/RELEASE_X86_64 x86_64
+
+>>> Configure OSX Finder to show hidden files too:
+GNU bash, version 4.4.19(1)-release (x86_64-apple-darwin17.3.0)
+
+>>> "/Users/wilsonmar/.bash_profile" already created with      182 lines.
+
+>>> Backing up file /Users/wilsonmar/.bash_profile to /Users/wilsonmar/.bash_profile-20230.bak ...
+
+>>> LC_ALL Locale setting already in /Users/wilsonmar/.bash_profile
+
+>>> ARCHFLAGS setting already in /Users/wilsonmar/.bash_profile
+
+>>> Using whatever Ruby version comes with MacOS:
+ruby 2.3.3p222 (2016-11-21 revision 56859) [universal.x86_64-darwin17]
+
+ruby 2.3.3p222 (2016-11-21 revision 56859) [universal.x86_64-darwin17]
+
+Homebrew 1.5.14
+Homebrew/homebrew-core (git revision 1f9ba; last commit 2018-04-07)
+
+git version 2.16.3
+
+>>> Cloning in https://github.com/wilsonmar/DevSecOps.git ...
