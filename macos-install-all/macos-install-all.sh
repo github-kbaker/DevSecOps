@@ -948,7 +948,6 @@ if [[ "$GIT_CLIENT" == *"github"* ]]; then
 fi
 
 
-
 if [[ "$GIT_CLIENT" == *"gitkraken"* ]]; then
    # GitKraken from https://www.gitkraken.com/ and https://blog.axosoft.com/gitflow/
    if [ ! -d "/Applications/GitKraken.app" ]; then 
