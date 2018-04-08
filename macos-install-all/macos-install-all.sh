@@ -40,7 +40,7 @@ function echo_error  { echo -e '\033[1;31mERROR: '"$1"'\033[0m'; }
 
 function cleanup() {
     echo "At cleanup() THISSCRIPT=$THISSCRIPT"
-    pico $THISSCRIPT
+    texedit $THISSCRIPT
     exit
 }
 
@@ -382,8 +382,8 @@ function GO_INSTALL(){
    else
       # specific to each MacOS version
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         go version   # upgrading from.
          fancy_echo "go upgrading ..."
+         go version   # upgrading from.
          brew upgrade go
       fi
    fi
@@ -454,9 +454,8 @@ if [ ! -f "$BASHFILE" ]; then #  NOT found:
 else
    LINES=$(wc -l < "${BASHFILE}")
    fancy_echo "\"${BASHFILE}\" already created with $LINES lines." >>$THISSCRIPT
-
-   fancy_echo "Backing up file $BASHFILE to $BASHFILE-$RANDOM.bak ..."  >>$THISSCRIPT
-   cp "$BASHFILE" "$BASHFILE-$LOG_PREFIX.backup"
+   fancy_echo "Backing up file $BASHFILE to $BASHFILE-$LOG_PREFIX.bak ..."  >>$THISSCRIPT
+   cp "$BASHFILE" "$BASHFILE-$LOG_PREFIX.bak"
 fi
 
 
@@ -469,11 +468,11 @@ fi
 if grep -q "LC_ALL" "$BASHFILE" ; then    
    fancy_echo "LC_ALL Locale setting already in $BASHFILE" >>$THISSCRIPT
 else
-   fancy_echo "Adding LC_ALL Locale in $BASHFILE..."
+   fancy_echo "Adding LC_ALL Locale in $BASHFILE..." >>$THISSCRIPT
    echo "# Added by macos-install.sh ::" >>"$BASHFILE"
    echo "export LC_ALL=en_US.utf-8" >>"$BASHFILE"
-   #export LANG="en_US.UTF-8"
-   #export LC_CTYPE="en_US.UTF-8"
+      #export LANG="en_US.UTF-8"
+      #export LC_CTYPE="en_US.UTF-8"
    
    # Run .bash_profile to have changes take, run $FILEPATH:
    source "$BASHFILE"
@@ -492,7 +491,7 @@ fi
 if grep -q "export ARCHFLAGS=" "$BASHFILE" ; then    
    fancy_echo "ARCHFLAGS setting already in $BASHFILE" >>$THISSCRIPT
 else
-   fancy_echo "Adding ARCHFLAGS in $BASHFILE..."
+   fancy_echo "Adding ARCHFLAGS in $BASHFILE..." >>$THISSCRIPT
    echo "export ARCHFLAGS=\"-arch x86_64\"" >>"$BASHFILE"
    source "$BASHFILE"
 fi 
@@ -503,9 +502,8 @@ fi
 
 # Ruby comes with MacOS:
 fancy_echo "Using whatever Ruby version comes with MacOS:" >>$THISSCRIPT
-ruby -v   >>$THISSCRIPT
+echo -e "$(ruby -v)"      >>$THISSCRIPT
    # ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-darwin16]
-echo -e "\n$(ruby -v)"      >>$THISSCRIPT
 
 # Set the permissions that Brew expects	
 # sudo chflags norestricted /usr/local && sudo chown $(whoami):admin /usr/local && sudo chown -R $(whoami):admin /usr/local
@@ -539,6 +537,19 @@ brew analytics off  # see https://github.com/Homebrew/brew/blob/master/docs/Anal
 ######### Mac tools:
 
 
+if [[ "$MAC_TOOLS" == *"ansible"* ]]; then
+   if ! command -v ansible >/dev/null; then  # /usr/local/bin/ansible
+      fancy_echo "Installing MAC_TOOLS ansible ..."
+      brew install ansible
+   else
+      if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
+         fancy_echo "Upgrading MAC_TOOLS ansible ..."
+         ansible --version  # before upgrade
+         brew upgrade ansible
+      fi
+   fi
+   echo -e "$(ansible -v)" >>$THISSCRIPT  # ansible 2.5.0
+fi
 
 if [[ "$MAC_TOOLS" == *"1Password"* ]]; then
    # https://1password.com/
@@ -585,8 +596,8 @@ if [[ "$MAC_TOOLS" == *"kindle"* ]]; then
       brew cask install --appdir="/Applications" kindle
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         # kindle -v
          fancy_echo "Upgrading MAC_TOOLS Kindle ..."
+         # kindle -v
          brew cask upgrade kindle
       fi
    fi
@@ -611,8 +622,8 @@ if [[ "$MAC_TOOLS" == *"mariadb"* ]]; then
       # There is also mariadb@10.0, mariadb@10.1, mariadb-connector-odbc 
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         mysql --version
          fancy_echo "Upgrading MAC_TOOLS mariadb ..."
+         mysql --version
          brew upgrade mariadb
       fi
    fi
@@ -637,8 +648,8 @@ if ! command -v git >/dev/null; then
     brew install git
 else
     if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-       git --version
        fancy_echo "Git upgrading ..." >>$THISSCRIPT
+       git --version
        # To avoid response "Error: git not installed" to brew upgrade git
        brew uninstall git
        # QUESTION: This removes .gitconfig file?
@@ -656,13 +667,16 @@ echo -e "\n$(git --version)"            >>$THISSCRIPT
 UTIL_REPO="DevSecOps"
 if [ ! -d "$HOME/$UTIL_REPO" ]; then
    GITHUB_REPO_URL="https://github.com/wilsonmar/$UTIL_REPO.git"
-   fancy_echo "Cloning in $GITHUB_REPO_URL ..." >>$THISSCRIPT
+   fancy_echo "Cloning in $GITHUB_REPO_URL ..."
    git clone "$GITHUB_REPO_URL" --depth=1  # only master branche, no history
    # List branch and latest commit SHA:
-   GIT_BRANCH=$(parse_git_branch)$(parse_git_hash) && echo ${GIT_BRANCH}
-   cd $UTIL_REPO
+   GIT_BRANCH=$(git_parse_branch)$(git_parse_hash) && echo ${GIT_BRANCH}
 fi
+cd $HOME/$UTIL_REPO
+
       # see video: https://asciinema.org/a/41811?autoplay=1
+pwd  >>$THISSCRIPT
+
 exit # DEBUGGING
 
 
@@ -720,11 +734,8 @@ GITCONFIG=$HOME/.gitconfig  # file
 if [ ! -f "$GITCONFIG" ]; then 
    fancy_echo "$GITCONFIG! file not found."
 else
-   fancy_echo "Git is configured in new $GITCONFIG "
-   fancy_echo "Backing up $GITCONFIG file to $GITCONFIG-$RANDOM.bak ..." >>$THISSCRIPT
-   RANDOM=$((1 + RANDOM % 1000));  # 5 digit randome number.
-   cp "$GITCONFIG" "$GITCONFIG-$RANDOM.backup"
-   fancy_echo "git config command creates new $GITCONFIG file..." >>$THISSCRIPT
+   fancy_echo "Backing up $GITCONFIG-$LOG_PREFIX.bak ..." >>$THISSCRIPT
+   cp "$GITCONFIG" "$GITCONFIG-$LOG_PREFIX.bak"
 fi
 
 
@@ -734,7 +745,6 @@ fi
 # Install browser using Homebrew to display GitHub to paste SSH key at the end.
 fancy_echo "GIT_BROWSER=$GIT_BROWSER in secrets.sh ..."
       echo "The last one installed is set as the Git browser." >>$THISSCRIPT
-
 
 if [[ "$GIT_BROWSER" == *"safari"* ]]; then
    if ! command -v safari >/dev/null; then
@@ -1021,8 +1031,8 @@ if [[ "$GIT_CLIENT" == *"tower"* ]]; then
         brew cask install --appdir="/Applications" tower
     else
         if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-           # current version?
            fancy_echo "Upgrading GIT_CLIENT=\"tower\" using Homebrew ..."
+           # current version?
            brew cask upgrade tower
         else
            fancy_echo "GIT_CLIENT=\"tower\" already installed" >>$THISSCRIPT
@@ -1145,9 +1155,8 @@ if [[ "$GIT_TOOLS" == *"lfs"* ]]; then
       brew install git-lfs
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         git-lfs version 
-            # git-lfs/2.4.0 (GitHub; darwin amd64; go 1.10)
          fancy_echo "git-lfs upgrading ..."
+         git-lfs version # git-lfs/2.4.0 (GitHub; darwin amd64; go 1.10)
          brew upgrade git-lfs 
       fi
    fi
@@ -1247,9 +1256,8 @@ if [[ "$GIT_EDITOR" == *"sublime"* ]]; then
       # install Package Control see https://gist.github.com/patriciogonzalezvivo/77da993b14a48753efda
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         subl --version
-            # Sublime Text Build 3143
          fancy_echo "Sublime Text upgrading ..."
+         subl --version  # Sublime Text Build 3143
             # To avoid response "Error: git not installed" to brew upgrade git
          brew cask reinstall sublime-text
       fi
@@ -1282,8 +1290,8 @@ if [[ "$GIT_EDITOR" == *"code"* ]]; then
         brew install visual-studio-code
     else
        if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-          code --version
           fancy_echo "VS Code upgrading ..."
+          code --version
           # No upgrade - "Error: No available formula with the name "visual-studio-code" 
           brew uninstall visual-studio-code
           brew install visual-studio-code
@@ -1314,9 +1322,8 @@ if [[ "$GIT_EDITOR" == *"atom"* ]]; then
       brew cask install --appdir="/Applications" atom
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-          atom --version
-             # 
           fancy_echo "GIT_EDITOR=\"atom\" upgrading ..."
+          atom --version  # from
           # To avoid response "Error: No available formula with the name "atom"
           brew uninstall atom
           brew install atom
@@ -1382,8 +1389,8 @@ if [[ "$GIT_EDITOR" == *"textmate"* ]]; then
         brew cask install --appdir="/Applications" textmate
     else
        if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-          mate -v
           fancy_echo "GIT_EDITOR=\"textmate\" upgrading ..."
+          mate -v
           brew cask uninstall textmate
           brew cask install --appdir="/Applications" textmate
           # TODO: Configure textmate text editor using bash shell commands.
@@ -1423,10 +1430,10 @@ if [[ "$GIT_EDITOR" == *"emacs"* ]]; then
         brew cask install --appdir="/Applications" emacs
     else
        if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
+          fancy_echo "emacs upgrading ..."
           emacs --version
              # /usr/local/bin/emacs:41: warning: Insecure world writable dir /Users/wilsonmar/gits/wilsonmar in PATH, mode 040777
              # GNU Emacs 25.3.1
-          fancy_echo "emacs upgrading ..."
           brew cask upgrade emacs
           # TODO: Configure emacs using bash shell commands.
        fi
@@ -1452,9 +1459,8 @@ if [[ "$GIT_EDITOR" == *"intellij"* ]]; then
         # TODO: Configure intellij text editor using bash shell commands.
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         # TODO: idea  --version
-            # 
          fancy_echo "GIT_EDITOR=\"intellij\" upgrading ..."
+         # TODO: idea  --version
          brew cask upgrade intellij-idea-ce 
       else
          fancy_echo "GIT_EDITOR=\"intellij\" already installed:" >>$THISSCRIPT
@@ -1490,9 +1496,8 @@ if [[ "$GIT_EDITOR" == *"sts"* ]]; then
         brew cask install --appdir="/Applications" sts
     else
        if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-          # TODO: sts --version
-             # 
           fancy_echo "GIT_EDITOR=\"sts\" upgrading ..."
+          # TODO: sts --version
           brew cask uninstall sts
           brew cask install --appdir="/Applications" sts
           # TODO: Configure sts text editor using bash shell commands.
@@ -1527,9 +1532,8 @@ if [[ "$GIT_EDITOR" == *"eclipse"* ]]; then
         brew cask install --appdir="/Applications" eclipse-ide
     else
        if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-          # TODO: eclipse-ide --version
-             # 
           fancy_echo "GIT_EDITOR=\"eclipse\" upgrading ..."
+          # TODO: eclipse-ide --version
           brew cask uninstall eclipse-ide
           brew cask install --appdir="/Applications" eclipse-ide
           # TODO: Configure eclipse text editor using bash shell commands.
@@ -1734,8 +1738,8 @@ if ! command -v brew >/dev/null; then
    fi
 else
     if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-       # ?  --version
        fancy_echo "Brew upgrading ..."
+       # ?  --version
        brew upgrade bash-git-prompt
     else
        fancy_echo "brew bash-git-prompt already installed:" >>$THISSCRIPT
@@ -1814,8 +1818,8 @@ if [[ "$GIT_TOOLS" == *"p4merge"* ]]; then
       # TODO: Configure p4merge using shell commands.
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         # p4merge --version
          fancy_echo "p4merge diff engine app upgrading ..."
+         # p4merge --version
          # To avoid response "Error: git not installed" to brew upgrade git
          brew cask reinstall p4merge
       else
@@ -2071,8 +2075,8 @@ if [[ "$JAVA_TOOLS" == *"maven"* ]]; then
       brew install maven
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         # mvn --version
          fancy_echo "JAVA_TOOLS maven dupgrading ..."
+         # mvn --version
          brew upgrade maven
       fi
    fi
@@ -2109,8 +2113,8 @@ if [[ "$JAVA_TOOLS" == *"ant"* ]]; then
       brew install ant
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         # ant -v
          fancy_echo "JAVA_TOOLS ant upgrading ..."
+         # ant -v
          brew upgrade ant
       else
          fancy_echo "JAVA_TOOLS ant already installed:" >>$THISSCRIPT
@@ -2201,8 +2205,8 @@ if [[ "$JAVA_TOOLS" == *"jmeter"* ]]; then
       brew install jmeter
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         jmeter -v | sed -n 5p | grep "\_\ "  # skip the ASCII art of APACHE.
          fancy_echo "JAVA_TOOLS=jmeter upgrading ..."
+         jmeter -v | sed -n 5p | grep "\_\ "  # skip the ASCII art of APACHE.
          brew install jmeter 
       fi
    echo -e "\n$(jmeter --version)" >>$THISSCRIPT
@@ -2322,8 +2326,8 @@ if [[ "$JAVA_TOOLS" == *"gcviewer"* ]]; then
       brew install gcviewer
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         # gcviewer --version
          fancy_echo "JAVA_TOOLS=gcviewer upgrading ..."
+         # gcviewer --version
          brew upgrade gcviewer 
             # gcviewer 1.35 already installed
       else
@@ -2331,6 +2335,7 @@ if [[ "$JAVA_TOOLS" == *"gcviewer"* ]]; then
       fi
       #echo -e "\n$(gcviewer --version)" >>$THISSCRIPT
    fi
+   # .gcviewer.log
 fi
 
 
@@ -2340,8 +2345,8 @@ if [[ "$JAVA_TOOLS" == *"jprofiler"* ]]; then
       brew cask install --appdir="/Applications" jprofiler
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         jprofiler --version
          fancy_echo "JAVA_TOOLS=jprofiler upgrading ..."
+         jprofiler --version
          brew cask install --appdir="/Applications" jprofiler 
       fi
    fi
@@ -2391,8 +2396,8 @@ if [[ "$GIT_TOOLS" == *"signing"* ]]; then
       # See https://www.gnupg.org/faq/whats-new-in-2.1.html
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         gpg --version  # outputs many lines!
          fancy_echo "GPG2 upgrading ..."
+         gpg --version  # outputs many lines!
          # To avoid response "Error: git not installed" to brew upgrade git
          brew uninstall GPG2 
          # NOTE: This does not remove .gitconfig file.
@@ -2542,8 +2547,8 @@ if [[ "$GIT_TOOLS" == *"secret"* ]]; then
       # See https://github.com/sobolevn/git-secret
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         git-secret --version  # 0.2.2
          fancy_echo "git-secret upgrading ..."
+         git-secret --version  # 0.2.2
          brew upgrade git-secret 
       fi
    fi
@@ -3181,10 +3186,8 @@ if [[ "$GIT_TOOLS" == *"hub"* ]]; then
       # echo "alias git=hub" >>"$BASHFILE"
    else
       if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
-         hub version | grep hub  
-           # git version 2.16.3
-           # hub version 2.2.9
          fancy_echo "hub upgrading ..."
+         hub version | grep hub  # git version 2.16.3 # hub version 2.2.9
          brew upgrade hub 
       fi
    fi
