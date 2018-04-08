@@ -40,7 +40,7 @@ function echo_error  { echo -e '\033[1;31mERROR: '"$1"'\033[0m'; }
 
 function cleanup() {
     echo "At cleanup() THISSCRIPT=$THISSCRIPT"
-    texedit $THISSCRIPT
+    open -a "TextEdit" $THISSCRIPT
     exit
 }
 
@@ -537,7 +537,23 @@ brew analytics off  # see https://github.com/Homebrew/brew/blob/master/docs/Anal
 ######### Mac tools:
 
 
+if [[ "$MAC_TOOLS" == *"mas"* ]]; then
+   # To manage apps purchased & installed using App Store on MacOS:
+   if ! command -v mas >/dev/null; then  # /usr/local/bin/mas
+      fancy_echo "Installing MAC_TOOLS mas ..."
+      brew install mas
+   else
+      if [[ "${MY_RUNTYPE,,}" == *"upgrade"* ]]; then
+         fancy_echo "Upgrading MAC_TOOLS mas ..."
+         mas version  # before upgrade
+         brew upgrade mas
+      fi
+   fi
+   echo -e "$(mas version)" >>$THISSCRIPT  # mas 1.4.1
+fi
+
 if [[ "$MAC_TOOLS" == *"ansible"* ]]; then
+   # To install programs. See http://wilsonmar.github.io/ansible/
    if ! command -v ansible >/dev/null; then  # /usr/local/bin/ansible
       fancy_echo "Installing MAC_TOOLS ansible ..."
       brew install ansible
@@ -552,7 +568,7 @@ if [[ "$MAC_TOOLS" == *"ansible"* ]]; then
 fi
 
 if [[ "$MAC_TOOLS" == *"1Password"* ]]; then
-   # https://1password.com/
+   # See https://1password.com/ to store secrets on laptops securely.
    if [ ! -d "/Applications/1Password 6.app" ]; then 
    #if ! command -v 1Password >/dev/null; then  # /usr/local/bin/1Password
       fancy_echo "Installing MAC_TOOLS 1Password - password needed ..."
