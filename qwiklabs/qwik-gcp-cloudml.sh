@@ -20,7 +20,7 @@ GCP_PROJECT=$(gcloud config list project | grep project | awk -F= '{print $2}' )
    # project = qwiklabs-gcp-9cf8961c6b431994
    # Your active configuration is: [cloudshell-19147]
 echo "GCP_PROJECT=$GCP_PROJECT"  # response: "qwiklabs-gcp-9cf8961c6b431994"
-exit
+
 RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    # Extract from:
    #- key: google-compute-default-zone
@@ -28,7 +28,8 @@ RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    #- key: google-compute-default-region
    # value: us-central1
 #TODO: GCP_REGION=$(echo $RESPONSE | grep project | awk -F= '{print $2}' )
-
+echo "RESPONSE=$RESPONSE"
+exit
 
 # NOTE: It's not necessary to look at the Python code to run this lab, but if you are interested, 
 # you can poke around the repo in the Cloud Shell editor.
