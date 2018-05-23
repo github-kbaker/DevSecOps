@@ -27,9 +27,9 @@ RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    # value: us-central1-a
    #- key: google-compute-default-region
    # value: us-central1
-#TODO: GCP_REGION=$(echo $RESPONSE | grep project | awk -F= '{print $2}' )
 echo "RESPONSE=$RESPONSE"
-exit
+#TODO: Extract value: based on previous line key: "google-compute-default-region"
+#  cat "$RESPONSE" | sed -n -e '/<\/header>/,/<\/footer>/ p' | grep "key: google-compute-default-region" | sed 's/<\/\?[^>]\+>//g' | awk -F' ' '{ print $4 }'; rm -f $outputFile
 
 # NOTE: It's not necessary to look at the Python code to run this lab, but if you are interested, 
 # you can poke around the repo in the Cloud Shell editor.
@@ -37,7 +37,7 @@ cloudshell_open --repo_url "https://github.com/googlecloudplatform/cloudml-sampl
    --page "editor" --open_in_editor "census/estimator"
    # QUESTION: Why --open_in_editor "census/estimator" in a new browser tab?
 cd census/estimator
-
+exit
 # TODO: Verify I'm in pwd = /home/google462324_student/cloudml-samples/census/estimator
 
 # Download from Cloud Storage into new data folder:
