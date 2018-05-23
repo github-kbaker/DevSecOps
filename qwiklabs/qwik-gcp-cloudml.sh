@@ -6,7 +6,7 @@
 #    https://google-run.qwiklab.com/focuses/725?parent=catalog
 # Instead of typing, copy this command to run in the console within the cloud:
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/qwiklabs/qwik-gcp-cloudml.sh)"
-# This adds steps to grep values into variables and verifications
+# This adds steps to grep values into variables for verifications
 
 #gcloud auth list
    #           Credentialed Accounts
@@ -27,9 +27,10 @@ RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    # value: us-central1-a
    #- key: google-compute-default-region
    # value: us-central1
+   # 
 echo "RESPONSE=$RESPONSE"
 #TODO: Extract value: based on previous line key: "google-compute-default-region"
-#  cat "$RESPONSE" | sed -n -e '/<\/header>/,/<\/footer>/ p' | grep "key: google-compute-default-region" | sed 's/<\/\?[^>]\+>//g' | awk -F' ' '{ print $4 }'; rm -f $outputFile
+#  cat "$RESPONSE" | sed -n -e '/Extract from:/,/<\/footer>/ p' | grep -A2 "key: google-compute-default-region" | sed 's/<\/\?[^>]\+>//g' | awk -F' ' '{ print $4 }'; rm -f $outputFile
 
 # NOTE: It's not necessary to look at the Python code to run this lab, but if you are interested, 
 # you can poke around the repo in the Cloud Shell editor.
