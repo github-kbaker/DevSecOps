@@ -19,7 +19,7 @@ GCP_PROJECT=$(gcloud config list project | grep project | awk -F= '{print $2}' )
    # awk -F= '{print $2}'  extracts 2nd word in:
    # project = qwiklabs-gcp-9cf8961c6b431994
    # Your active configuration is: [cloudshell-19147]
-echo $GCP_PROJECT  # response: "qwiklabs-gcp-9cf8961c6b431994"
+echo "GCP_PROJECT=$GCP_PROJECT"  # response: "qwiklabs-gcp-9cf8961c6b431994"
 exit
 RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    # Extract from:
