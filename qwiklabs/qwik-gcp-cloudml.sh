@@ -3,7 +3,7 @@
 # qwik-gcp-cloudml.sh in https://github.com/wilsonmar/DevSecOps/tree/master/qwiklabs
 # by Wilson Mar, Wisdom Hambolu, and others.
 # This performs the commands in "Cloud ML Engine: Qwik Start" at
-#    https://google-run.qwiklab.com/focuses/725?parent=catalog
+#    https://google-run.qwiklab.com/catalog_lab/676
 # which is part of quest https://google-run.qwiklab.com/quests/34 (Baseline: Data, ML, AI)
 # and https://google-run.qwiklab.com/quests/32 (Machine Learning APIs)
 # Instead of typing, copy this command to run in the console within the cloud:
@@ -25,7 +25,7 @@ GCP_PROJECT=$(gcloud config list project | grep project | awk -F= '{print $2}' )
    # project = qwiklabs-gcp-9cf8961c6b431994
    # Your active configuration is: [cloudshell-19147]
 PROJECT_ID=$(gcloud config list project --format "value(core.project)")
-echo "GCP_PROJECT=$GCP_PROJECT, PROJECT_ID=$PROJECT_ID"  # response: "qwiklabs-gcp-9cf8961c6b431994"
+echo ">>> GCP_PROJECT=$GCP_PROJECT, PROJECT_ID=$PROJECT_ID"  # response: "qwiklabs-gcp-9cf8961c6b431994"
 RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    # Extract from:
    #items:
@@ -34,11 +34,11 @@ RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    #- key: google-compute-default-region
    # value: us-central1
    #- key: ssh-keys
-#echo "RESPONSE=$RESPONSE"
+#echo ">>> RESPONSE=$RESPONSE"
 #TODO: Extract value: based on previous line key: "google-compute-default-region"
 #  cat "$RESPONSE" | sed -n -e '/Extract from:/,/<\/footer>/ p' | grep -A2 "key: google-compute-default-region" | sed 's/<\/\?[^>]\+>//g' | awk -F' ' '{ print $4 }'; rm -f $outputFile
 REGION="us-central1"
-echo "REGION=$REGION"
+echo ">>> REGION=$REGION"
 
 # NOTE: It's not necessary to look at the Python code to run this lab, but if you are interested, 
 # you can poke around the repo in the Cloud Shell editor.
@@ -51,7 +51,7 @@ rm -rf $HOME/cloudml-samples
 git clone https://github.com/googlecloudplatform/cloudml-samples
 cd cloudml-samples
 cd census/estimator
-echo "At $(pwd) above "trainer" folder after cloning..."
+echo ">>> At $(pwd) above "trainer" folder after cloning..."
 ls -al
 
 # TODO: Verify I'm in pwd = /home/google462324_student/cloudml-samples/census/estimator
@@ -109,7 +109,7 @@ gcloud ml-engine local train \
 #The output/export/census directory holds the model exported as a result of running training locally. List that directory to see the generated timestamp subdirectory:
 TIMESTAMP=$(ls output/export/census/)
    # RESPONSE: 1527139435 # linux epoch time stamp.
-echo "TIMESTAMP=$TIMESTAMP"
+echo ">>> TIMESTAMP=$TIMESTAMP"
 gcloud ml-engine local predict \
   --model-dir output/export/census/$TIMESTAMP \
   --json-instances ../test.json
@@ -123,7 +123,7 @@ gcloud ml-engine local predict \
 # Set some variables:
 PROJECT_ID=$(gcloud config list project --format "value(core.project)")
 BUCKET_NAME=${PROJECT_ID}-mlengine
-echo "BUCKET_NAME=$BUCKET_NAME"
+echo ">>> BUCKET_NAME=$BUCKET_NAME"
    # BUCKET_NAME=qwiklabs-gcp-3e97ef84b39c2914-mlengine
 #REGION=us-central1
 # If the bucket name looks okay, create the bucket:
@@ -143,7 +143,7 @@ EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
 # Run a single-instance trainer in the cloud:
 JOB_NAME=census1
 OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
-echo "OUTPUT_PATH=$OUTPUT_PATH"
+echo ">>> OUTPUT_PATH=$OUTPUT_PATH"
 
 gcloud ml-engine jobs submit training $JOB_NAME \
 --job-dir $OUTPUT_PATH \
@@ -187,8 +187,9 @@ gcloud ml-engine versions create v1 \
 --origin $MODEL_BINARIES \
 --runtime-version 1.4
 
-# It may take several minutes to deploy your trained model. 
-# When done, get a list of your models using the models list command:
+# It may take several minutes to deploy your trained model.
+
+# When done, get a list of your models:
 gcloud ml-engine models list
 
 # Send a prediction request to your deployed model:
