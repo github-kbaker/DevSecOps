@@ -35,8 +35,8 @@ RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
 #echo "RESPONSE=$RESPONSE"
 #TODO: Extract value: based on previous line key: "google-compute-default-region"
 #  cat "$RESPONSE" | sed -n -e '/Extract from:/,/<\/footer>/ p' | grep -A2 "key: google-compute-default-region" | sed 's/<\/\?[^>]\+>//g' | awk -F' ' '{ print $4 }'; rm -f $outputFile
-GCP_REGION="us-central1"
-echo "GCP_REGION=$GCP_REGION"
+REGION="us-central1"
+echo "REGION=$REGION"
 
 # NOTE: It's not necessary to look at the Python code to run this lab, but if you are interested, 
 # you can poke around the repo in the Cloud Shell editor.
@@ -138,10 +138,10 @@ EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
    # \ [2 files][  5.7 MiB/  5.7 MiB]
    # Operation completed over 2 objects/5.7 MiB.
 
-# Run a single-instance trainer in the cloud
+# Run a single-instance trainer in the cloud:
 JOB_NAME=census1
 OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
-echo $OUTPUT_PATH
+echo "OUTPUT_PATH=$OUTPUT_PATH"
 
 gcloud ml-engine jobs submit training $JOB_NAME \
 --job-dir $OUTPUT_PATH \
@@ -155,3 +155,47 @@ gcloud ml-engine jobs submit training $JOB_NAME \
 --train-steps 5000 \
 --verbosity DEBUG
 
+# (The output may also contain some warning messages that you can ignore for the purposes of this lab).
+
+# Monitor the progress of training job by watching the logs on the command line via:
+gcloud ml-engine jobs stream-logs $JOB_NAME
+# also monitor jobs in the Console. In the left menu, in the Big Data section, navigate to ML Engine > Jobs.
+
+# Inspect output in Google Cloud Storage:
+gsutil ls -r $OUTPUT_PATH
+# Or tensorboard --logdir=$OUTPUT_PATH --port=8080
+
+# Deploy model to serve prediction requests from CMLE (Cloud Machine Learning Engine):
+# After "Job completed successfully" appears in the Cloud Shell command line.
+
+# Create a Cloud ML Engine model:
+MODEL_NAME=census
+gcloud ml-engine models create $MODEL_NAME --regions=$REGION
+
+# Select the exported model to use, by looking up the full path of your exported trained model binaries.
+gsutil ls -r $OUTPUT_PATH/export
+exit
+# TODO: Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
+# Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
+MODEL_BINARIES=$OUTPUT_PATH/export/census/<timestamp>/
+
+# Create a version of your model:
+gcloud ml-engine versions create v1 \
+--model $MODEL_NAME \
+--origin $MODEL_BINARIES \
+--runtime-version 1.4
+
+# It may take several minutes to deploy your trained model. 
+# When done, get a list of your models using the models list command:
+gcloud ml-engine models list
+
+# Send a prediction request to your deployed model:
+gcloud ml-engine predict \
+--model $MODEL_NAME \
+--version v1 \
+--json-instances ../test.json
+# The response includes the predicted labels of the example(s) in the request:
+# CLASS_IDS  CLASSES  LOGISTIC                LOGITS                PROBABILITIES
+# [0]        [u'0']   [0.029467318207025528]  [-3.494563341140747]  [0.9705326557159424, 0.02946731448173523]
+
+# Congratulations.
