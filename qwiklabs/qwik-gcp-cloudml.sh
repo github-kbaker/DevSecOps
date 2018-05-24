@@ -190,12 +190,14 @@ echo ">>> Create Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 
 # Select the exported model to use, by looking up the full path of your exported trained model binaries.
+
+# Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
 RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export | grep 'description:' )"
    #- description: 'Deployment directory gs://qwiklabs-gcp-be0b040e11b87eca-mlengine/census1/export/census/1527175436/
+dir=${RESPONSE%/*}    # strip last slash
+TIMESTAMP=${dir##*/}  # remove everything before the last / remaining
 echo ">>> TIMESTAMP=$TIMESTAMP captured from gsutil ls -r $OUTPUT_PATH/export ..."
-echo ">>> $RESPONSE"  # debugging
 
-# TODO: Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
 # Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
 export MODEL_BINARIES="$OUTPUT_PATH/export/census/$TIMESTAMP/"
 echo ">>> MODEL_BINARIES=$MODEL_BINARIES"
@@ -207,9 +209,6 @@ gcloud ml-engine versions create v1 \
 --runtime-version 1.4
    # Created ml engine model [projects/qwiklabs-gcp-be0b040e11b87eca/models/census].
    # It takes several minutes to deploy your trained model.
-
-# CAUTION: -s turned off because of error:
-   # sh: 180: Syntax error: redirection unexpected
 
 echo ">>> ml-engine models list:"
 gcloud ml-engine models list
