@@ -69,7 +69,7 @@ gsutil -m cp gs://cloudml-public/census/data/* data/
 TRAIN_DATA=$(pwd)/data/adult.data.csv
 EVAL_DATA=$(pwd)/data/adult.test.csv
 
-# View data of 10 rows:
+echo ">>> View data of 10 rows:"
 head data/adult.data.csv
    # 42, Private, 159449, Bachelors, 13, Married-civ-spouse, Exec-managerial, Husband, White, Male, 5178, 0, 40, United-States, >50K
 
@@ -122,8 +122,8 @@ gcloud ml-engine local predict \
 # Set up a Google Cloud Storage bucket:
 # The Cloud ML Engine services need to access Google Cloud Storage (GCS) to read and write data during model training and batch prediction.
 # Set some variables:
-PROJECT_ID=$(gcloud config list project --format "value(core.project)")
-BUCKET_NAME=${PROJECT_ID}-mlengine
+export PROJECT_ID=$(gcloud config list project --format "value(core.project)")
+export BUCKET_NAME=${PROJECT_ID}-mlengine
 echo ">>> BUCKET_NAME=$BUCKET_NAME"
    # BUCKET_NAME=qwiklabs-gcp-3e97ef84b39c2914-mlengine
 #REGION=us-central1
@@ -142,9 +142,9 @@ EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
    # Operation completed over 2 objects/5.7 MiB.
 
 # Run a single-instance trainer in the cloud:
-JOB_NAME=census1
-OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
-echo ">>> OUTPUT_PATH=$OUTPUT_PATH"
+export JOB_NAME=census1
+export OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
+echo ">>> JOB_NAME=$JOB_NAME, OUTPUT_PATH=$OUTPUT_PATH"
 
 gcloud ml-engine jobs submit training $JOB_NAME \
 --job-dir $OUTPUT_PATH \
@@ -158,21 +158,21 @@ gcloud ml-engine jobs submit training $JOB_NAME \
 --train-steps 5000 \
 --verbosity DEBUG
 
-# (The output may also contain some warning messages that you can ignore for the purposes of this lab).
+   # (The output may contain some warning messages that you can ignore for the purposes of this lab).
 
 # Monitor the progress of training job by watching the logs on the command line via:
 gcloud ml-engine jobs stream-logs $JOB_NAME
-# also monitor jobs in the Console. In the left menu, in the Big Data section, navigate to ML Engine > Jobs.
+   # also monitor jobs in the Console. In the left menu, in the Big Data section, navigate to ML Engine > Jobs.
 
-# Inspect output in Google Cloud Storage:
+echo ">>> Inspect output in Google Cloud Storage $OUTPUT_PATH ..."
 gsutil ls -r $OUTPUT_PATH
-# Or tensorboard --logdir=$OUTPUT_PATH --port=8080
+   # Or tensorboard --logdir=$OUTPUT_PATH --port=8080
 
 # Deploy model to serve prediction requests from CMLE (Cloud Machine Learning Engine):
 # After "Job completed successfully" appears in the Cloud Shell command line.
 
-# Create a Cloud ML Engine model:
-MODEL_NAME=census
+export MODEL_NAME=census
+echo ">>> Create a Cloud ML Engine model $MODEL_NAME in $REGION ..."
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 
 # Select the exported model to use, by looking up the full path of your exported trained model binaries.
@@ -181,7 +181,7 @@ echo ">>> Capture TIMESTAMP from: $RESPONSE"
 exit
 # TODO: Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
 # Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
-MODEL_BINARIES="$OUTPUT_PATH/export/census/$TIMESTAMP/"
+export MODEL_BINARIES="$OUTPUT_PATH/export/census/$TIMESTAMP/"
 
 # Create a version of your model:
 gcloud ml-engine versions create v1 \
@@ -191,8 +191,9 @@ gcloud ml-engine versions create v1 \
 
 # It may take several minutes to deploy your trained model.
 
-# When done, get a list of your models:
+echo ">>> ml-engine models list:"
 gcloud ml-engine models list
+exit
 
 # Send a prediction request to your deployed model:
 gcloud ml-engine predict \
