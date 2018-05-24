@@ -128,7 +128,7 @@ echo ">>> BUCKET_NAME=$BUCKET_NAME"
    # BUCKET_NAME=qwiklabs-gcp-3e97ef84b39c2914-mlengine
 #REGION=us-central1
 # If the bucket name looks okay, create the bucket:
-gsutil mb -l $GCP_REGION gs://$BUCKET_NAME
+gsutil mb -l $REGION gs://$BUCKET_NAME
    # Creating gs://qwiklabs-gcp-3e97ef84b39c2914-mlengine/...
 
 # Upload the data files to your Cloud Storage bucket, and 
