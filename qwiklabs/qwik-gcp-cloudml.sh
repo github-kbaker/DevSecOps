@@ -29,7 +29,7 @@ RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    #- key: google-compute-default-region
    # value: us-central1
    #- key: ssh-keys
-echo "RESPONSE=$RESPONSE"
+#echo "RESPONSE=$RESPONSE"
 #TODO: Extract value: based on previous line key: "google-compute-default-region"
 #  cat "$RESPONSE" | sed -n -e '/Extract from:/,/<\/footer>/ p' | grep -A2 "key: google-compute-default-region" | sed 's/<\/\?[^>]\+>//g' | awk -F' ' '{ print $4 }'; rm -f $outputFile
 GCP_REGION="us-central1"
