@@ -40,10 +40,13 @@ echo "GCP_REGION=$GCP_REGION"
 #cloudshell_open --repo_url "https://github.com/googlecloudplatform/cloudml-samples" \
 #   --page "editor" --open_in_editor "census/estimator"
 #   # QUESTION: Why --open_in_editor "census/estimator" in a new browser tab?
+#To make idempotent, delete folder:
+rm -rf $HOME/cloudml-samples
 git clone https://github.com/googlecloudplatform/cloudml-samples
 cd cloudml-samples
 cd census/estimator
 echo "At $(pwd) after cloning. The model that we'll use is in this directory..."
+ls -al
 exit
 # TODO: Verify I'm in pwd = /home/google462324_student/cloudml-samples/census/estimator
 
