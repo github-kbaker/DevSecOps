@@ -77,8 +77,8 @@ sudo pip install tensorflow==1.4.1  # yeah, I know it's old
 MODEL_DIR=output  # folder name
 # Delete the contents of the output directory in case data remains from a previous training run:
 rm -rf $MODEL_DIR/*
-exit
 
+echo "gcloud ml-engine local train ..."
 gcloud ml-engine local train \
     --module-name trainer.task \
     --package-path trainer/ \
