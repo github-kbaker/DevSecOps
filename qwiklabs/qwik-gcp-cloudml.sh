@@ -201,6 +201,7 @@ echo Y | gcloud ml-engine models delete $MODEL_NAME
    # TODO: Check if model exists and skip creation instead of deleting? Wisdom?
 echo ">>> Create Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
+   # Created ml engine model [projects/qwiklabs-gcp-be0b040e11b87eca/models/census].
 
 # Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
 export MODEL_BINARIES="$OUTPUT_PATH/export/census/$TIMESTAMP/"
@@ -211,8 +212,7 @@ gcloud ml-engine versions create v1 \
 --model $MODEL_NAME \
 --origin $MODEL_BINARIES \
 --runtime-version 1.4
-   # Created ml engine model [projects/qwiklabs-gcp-be0b040e11b87eca/models/census].
-   # It takes several minutes to deploy your trained model.
+   # RESPONSE: Creating version (this might take a few minutes)....../
 
 echo ">>> ml-engine models list:"
 gcloud ml-engine models list
@@ -227,5 +227,7 @@ gcloud ml-engine predict \
 # The response includes the predicted labels of the example(s) in the request:
 # CLASS_IDS  CLASSES  LOGISTIC                LOGITS                PROBABILITIES
 # [0]        [u'0']   [0.029467318207025528]  [-3.494563341140747]  [0.9705326557159424, 0.02946731448173523]
+# CLASS_IDS  CLASSES  LOGISTIC               LOGITS                PROBABILITIES
+# [0]        [u'0']   [0.03032654896378517]  [-3.464935779571533]  [0.9696734547615051, 0.03032655268907547]
 
 # Congratulations.
