@@ -23,14 +23,17 @@ echo "GCP_PROJECT=$GCP_PROJECT"  # response: "qwiklabs-gcp-9cf8961c6b431994"
 
 RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    # Extract from:
+   #items:
    #- key: google-compute-default-zone
    # value: us-central1-a
    #- key: google-compute-default-region
    # value: us-central1
-   # 
+   #- key: ssh-keys
 echo "RESPONSE=$RESPONSE"
 #TODO: Extract value: based on previous line key: "google-compute-default-region"
 #  cat "$RESPONSE" | sed -n -e '/Extract from:/,/<\/footer>/ p' | grep -A2 "key: google-compute-default-region" | sed 's/<\/\?[^>]\+>//g' | awk -F' ' '{ print $4 }'; rm -f $outputFile
+GCP_REGION="us-central1"
+echo "GCP_REGION=$GCP_REGION"
 
 # NOTE: It's not necessary to look at the Python code to run this lab, but if you are interested, 
 # you can poke around the repo in the Cloud Shell editor.
