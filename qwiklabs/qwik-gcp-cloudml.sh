@@ -146,7 +146,6 @@ EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
 export JOB_NAME=census1
 export OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
 echo ">>> JOB_NAME=$JOB_NAME, OUTPUT_PATH=$OUTPUT_PATH"
-
 gcloud ml-engine jobs submit training $JOB_NAME \
 --job-dir $OUTPUT_PATH \
 --runtime-version 1.4 \
@@ -159,6 +158,13 @@ gcloud ml-engine jobs submit training $JOB_NAME \
 --train-steps 5000 \
 --verbosity DEBUG
 
+   # RESPONSE: Job [census1] submitted successfully.
+   # Your job is still active. You may view the status of your job with the command
+   #  $ gcloud ml-engine jobs describe census1
+   # or continue streaming the logs with the command
+   #  $ gcloud ml-engine jobs stream-logs census1
+   # jobId: census1
+   # state: QUEUED
    # (The output may contain some warning messages that you can ignore for the purposes of this lab).
 
 # Monitor the progress of training job by watching the logs on the command line via:
