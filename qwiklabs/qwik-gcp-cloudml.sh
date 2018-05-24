@@ -48,7 +48,7 @@ cd cloudml-samples
 cd census/estimator
 echo "At $(pwd) above "trainer" folder after cloning..."
 ls -al
-exit
+
 # TODO: Verify I'm in pwd = /home/google462324_student/cloudml-samples/census/estimator
 
 # Download from Cloud Storage into new data folder:
@@ -65,7 +65,7 @@ EVAL_DATA=$(pwd)/data/adult.test.csv
 
 # View data:
 head data/adult.data.csv
-
+exit
 # Install dependencies (Tensorflow):
 sudo pip install tensorflow==1.4.1  # yeah, I know it's old
    # PROTIP: This takes several minutes:
