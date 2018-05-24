@@ -43,7 +43,7 @@ echo "GCP_REGION=$GCP_REGION"
 git clone https://github.com/googlecloudplatform/cloudml-samples
 cd cloudml-samples
 cd census/estimator
-echo "At $(pwd) after cloning..."
+echo "At $(pwd) after cloning. The model that we'll use is in this directory..."
 exit
 # TODO: Verify I'm in pwd = /home/google462324_student/cloudml-samples/census/estimator
 
