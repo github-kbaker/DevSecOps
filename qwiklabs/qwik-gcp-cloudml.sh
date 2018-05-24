@@ -8,6 +8,9 @@
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/qwiklabs/qwik-gcp-cloudml.sh)"
 # This adds steps to grep values into variables for verifications
 
+uname -a
+   # RESPONSE: Linux cs-6000-devshell-vm-91a4d64c-2f9d-4102-8c22-ffbc6448e449 3.16.0-6-amd64 #1 SMP Debian 3.16.56-1+deb8u1 (2018-05-08) x86_64 GNU/Linux
+
 #gcloud auth list
    #           Credentialed Accounts
    # ACTIVE  ACCOUNT
@@ -92,20 +95,21 @@ gcloud ml-engine local train \
 
 # RESPONSE: INFO:tensorflow:SavedModel written to: output/export/census/temp-1527139269/saved_model.pb
 # RESPONSE: # RESPONSE: ERROR: sh: 103: cannot open timestamp: No such file
-exit
 
-# Launch the TensorBoard server to view jobs running:
-# tensorboard --logdir=output --port=8080    
+# Launch the TensorBoard server to view jobs running ... into background ...:
+# TODO: tensorboard --logdir=output --port=8080  &
+   # RESPONSE: TensorBoard 0.4.0 at http://cs-6000-devshell-vm-91a4d64c-2f9d-4102-8c22-ffbc6448e449:8080 (Press CTRL+C to quit)
+
 # Now manually Select "Preview on port 8080" from the Web Preview menu at the top of the Cloud Shell.
+# TODO ???: open 127.0.0.1:8080
 # Manually shut down TensorBoard at any time by typing ctrl+c on the command-line.
 
 #The output/export/census directory holds the model exported as a result of running training locally. List that directory to see the generated timestamp subdirectory:
-ls output/export/census/
-
-# TODO: Copy the timestamp that is generated. Then edit the following command to use that timestamp:
-
+TIMESTAMP=$(ls output/export/census/)
+   # RESPONSE: 1527139435 # linux epoch time stamp.
+echo "TIMESTAMP=$TIMESTAMP"
 gcloud ml-engine local predict \
-  --model-dir output/export/census/<timestamp> \
+  --model-dir output/export/census/$TIMESTAMP \
   --json-instances ../test.json
 
 # You should see a result that looks something like the following:
