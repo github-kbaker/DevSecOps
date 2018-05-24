@@ -195,7 +195,9 @@ gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 # Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
 RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export | grep 'description:' )"
    #- description: 'Deployment directory gs://qwiklabs-gcp-be0b040e11b87eca-mlengine/census1/export/census/1527175436/
+echo ">>> RESPONSE=$RESPONSE"  #debugging
 dir=${RESPONSE%/*}    # strip last slash
+echo ">>> dir=$dir"  #debugging
 TIMESTAMP=${dir##*/}  # remove everything before the last / remaining
 echo ">>> TIMESTAMP=$TIMESTAMP captured from gsutil ls -r $OUTPUT_PATH/export ..."
 
