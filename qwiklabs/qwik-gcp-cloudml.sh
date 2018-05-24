@@ -185,6 +185,7 @@ gsutil ls -r $OUTPUT_PATH
 export MODEL_NAME=census
 echo ">>> Delete Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
 gcloud ml-engine models delete $MODEL_NAME --regions=$REGION
+   # TODO: Check if model exists and skip creation instead of deleting? Wisdom?
 echo ">>> Create Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 
