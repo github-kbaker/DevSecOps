@@ -90,6 +90,10 @@ gcloud ml-engine local train \
     --eval-steps 100
 # The above trains a census model to predict income category given some information about a person.
 
+# RESPONSE: INFO:tensorflow:SavedModel written to: output/export/census/temp-1527139269/saved_model.pb
+# RESPONSE: # RESPONSE: ERROR: sh: 103: cannot open timestamp: No such file
+exit
+
 # Launch the TensorBoard server to view jobs running:
 # tensorboard --logdir=output --port=8080    
 # Now manually Select "Preview on port 8080" from the Web Preview menu at the top of the Cloud Shell.
