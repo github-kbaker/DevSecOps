@@ -183,7 +183,7 @@ gsutil ls -r $OUTPUT_PATH
 # Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
    # EXAMPLE: gs://qwiklabs-gcp-92c4fc643f9860be-mlengine/census1/export/census/1527178062/saved_model.pb
 # Select the exported model to use, by looking up the full path of your exported trained model binaries.
-RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export | grep 'description:' )"
+RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export | grep 'saved_model.pb' )"
    #- description: 'Deployment directory gs://qwiklabs-gcp-be0b040e11b87eca-mlengine/census1/export/census/1527175436/
 echo ">>> RESPONSE=$RESPONSE"  #debugging
 dir=${RESPONSE%/*}    # strip last slash
