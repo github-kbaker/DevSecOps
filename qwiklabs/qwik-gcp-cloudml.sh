@@ -8,7 +8,8 @@
 # and https://google-run.qwiklab.com/quests/32 (Machine Learning APIs)
 # Instead of typing, copy this command to run in the console within the cloud:
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/qwiklabs/qwik-gcp-cloudml.sh)"
-# This adds steps to grep values into variables for verifications
+# This adds steps to grep values into variables for verification,
+# so you can spend time learning rather than typing and fixing typos.
 
 uname -a
    # RESPONSE: Linux cs-6000-devshell-vm-91a4d64c-2f9d-4102-8c22-ffbc6448e449 3.16.0-6-amd64 #1 SMP Debian 3.16.56-1+deb8u1 (2018-05-08) x86_64 GNU/Linux
@@ -21,7 +22,7 @@ uname -a
    #    $ gcloud config set account `ACCOUNT`
 
 GCP_PROJECT=$(gcloud config list project | grep project | awk -F= '{print $2}' )
-   # awk -F= '{print $2}'  extracts 2nd word in:
+   # awk -F= '{print $2}'  extracts 2nd word in response:
    # project = qwiklabs-gcp-9cf8961c6b431994
    # Your active configuration is: [cloudshell-19147]
 PROJECT_ID=$(gcloud config list project --format "value(core.project)")
@@ -175,11 +176,12 @@ MODEL_NAME=census
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 
 # Select the exported model to use, by looking up the full path of your exported trained model binaries.
-gsutil ls -r $OUTPUT_PATH/export
+RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export)
+echo ">>> Capture TIMESTAMP from: $RESPONSE"
 exit
 # TODO: Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
 # Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
-MODEL_BINARIES=$OUTPUT_PATH/export/census/<timestamp>/
+MODEL_BINARIES="$OUTPUT_PATH/export/census/$TIMESTAMP/"
 
 # Create a version of your model:
 gcloud ml-engine versions create v1 \
