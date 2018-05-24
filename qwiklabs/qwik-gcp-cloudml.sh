@@ -63,9 +63,10 @@ gsutil -m cp gs://cloudml-public/census/data/* data/
 TRAIN_DATA=$(pwd)/data/adult.data.csv
 EVAL_DATA=$(pwd)/data/adult.test.csv
 
-# View data:
+# View data of 10 rows:
 head data/adult.data.csv
-exit
+   # 42, Private, 159449, Bachelors, 13, Married-civ-spouse, Exec-managerial, Husband, White, Male, 5178, 0, 40, United-States, >50K
+
 # Install dependencies (Tensorflow):
 sudo pip install tensorflow==1.4.1  # yeah, I know it's old
    # PROTIP: This takes several minutes:
@@ -76,6 +77,7 @@ sudo pip install tensorflow==1.4.1  # yeah, I know it's old
 MODEL_DIR=output  # folder name
 # Delete the contents of the output directory in case data remains from a previous training run:
 rm -rf $MODEL_DIR/*
+exit
 
 gcloud ml-engine local train \
     --module-name trainer.task \
