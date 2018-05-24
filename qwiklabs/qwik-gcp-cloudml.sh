@@ -4,6 +4,8 @@
 # by Wilson Mar, Wisdom Hambolu, and others.
 # This performs the commands in "Cloud ML Engine: Qwik Start" at
 #    https://google-run.qwiklab.com/focuses/725?parent=catalog
+# which is part of quest https://google-run.qwiklab.com/quests/34 (Baseline: Data, ML, AI)
+# and https://google-run.qwiklab.com/quests/32 (Machine Learning APIs)
 # Instead of typing, copy this command to run in the console within the cloud:
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/qwiklabs/qwik-gcp-cloudml.sh)"
 # This adds steps to grep values into variables for verifications
