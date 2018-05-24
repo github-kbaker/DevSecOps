@@ -46,7 +46,7 @@ rm -rf $HOME/cloudml-samples
 git clone https://github.com/googlecloudplatform/cloudml-samples
 cd cloudml-samples
 cd census/estimator
-echo "At $(pwd) after cloning. The model that we'll use is in this directory..."
+echo "At $(pwd) above "trainer" folder after cloning..."
 ls -al
 exit
 # TODO: Verify I'm in pwd = /home/google462324_student/cloudml-samples/census/estimator
