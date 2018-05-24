@@ -122,12 +122,23 @@ gcloud ml-engine local predict \
 PROJECT_ID=$(gcloud config list project --format "value(core.project)")
 BUCKET_NAME=${PROJECT_ID}-mlengine
 echo "BUCKET_NAME=$BUCKET_NAME"
+   # BUCKET_NAME=qwiklabs-gcp-3e97ef84b39c2914-mlengine
 #REGION=us-central1
 # If the bucket name looks okay, create the bucket:
 gsutil mb -l $GCP_REGION gs://$BUCKET_NAME
+   # Creating gs://qwiklabs-gcp-3e97ef84b39c2914-mlengine/...
 
 # Upload the data files to your Cloud Storage bucket, and 
 # set the TRAIN_DATA and EVAL_DATA variables to point to the files:
 gsutil cp -r data gs://$BUCKET_NAME/data
 TRAIN_DATA=gs://$BUCKET_NAME/data/adult.data.csv
 EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
+   # Copying file://data/adult.data.csv [Content-Type=text/csv]...
+   # Copying file://data/adult.test.csv [Content-Type=text/csv]...
+   # \ [2 files][  5.7 MiB/  5.7 MiB]
+   # Operation completed over 2 objects/5.7 MiB.
+
+# Run a single-instance trainer in the cloud
+JOB_NAME=census1
+OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
+echo $OUTPUT_PATH
