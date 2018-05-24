@@ -12,6 +12,7 @@
 # This adds steps to grep values into variables for verification,
 # so you can spend time learning rather than typing and fixing typos.
 # This script deletes folders left over from previous run so can be rerun.
+# SCRIPT STATUS: WORKING. Results obtained after running twice on May 24, 2018.
 
 uname -a
    # RESPONSE: Linux cs-6000-devshell-vm-91a4d64c-2f9d-4102-8c22-ffbc6448e449 3.16.0-6-amd64 #1 SMP Debian 3.16.56-1+deb8u1 (2018-05-08) x86_64 GNU/Linux
