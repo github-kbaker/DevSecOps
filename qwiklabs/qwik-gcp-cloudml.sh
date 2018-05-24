@@ -4,6 +4,7 @@
 # by Wilson Mar, Wisdom Hambolu, and others.
 # This performs the commands in "Cloud ML Engine: Qwik Start" at
 #    https://google-run.qwiklab.com/catalog_lab/676
+#    https://google-run.qwiklab.com/focuses/725?parent=catalog
 # which is part of quest https://google-run.qwiklab.com/quests/34 (Baseline: Data, ML, AI)
 # and https://google-run.qwiklab.com/quests/32 (Machine Learning APIs)
 # Instead of typing, copy this command to run in the console within the cloud:
@@ -184,7 +185,7 @@ gsutil ls -r $OUTPUT_PATH
 
 export MODEL_NAME=census
 echo ">>> Delete Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
-gcloud ml-engine models delete $MODEL_NAME --regions=$REGION
+gcloud ml-engine models delete $MODEL_NAME
    # TODO: Check if model exists and skip creation instead of deleting? Wisdom?
 echo ">>> Create Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
