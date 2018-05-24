@@ -37,10 +37,13 @@ echo "GCP_REGION=$GCP_REGION"
 
 # NOTE: It's not necessary to look at the Python code to run this lab, but if you are interested, 
 # you can poke around the repo in the Cloud Shell editor.
-cloudshell_open --repo_url "https://github.com/googlecloudplatform/cloudml-samples" \
-   --page "editor" --open_in_editor "census/estimator"
-   # QUESTION: Why --open_in_editor "census/estimator" in a new browser tab?
+#cloudshell_open --repo_url "https://github.com/googlecloudplatform/cloudml-samples" \
+#   --page "editor" --open_in_editor "census/estimator"
+#   # QUESTION: Why --open_in_editor "census/estimator" in a new browser tab?
+git clone https://github.com/googlecloudplatform/cloudml-samples
+cd cloudml-samples
 cd census/estimator
+echo "At $(pwd) after cloning..."
 exit
 # TODO: Verify I'm in pwd = /home/google462324_student/cloudml-samples/census/estimator
 
