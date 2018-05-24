@@ -41,6 +41,7 @@ echo "GCP_REGION=$GCP_REGION"
 #   --page "editor" --open_in_editor "census/estimator"
 #   # QUESTION: Why --open_in_editor "census/estimator" in a new browser tab?
 #To make idempotent, delete folder:
+cd  # position at $HOME folder.
 rm -rf $HOME/cloudml-samples
 git clone https://github.com/googlecloudplatform/cloudml-samples
 cd cloudml-samples
