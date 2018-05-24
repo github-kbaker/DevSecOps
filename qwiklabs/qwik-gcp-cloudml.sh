@@ -179,8 +179,8 @@ echo ">>> Inspect output in Google Cloud Storage OUTPUT_PATH=\"$OUTPUT_PATH\" ..
 gsutil ls -r $OUTPUT_PATH
    # Or tensorboard --logdir=$OUTPUT_PATH --port=8080
 
+# After "Job completed successfully" appears,
 # Deploy model to serve prediction requests from CMLE (Cloud Machine Learning Engine):
-# After "Job completed successfully" appears in the Cloud Shell command line.
 
 export MODEL_NAME=census
 echo ">>> Delete Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
@@ -190,8 +190,10 @@ echo ">>> Create Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 
 # Select the exported model to use, by looking up the full path of your exported trained model binaries.
-RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export)"
-echo ">>> Capture TIMESTAMP from: $RESPONSE"
+RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export | grep 'description:' )"
+   #- description: 'Deployment directory gs://qwiklabs-gcp-be0b040e11b87eca-mlengine/census1/export/census/1527175436/
+echo ">>> TIMESTAMP=$TIMESTAMP captured from gsutil ls -r $OUTPUT_PATH/export ..."
+echo ">>> $RESPONSE"  # debugging
 
 # TODO: Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
 # Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
