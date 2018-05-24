@@ -128,6 +128,9 @@ export BUCKET_NAME=${PROJECT_ID}-mlengine
 echo ">>> BUCKET_NAME=$BUCKET_NAME"
    # BUCKET_NAME=qwiklabs-gcp-3e97ef84b39c2914-mlengine
 #REGION=us-central1
+
+# Delete bucket to avoid "ServiceException: 409 Bucket qwiklabs-gcp-be0b040e11b87eca-mlengine already exists."
+
 # If the bucket name looks okay, create the bucket:
 gsutil mb -l $REGION gs://$BUCKET_NAME
    # Creating gs://qwiklabs-gcp-3e97ef84b39c2914-mlengine/...
@@ -144,7 +147,7 @@ EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
 
 # Run a single-instance trainer in the cloud:
 export JOB_NAME=census1
-export OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
+export OUTPUT_PATH="gs://$BUCKET_NAME/$JOB_NAME"
 echo ">>> JOB_NAME=$JOB_NAME, OUTPUT_PATH=$OUTPUT_PATH"
 gcloud ml-engine jobs submit training $JOB_NAME \
 --job-dir $OUTPUT_PATH \
@@ -165,13 +168,14 @@ gcloud ml-engine jobs submit training $JOB_NAME \
    #  $ gcloud ml-engine jobs stream-logs census1
    # jobId: census1
    # state: QUEUED
-   # (The output may contain some warning messages that you can ignore for the purposes of this lab).
+   # ... (output may contain some warning messages that you can ignore for the purposes of this lab).
+   # Job completed successfully.
 
 # Monitor the progress of training job by watching the logs on the command line via:
 gcloud ml-engine jobs stream-logs $JOB_NAME
    # also monitor jobs in the Console. In the left menu, in the Big Data section, navigate to ML Engine > Jobs.
 
-echo ">>> Inspect output in Google Cloud Storage $OUTPUT_PATH ..."
+echo ">>> Inspect output in Google Cloud Storage OUTPUT_PATH=\"$OUTPUT_PATH\" ..."
 gsutil ls -r $OUTPUT_PATH
    # Or tensorboard --logdir=$OUTPUT_PATH --port=8080
 
@@ -179,28 +183,35 @@ gsutil ls -r $OUTPUT_PATH
 # After "Job completed successfully" appears in the Cloud Shell command line.
 
 export MODEL_NAME=census
-echo ">>> Create a Cloud ML Engine model $MODEL_NAME in $REGION ..."
+echo ">>> Delete Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
+gcloud ml-engine models delete $MODEL_NAME --regions=$REGION
+echo ">>> Create Cloud ML Engine MODEL_NAME=\"$MODEL_NAME\" in $REGION ..."
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 
 # Select the exported model to use, by looking up the full path of your exported trained model binaries.
-RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export)
+RESPONSE="$(gsutil ls -r $OUTPUT_PATH/export)"
 echo ">>> Capture TIMESTAMP from: $RESPONSE"
-exit
+
 # TODO: Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. 
 # Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
 export MODEL_BINARIES="$OUTPUT_PATH/export/census/$TIMESTAMP/"
+echo ">>> MODEL_BINARIES=$MODEL_BINARIES"
 
 # Create a version of your model:
 gcloud ml-engine versions create v1 \
 --model $MODEL_NAME \
 --origin $MODEL_BINARIES \
 --runtime-version 1.4
+   # Created ml engine model [projects/qwiklabs-gcp-be0b040e11b87eca/models/census].
+   # It takes several minutes to deploy your trained model.
 
-# It may take several minutes to deploy your trained model.
+# CAUTION: -s turned off because of error:
+   # sh: 180: Syntax error: redirection unexpected
 
 echo ">>> ml-engine models list:"
 gcloud ml-engine models list
-exit
+   # NAME    DEFAULT_VERSION_NAME
+   # census
 
 # Send a prediction request to your deployed model:
 gcloud ml-engine predict \
