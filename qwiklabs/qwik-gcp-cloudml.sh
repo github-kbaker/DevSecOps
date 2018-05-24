@@ -22,8 +22,8 @@ GCP_PROJECT=$(gcloud config list project | grep project | awk -F= '{print $2}' )
    # awk -F= '{print $2}'  extracts 2nd word in:
    # project = qwiklabs-gcp-9cf8961c6b431994
    # Your active configuration is: [cloudshell-19147]
-echo "GCP_PROJECT=$GCP_PROJECT"  # response: "qwiklabs-gcp-9cf8961c6b431994"
-
+PROJECT_ID=$(gcloud config list project --format "value(core.project)")
+echo "GCP_PROJECT=$GCP_PROJECT, PROJECT_ID=$PROJECT_ID"  # response: "qwiklabs-gcp-9cf8961c6b431994"
 RESPONSE=$(gcloud compute project-info describe --project $GCP_PROJECT)
    # Extract from:
    #items:
@@ -111,9 +111,23 @@ echo "TIMESTAMP=$TIMESTAMP"
 gcloud ml-engine local predict \
   --model-dir output/export/census/$TIMESTAMP \
   --json-instances ../test.json
-
-# You should see a result that looks something like the following:
+# RESPONSE: You should see a result that looks something like the following:
 # CLASS_IDS  CLASSES  LOGISTIC                LOGITS                PROBABILITIES
 # [0]        [u'0']   [0.06775551289319992]  [-2.6216893196105957]  [0.9322444796562195, 0.06775551289319992]
 # Where class 0 means income \<= 50k and class 1 means income >50k.
 
+# Set up a Google Cloud Storage bucket:
+# The Cloud ML Engine services need to access Google Cloud Storage (GCS) to read and write data during model training and batch prediction.
+# Set some variables:
+PROJECT_ID=$(gcloud config list project --format "value(core.project)")
+BUCKET_NAME=${PROJECT_ID}-mlengine
+echo "BUCKET_NAME=$BUCKET_NAME"
+#REGION=us-central1
+# If the bucket name looks okay, create the bucket:
+gsutil mb -l $GCP_REGION gs://$BUCKET_NAME
+
+# Upload the data files to your Cloud Storage bucket, and 
+# set the TRAIN_DATA and EVAL_DATA variables to point to the files:
+gsutil cp -r data gs://$BUCKET_NAME/data
+TRAIN_DATA=gs://$BUCKET_NAME/data/adult.data.csv
+EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
