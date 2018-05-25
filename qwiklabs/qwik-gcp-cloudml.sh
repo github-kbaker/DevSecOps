@@ -2,8 +2,8 @@
 
 # qwik-gcp-cloudml.sh in https://github.com/wilsonmar/DevSecOps/tree/master/qwiklabs
 # by Wilson Mar, Wisdom Hambolu, and others.
-# This performs the commands in "Cloud ML Engine: Qwik Start" at
-#    https://google-run.qwiklab.com/catalog_lab/676
+# This performs the commands in "Cloud ML Engine: Qwik Start" (GSP076) at
+#    https://google-run.qwiklab.com/catalog_lab/676 
 #    https://google-run.qwiklab.com/focuses/725?parent=catalog
 # which is part of quest https://google-run.qwiklab.com/quests/34 (Baseline: Data, ML, AI)
 # and https://google-run.qwiklab.com/quests/32 (Machine Learning APIs)
