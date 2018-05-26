@@ -53,7 +53,7 @@ echo ">>> REGION=$REGION"
 #To make idempotent, delete folder:
 cd  # position at $HOME folder.
 rm -rf $HOME/cloudml-samples
-git clone https://github.com/googlecloudplatform/cloudml-samples
+git clone https://github.com/googlecloudplatform/cloudml-samples --depth=1
 cd cloudml-samples
 cd census/estimator
 echo ">>> At $(pwd) above "trainer" folder after cloning..."
