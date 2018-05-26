@@ -1,18 +1,19 @@
 #!/bin/bash -e
 
-# qwik-gcp-cloudml.sh in https://github.com/wilsonmar/DevSecOps/tree/master/qwiklabs
-# by Wilson Mar, Wisdom Hambolu, and others.
-# This performs the commands in "Cloud ML Engine: Qwik Start" (GSP076) at
+# SCRIPT STATUS: WORKING. Results obtained after running twice on May 24, 2018.
+# This performs the commands described in the "Cloud ML Engine: Qwik Start" (GSP076) hands-on lab at
 #    https://google-run.qwiklab.com/catalog_lab/676 
 #    https://google-run.qwiklab.com/focuses/725?parent=catalog
 # which is part of quest https://google-run.qwiklab.com/quests/34 (Baseline: Data, ML, AI)
 # and https://google-run.qwiklab.com/quests/32 (Machine Learning APIs)
+
 # Instead of typing, copy this command to run in the console within the cloud:
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/qwiklabs/qwik-gcp-cloudml.sh)"
-# This adds steps to grep values into variables for verification,
-# so you can spend time learning rather than typing and fixing typos.
-# This script deletes folders left over from previous run so can be rerun.
-# SCRIPT STATUS: WORKING. Results obtained after running twice on May 24, 2018.
+# sh -c "$(curl -fsSL https://raw.githubusercontent.com/wilsonmar/DevSecOps/master/qwiklabs/gcp-cloudml-GSP076.sh)"
+
+# The script, by Wilson Mar, Wisdom Hambolu, and others,
+# adds steps to grep values into variables for variation and verification,
+# so you can spend time learning and experimenting rather than typing and fixing typos.
+# This script deletes folders left over from previous run so can be rerun (within the same session).
 
 uname -a
    # RESPONSE: Linux cs-6000-devshell-vm-91a4d64c-2f9d-4102-8c22-ffbc6448e449 3.16.0-6-amd64 #1 SMP Debian 3.16.56-1+deb8u1 (2018-05-08) x86_64 GNU/Linux
