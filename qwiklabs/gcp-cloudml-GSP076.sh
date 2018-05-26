@@ -211,9 +211,9 @@ echo ">>> MODEL_BINARIES=$MODEL_BINARIES"
 
 # Create a version of your model:
 gcloud ml-engine versions create v1 \
---model $MODEL_NAME \
---origin $MODEL_BINARIES \
---runtime-version 1.4
+   --model $MODEL_NAME \
+   --origin $MODEL_BINARIES \
+   --runtime-version 1.4
    # RESPONSE: Creating version (this might take a few minutes)....../
 
 echo ">>> ml-engine models list:"
@@ -223,9 +223,9 @@ gcloud ml-engine models list
 
 # Send a prediction request to your deployed model:
 gcloud ml-engine predict \
---model $MODEL_NAME \
---version v1 \
---json-instances ../test.json
+   --model $MODEL_NAME \
+   --version v1 \
+   --json-instances ../test.json
 # The response includes the predicted labels of the example(s) in the request:
 # CLASS_IDS  CLASSES  LOGISTIC                LOGITS                PROBABILITIES
 # [0]        [u'0']   [0.029467318207025528]  [-3.494563341140747]  [0.9705326557159424, 0.02946731448173523]
