@@ -97,6 +97,9 @@ ls -l /dev/disk/by-id/
 sed -i "/dev/disk/by-id/scsi-0Google_PersistentDisk_persistent-disk-1 /mnt/mydisk ext4 defaults 1 1"
    # in file /etc/fstab
 
+# Alternately, It's usually better to use the UUID in the /etc/fstab rather than /dev/anything .. 
+# and you can just append it in the /etc/fstab rather than using a sed.
+
 # For fast local SSDs on Linux images that supports NVMe,
 # see https://cloud.google.com/compute/docs/disks/local-ssd#create_a_local_ssd
 
