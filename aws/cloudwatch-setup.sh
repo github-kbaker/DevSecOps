@@ -1,4 +1,4 @@
-# Th
+# From https://linuxacademy.com/cp/modules/view/id/163
 
 ######## Install CloudWatch Agent ############
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip
