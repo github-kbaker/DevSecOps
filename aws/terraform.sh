@@ -1,11 +1,13 @@
 #!/usr/bin/python
-# https://linuxacademy.com/cp/livelabs/view/id/488
+# Follow https://linuxacademy.com/cp/livelabs/view/id/488
+
+# After login as user/123456, provide new password.
 
 python --version
    # Python 2.7.12
 sudo apt-get update
-echo Y | sudo apt-get install git
-git clone https://github.com/linuxacademy/terransible
+echo y | sudo apt-get install git
+git clone https://github.com/linuxacademy/terransible --depth=1
 cd terransible
 cd lab_scripts
 
