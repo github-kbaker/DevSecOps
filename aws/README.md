@@ -23,6 +23,11 @@ Zero (0) is the normal return code. So check for non-zero.
 
 2 AWS returns if it cannot parse the previous command due to missing required subcommands or arguments or unknown commands or arguments.
 
+## Commands
+
+https://github.com/swoodford/aws
+
+
 ## References
 
 * <a target="_blank" href="https://docs.aws.amazon.com/cli/latest/index.html">AWS CLI Command Reference</a> which has at the bottom of the list <a target="_blank" href="https://docs.aws.amazon.com/cli/latest/topic/index.html">Topic Guide</a> 
