@@ -13,6 +13,8 @@ comments: true
 ---
 <i>{{ page.excerpt }}</i>
 
+This repo was moved to https://github.com/wilsonmar/mac-setup
+
 This article explains the script that builds a Mac machine with "everything" needed by a professional developer.
 
 Technical techniques for the Bash shell scripting techniques used here are described separtely at [Bash scripting page in this website](/bash-coding/).
