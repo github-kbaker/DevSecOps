@@ -13,7 +13,7 @@ comments: true
 ---
 <i>{{ page.excerpt }}</i>
 
-This repo was moved to https://github.com/wilsonmar/mac-setup
+This repo was moved to https://github.com/wilsonmar/mac-install-all
 
 This article explains the script that builds a Mac machine with "everything" needed by a professional developer.
 
