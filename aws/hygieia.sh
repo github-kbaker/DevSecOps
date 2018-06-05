@@ -9,6 +9,7 @@
             # https://capitalone.github.io/Hygieia/troubleshoot.html
             # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
             
+# This is the java install reference link https://www.linode.com/docs/development/java/install-java-on-centos/
 echo "yum install java-1.8.0-openjdk"  
 sudo yum install java-1.7.0-openjdk-devel
 java -version
