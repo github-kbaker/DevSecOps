@@ -9,6 +9,7 @@
             # https://capitalone.github.io/Hygieia/troubleshoot.html
             # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
             
-echo "yum install java-1.8.0-openjdk"    
+echo "yum install java-1.8.0-openjdk"  
+sudo yum install java-1.7.0-openjdk-devel
 java -version
 export PATH=/usr/local/testing/jdk1.6.0_23/bin:$PATH
