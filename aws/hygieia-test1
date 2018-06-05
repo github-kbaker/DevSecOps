@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#sh -c "$(curl -fsSL git clone https://github.com/capitalone/Hygieia.git)"
+sh -c "$(git clone https://github.com/capitalone/Hygieia.git)"
+
