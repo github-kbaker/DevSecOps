@@ -9,4 +9,5 @@
             # https://capitalone.github.io/Hygieia/troubleshoot.html
             # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
             
-yum install java-1.8.0-openjdk            
+echo "yum install java-1.8.0-openjdk"    
+java -version
