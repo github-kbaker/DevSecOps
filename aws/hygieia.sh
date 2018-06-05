@@ -11,3 +11,4 @@
             
 echo "yum install java-1.8.0-openjdk"    
 java -version
+export PATH=/usr/local/testing/jdk1.6.0_23/bin:$PATH
