@@ -23,3 +23,5 @@ mv apache-maven-3.3.9/ /usr/local/maven/
 alternatives --install /usr/bin/mvn mvn /usr/local/maven/apache-maven-3.3.9/bin/mvn 1
 alternatives --config mvn
 
+# Run Maven Build In the command line/terminal, run the following command from the \Hygieia directory
+mvn clean install package
