@@ -1,11 +1,13 @@
 #!/bin/bash -e
 
-# This script installs within EC2 instance Hygieia server, then configures it.
+# This script installs Hygieia server within EC2 instance, then configures it.
 # sh -c "$(curl -fsSL https://github.com/github-kbaker/DevSecOps/blob/master/aws/hygieia.sh)"
 # Following https://capitalone.github.io/Hygieia/setup.html
 
+# This routine will clone Hygieia to local EC2 instance
 # git clone https://github.com/capitalone/Hygieia.git
 
+# As a reference to capitalone.github, the script uses the GitHub Collector for a Private Repo
 # https://capitalone.github.io/Hygieia/troubleshoot.html
 # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
             
@@ -23,5 +25,5 @@ mv apache-maven-3.3.9/ /usr/local/maven/
 alternatives --install /usr/bin/mvn mvn /usr/local/maven/apache-maven-3.3.9/bin/mvn 1
 alternatives --config mvn
 
-# Run Maven Build In the command line/terminal, run the following command from the \Hygieia directory
+# This routine will run Maven Build In the command line/terminal, run the following command from the \Hygieia directory
 mvn clean install package
