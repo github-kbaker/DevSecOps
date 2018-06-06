@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
 # This script installs Hygieia server within EC2 instance, then configures it.
+
+# Instead of typing, copy this command to run in the console within the cloud:
 # sh -c "$(curl -fsSL https://github.com/github-kbaker/DevSecOps/blob/master/aws/hygieia.sh)"
 # Following https://capitalone.github.io/Hygieia/setup.html
 
