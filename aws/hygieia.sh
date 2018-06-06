@@ -11,7 +11,13 @@
 # Referencing capitalone.github, this routine uses GitHub Collector for a Private Repo
 # https://capitalone.github.io/Hygieia/troubleshoot.html
 # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
-            
+
+# This routine adds the mongodb.repo
+vim /etc/yum.repos.d/mongodb.repo
+
+# This routine will install mongodb
+yum install mongo
+
 # This routine performs java install reference link https://www.linode.com/docs/development/java/install-java-on-centos/
 echo "yum install java-1.8.0-openjdk"  
 sudo yum install java-1.7.0-openjdk-devel
