@@ -13,11 +13,27 @@
 # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
 
 # Install pre-requisites as follows via root user
-# Apache Maven (v3.1.2 above)
-# NodeJs (NVM-node version Manger)
+# Install Apache Maven (v3.1.2 above) update .bash_profile
+# Advanced installation reference https://www.vultr.com/docs/how-to-install-apache-maven-3-5-on-centos-7
+wget  http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1.bin.tar.gz
+tar -xvf apache-maven-3.2.1-bin.tar.gz
+export M2_HOME=/usr/local/apache-maven/apache-maven-3.2.1
+export M2=$M2_HOME/bin
+export PATH=$M2:$PATH
+mvn -version
+
+# Install NodeJs (NVM-node version Manger)
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+sudo yum -y install nodejs
+
 # NPM (Node package manager)
+
 # GULP Install
+npm install gulp
+
 # Bower Install
+npm install bower
+
 # Java Install (v.1.8 above)
 
 # This routine adds the mongodb.repo
