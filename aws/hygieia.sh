@@ -34,7 +34,7 @@ sudo yum install gcc-c++ make
 node -v
 npm -v
 
-# Replace deprecated packages (i.e. gulp with gulp-webpack, etc) and rerun 'mvn clean..'
+# Replace recompile deprecated maven packages (i.e. gulp with gulp-webpack, etc) and rerun 'mvn clean..'
 npm i gulp-webpack
 npm i pug
 npm i minimatch
