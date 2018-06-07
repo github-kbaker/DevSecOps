@@ -12,6 +12,14 @@
 # https://capitalone.github.io/Hygieia/troubleshoot.html
 # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
 
+# Install pre-requisites as follows via root user
+# Apache Maven (v3.1.2 above)
+# NodeJs (NVM-node version Manger)
+# NPM (Node package manager)
+# GULP Install
+# Bower Install
+# Java Install (v.1.8 above)
+
 # This routine adds the mongodb.repo
 vim /etc/yum.repos.d/mongodb.repo
 
