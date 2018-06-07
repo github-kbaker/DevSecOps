@@ -14,6 +14,10 @@ export JAVA_HOME=/opt/java/jdk1.8.0_45/
 export JRE_HOME=/opt/java/jdk1.8.0._45/jre
 export PATH=$PATH:/opt/java/jdk1.8.0_45/bin:/opt/java/jdk1.8.0_45/jre/bin
 
+# Attach MAVEN to S3 bucket by S3 > 'create public' > download via wget > and install
+
+
+OLD PATH (redeveloping)
 # Referencing https://capitalone.github.io/Hygieia/setup.html, this routine will clone Hygieia to local EC2 instance
 # git clone https://github.com/capitalone/Hygieia.git
 
