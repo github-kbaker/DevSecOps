@@ -5,8 +5,11 @@
 # Instead of typing at EC2 instance cli, copy this command to run in the console within the cloud:
 # sh -c "$(curl -fsSL https://github.com/github-kbaker/DevSecOps/blob/master/aws/hygieia.sh)"
 
+yum install git -y
+
 # Referencing https://capitalone.github.io/Hygieia/setup.html, this routine will clone Hygieia to local EC2 instance
 # git clone https://github.com/capitalone/Hygieia.git
+
 
 # Referencing capitalone.github, this routine uses GitHub Collector for a Private Repo
 # https://capitalone.github.io/Hygieia/troubleshoot.html
