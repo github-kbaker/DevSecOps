@@ -7,6 +7,9 @@
 
 yum install git -y
 
+# Attach to S3 bucket by S3 > 'create public'
+wget https://s3.us-east-2.amazonaws.com/s3.console.aws.amazon-clsx/jdk-8u45-linux-x64.tar.gz
+
 # Referencing https://capitalone.github.io/Hygieia/setup.html, this routine will clone Hygieia to local EC2 instance
 # git clone https://github.com/capitalone/Hygieia.git
 
