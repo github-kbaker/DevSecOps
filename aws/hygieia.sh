@@ -12,6 +12,8 @@
 # https://capitalone.github.io/Hygieia/troubleshoot.html
 # https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
 
+# Java Install (v.1.8 above)
+
 # Install pre-requisites as follows via root user
 # Install Apache Maven (v3.1.2 above) update .bash_profile
 # Advanced installation reference https://www.vultr.com/docs/how-to-install-apache-maven-3-5-on-centos-7
@@ -33,8 +35,6 @@ npm install gulp
 
 # Bower Install
 npm install bower
-
-# Java Install (v.1.8 above)
 
 # This routine adds the mongodb.repo
 vim /etc/yum.repos.d/mongodb.repo
