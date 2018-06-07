@@ -35,5 +35,5 @@ alternatives --config mvn
 # This routine will run Maven Build In the command line/terminal, run the following command from the \Hygieia directory
 mvn clean install package
 
-# This routine start up API.JAR via java
+# This routine start up API.JAR via java ( curl http://localhost:8080 for testing connection )
 /home/jbaker/Hygieia/api/target]# java -jar api.jar --spring.config.name=api --spring.config.name=dashboard.properties --spring.config.location=/opt/git/Hygieia/api/dashboard.properties
