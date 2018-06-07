@@ -15,7 +15,13 @@ export JRE_HOME=/opt/java/jdk1.8.0._45/jre
 export PATH=$PATH:/opt/java/jdk1.8.0_45/bin:/opt/java/jdk1.8.0_45/jre/bin
 
 # Attach MAVEN to S3 bucket by S3 > 'create public' > download via wget > and install
-
+tar -zxvf apache-maven-3.3.9-bin.tar.gz
+gunzip apache-maven-3.3.9-bin.tar.gz
+mv ~/apache-maven-3.3.9 /opt
+sudo chown -R root:root /opt/apache-maven-3.3.9
+sudo ln -s /opt/apache-maven-3.3.9 /opt/apache-maven
+echo 'export PATH=$PATH:/opt/apache-maven/bin' | sudo tee -a /etc/profile
+source /etc/profile
 
 OLD PATH (redeveloping)
 # Referencing https://capitalone.github.io/Hygieia/setup.html, this routine will clone Hygieia to local EC2 instance
