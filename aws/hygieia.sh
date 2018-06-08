@@ -72,6 +72,7 @@ npm i graceful-fs
 # GOTO hygieia directory, run git clone and then 'mvn clean install package'
 cd /opt/
 git clone https://github.com/capitalone/hygieia
+cd /opt/hygieia
 mvn clean install package   # re-runnable and very useful in troubleshooting
 
 # Download and install mongo db from the below url based on the OS flavour you used.
