@@ -44,6 +44,17 @@ npm i gulp-util
 npm i gulp-header
 npm i connect
 
+# After reboot, recompiling deprecated maven packages below, I was able to successfully build maven
+# for i in `cat /tmp/npm-i.txt`;do npm i $i;sleep 1;done
+# [root@ip-172-31-45-126 api]# cat /tmp/npm-i.txt
+npm i connect
+npm i minimatch
+npm i minimatch
+npm i minimatch
+npm i tough-cookie
+npm i minimatch
+npm i graceful-fs
+
 # Troubleshooting 'mvn clean install package' I have noticed frequently the below errors:
 #   “com.capitalona.dashboard:UI  Failure” 
 # -        Bower install (keyword in the error message)
@@ -59,15 +70,12 @@ cd /opt/hygieia
 git clone https://github.com/capitalone/hygieia
 mvn clean install package   # re-runnable and very useful in troubleshooting
 
-
-
-
-
 # Download and install mongo db from the below url based on the OS flavour you used.
 https://www.mongodb.com/download-center#previous
 
 # Create a mongodb-org-3.4.repo file  under /etc/yum.repos.d/  and copy/paste the below lines in the 
 # file(mongodb-org-3.4.repo). It is latest Database
+vi /etc/yum.repos.d/mongodb-org-3.4.repo
 [mongodb-org-3.4]
 name=MongoDB Repository
 baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.4/x86_64/
@@ -76,7 +84,11 @@ enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
 
 # Install mongodb
-yum install mongodb-org
+sudo yum install -y mongodb-org
+
+# Configure SELINUX for /etc/selinux/config
+semanage port -a -t mongod_port_t -p tcp 27017
+SELINUX=disabled
 
 # Validate mongodb status
 service mongodb status/start/restart/stop
