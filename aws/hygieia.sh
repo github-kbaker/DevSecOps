@@ -70,7 +70,7 @@ npm i graceful-fs
 # Resolutions: re-install 'Bower and NPM' in ../UI/ directory the rerun ' mvn clean install package'
 
 # GOTO hygieia directory, run git clone and then 'mvn clean install package'
-cd /opt/hygieia
+cd /opt/
 git clone https://github.com/capitalone/hygieia
 mvn clean install package   # re-runnable and very useful in troubleshooting
 
