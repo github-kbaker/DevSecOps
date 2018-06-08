@@ -1,9 +1,12 @@
 #!/bin/bash -e
 
 # This script installs Hygieia server within EC2 instance, then configures it.
-
 # Instead of typing at EC2 instance cli, copy this command to run in the console within the cloud:
 # sh -c "$(curl -fsSL https://github.com/github-kbaker/DevSecOps/blob/master/aws/hygieia.sh)"
+
+# Install Git - Install Git for your platform. For installation steps, see the Git documentation.
+# Install Java - Version 1.8 is recommended
+# Install Maven - Version 3.3.9 and above are recommended
 
 yum install git -y
 
