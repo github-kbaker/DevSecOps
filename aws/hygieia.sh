@@ -90,15 +90,54 @@ sudo yum install -y mongodb-org
 semanage port -a -t mongod_port_t -p tcp 27017
 SELINUX=disabled
 
+# start the mongod process by issuing the following command and ensure that MongoDB will start following a system reboot
+sudo service mongod start
+sudo chkconfig mongod on
+
 # Validate mongodb status
-service mongodb status/start/restart/stop
+sudo service mongod status
 
+# Validate DB Configuration and log files are in the below section:
+ls /var/lib/mongo
+ls /var/log/mogodb
+ls /usr/bin/        # mongo DB commands exist here which are useful for Hygieia.
 
+# Start a mongo shell on the same host machine as the mongod
+mongo --host 127.0.0.1:27017
 
+cd /usr/bin/
+mongo
+> use dashboarddb
+> db.createUser(
+                 {
+                   user: "dashboarduser",
+                   pwd: "dbpassword",
+                   roles: [
+                      {role: "readWrite", db: "dashboard"}
+                           ]
+                   })
+> show users                   
 
+# Generate dashboard.properties file
 
+# Run api.jar in Hygieia
+java -jar api.jar --spring.config.location=/opt/hygieia/api/dashboard.properties -Djasypt.encryptor.password=hygieiasecret
 
+# Some additional required modules installs required gulp-angular-templatecache, gulp-change
+ npm install --save gulp-angular-templatecache
+ 
+# Audit for build errors that continue to occur 
+npm audit fix --force
 
+# tried removing and reinstalling
+rm -rf node_modules
+rm -rf bower_components
+npm install
+bower install bower.json --allow-root
+
+# Run UI in Hygieia:  Command: cd <Hygieia_folder/UI>
+gulp serve &
+                      
 
 
 OLD PATH (redeveloping)
