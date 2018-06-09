@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+# Part I
 # This script installs Hygieia server within EC2 instance, then configures it.
 # Instead of typing at EC2 instance cli, copy this command to run in the console within the cloud:
 # sh -c "$(curl -fsSL https://github.com/github-kbaker/DevSecOps/blob/master/aws/hygieia.sh)"
@@ -73,8 +74,9 @@ npm i graceful-fs
 cd /opt/
 git clone https://github.com/capitalone/hygieia
 cd /opt/hygieia
-mvn clean install package   # re-runnable and very useful in troubleshooting
+mvn clean install package   # end of P1  re-runnable and very useful in troubleshooting
 
+# Part II 
 # Download and install mongo db from the below url based on the OS flavour you used.
 https://www.mongodb.com/download-center#previous
 
