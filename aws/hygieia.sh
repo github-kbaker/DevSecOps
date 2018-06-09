@@ -11,7 +11,7 @@
 
 yum install git -y
 
-# Attach to S3 bucket by S3 > 'create public' and install java
+# Attach JAVA to S3 bucket > 'create public' and install java
 wget https://s3.us-east-2.amazonaws.com/s3.console.aws.amazon-clsx/jdk-8u45-linux-x64.tar.gz
 cd /opt/java
 tar -zxvf jdk-8u45-linux-x64.tar.gz
