@@ -124,84 +124,52 @@ mongo
 > show users                   
 
 # Generate dashboard.properties file
-
 # Run api.jar in Hygieia
 java -jar api.jar --spring.config.location=/opt/hygieia/api/dashboard.properties -Djasypt.encryptor.password=hygieiasecret
 
 # Some additional required modules installs required gulp-angular-templatecache, gulp-change
  npm install --save gulp-angular-templatecache
  
-# Audit for build errors that continue to occur 
+# Audit for build errors that continue to occur -- this never worked for me
 npm audit fix --force
 
-# tried removing and reinstalling
+# ORDER is important.  Attempt removing and reinstalling --works
 rm -rf node_modules
 rm -rf bower_components
-npm install
 bower install bower.json --allow-root
+npm install –global install
 
-# Run UI in Hygieia:  Command: cd <Hygieia_folder/UI>
+# Run UI in Hygieia:  Command: cd <Hygieia_folder/UI>  --works
 gulp serve &
-                      
-
-
-OLD PATH (redeveloping)
-# Referencing https://capitalone.github.io/Hygieia/setup.html, this routine will clone Hygieia to local EC2 instance
-# git clone https://github.com/capitalone/Hygieia.git
-
-
-# Referencing capitalone.github, this routine uses GitHub Collector for a Private Repo
-# https://capitalone.github.io/Hygieia/troubleshoot.html
-# https://github.com/bbyars/hygieia/issues/167#issuecomment-385420564
-
-# Java Install (v.1.8 above)
-
-# Install pre-requisites as follows via root user
-# Install Apache Maven (v3.1.2 above) update .bash_profile
-# Advanced installation reference https://www.vultr.com/docs/how-to-install-apache-maven-3-5-on-centos-7
-wget  http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1.bin.tar.gz
-tar -xvf apache-maven-3.2.1-bin.tar.gz
-export M2_HOME=/usr/local/apache-maven/apache-maven-3.2.1
-export M2=$M2_HOME/bin
-export PATH=$M2:$PATH
-mvn -version
-
-# Install NodeJs (NVM-node version Manger)
-curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
-sudo yum -y install nodejs
-
-# NPM (Node package manager)
-# Run `npm i npm@latest -g` to upgrade your npm version
  
-
-# GULP Install
-npm install gulp
-
-# Bower Install
-npm install bower
-
-# This routine adds the mongodb.repo
-vim /etc/yum.repos.d/mongodb.repo
-
-# This routine will install mongodb
-yum install mongo
-
-# This routine performs java install reference link https://www.linode.com/docs/development/java/install-java-on-centos/
-echo "yum install java-1.8.0-openjdk"  
-sudo yum install java-1.7.0-openjdk-devel
-java -version
-export PATH=/usr/local/testing/jdk1.6.0_23/bin:$PATH
-
-# This routine downloading and installing apache maven for centos
-wget http://www.eu.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
-tar xzf apache-maven-3.3.9-bin.tar.gz
-mkdir /usr/local/maven
-mv apache-maven-3.3.9/ /usr/local/maven/
-alternatives --install /usr/bin/mvn mvn /usr/local/maven/apache-maven-3.3.9/bin/mvn 1
-alternatives --config mvn
-
-# This routine will run Maven Build In the command line/terminal, run the following command from the \Hygieia directory
-mvn clean install package
-
-# This routine start up API.JAR via java ( curl http://localhost:8080 for testing connection )
-/home/jbaker/Hygieia/api/target]# java -jar api.jar --spring.config.name=api --spring.config.name=dashboard.properties --spring.config.location=/opt/git/Hygieia/api/dashboard.properties
+# Successfull gulp messages follow 
+#	[23:29:56] Starting 'build'...
+#	[23:29:56] Starting 'clean'...
+#	[23:29:56] Finished 'clean' after 13 ms
+#	[23:29:56] Starting 'assets'...
+#	[23:29:56] Starting 'themes'...
+#	[23:29:56] Starting 'fonts'...
+#	[23:29:56] Starting 'js'...
+#	[23:29:56] Starting 'views'...
+#	[23:29:56] Starting 'test-data'...
+#	[23:30:07] Finished 'assets' after 11 s
+#	[23:30:07] Finished 'themes' after 11 s
+#	[23:30:07] Finished 'test-data' after 11 s
+#	[23:30:07] Finished 'views' after 11 s
+#	[23:30:07] Finished 'js' after 11 s
+#	[23:30:08] Finished 'fonts' after 12 s
+#	[23:30:08] Starting 'html'...
+#	[23:30:08] gulp-inject 1 files into index.html.
+#	[23:30:08] gulp-inject 155 files into index.html.
+#	[23:30:08] Finished 'html' after 217 ms
+#	[23:30:08] Finished 'build' after 12 s
+#	[23:30:08] Starting 'serve'...
+#	[23:30:08] Finished 'serve' after 169 ms
+#	[BS] Local URL: http://localhost:3000
+#	[BS] External URL: http://172.31.47.199:3000
+#	[BS] Serving files from: dist/
+  
+  
+  
+  
+  
