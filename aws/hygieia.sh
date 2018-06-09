@@ -127,6 +127,21 @@ mongo
 # Run api.jar in Hygieia
 java -jar api.jar --spring.config.location=/opt/hygieia/api/dashboard.properties -Djasypt.encryptor.password=hygieiasecret
 
+# Output as seen below
+# ...
+# 2018-06-08 23:21:34,309 INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: refreshServiceUsingGET_1
+# 2018-06-08 23:21:34,335 INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: teamsByCollectorUsingGET_1
+# 2018-06-08 23:21:34,337 INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: teamsByCollectorPageUsingGET_1
+# 2018-06-08 23:21:34,417 INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: qualityDataUsingGET_1
+# 2018-06-08 23:21:34,439 INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: createGitHubv3UsingPOST_1
+# 2018-06-08 23:21:34,441 INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: searchUsingGET_2
+# 2018-06-08 23:21:34,515 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+# 2018-06-08 23:21:34,547 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+# 2018-06-08 23:21:34,566 INFO  o.a.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+# 2018-06-08 23:21:34,624 INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8080 (http)
+# 2018-06-08 23:21:34,628 INFO  com.capitalone.dashboard.Application - Started Application in 23.449 seconds (JVM running for 25.316)
+
+# Final states follow.  
 # Some additional required modules installs required gulp-angular-templatecache, gulp-change
  npm install --save gulp-angular-templatecache
  
@@ -169,7 +184,4 @@ gulp serve &
 #	[BS] External URL: http://172.31.47.199:3000
 #	[BS] Serving files from: dist/
   
-  
-  
-  
-  
+
