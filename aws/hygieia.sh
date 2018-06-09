@@ -2,7 +2,7 @@
 
 # Part I
 # This script installs Hygieia server within EC2 instance, then configures it.
-# Instead of typing at EC2 instance cli, copy this command to run in the console within the cloud:
+# Instead of typing at EC2 instance cli, copy the commands to run in console within the cloud:
 # sh -c "$(curl -fsSL https://github.com/github-kbaker/DevSecOps/blob/master/aws/hygieia.sh)"
 
 # Install Git - Install Git for your platform. For installation steps, see the Git documentation.
