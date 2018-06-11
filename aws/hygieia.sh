@@ -142,8 +142,27 @@ java -jar api.jar --spring.config.location=/opt/hygieia/api/dashboard.properties
 # 2018-06-08 23:21:34,566 INFO  o.a.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
 # 2018-06-08 23:21:34,624 INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8080 (http)
 # 2018-06-08 23:21:34,628 INFO  com.capitalone.dashboard.Application - Started Application in 23.449 seconds (JVM running for 25.316)
+#....
+# [INFO] --- maven-compiler-plugin:3.5.1:testCompile (default-testCompile) @ api ---
+# [INFO] Nothing to compile - all classes are up to date
+# [INFO]
+# [INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ api ---
+# [INFO] Skipping execution of surefire because it has already been run for this configuration
+# [INFO]
+# [INFO] --- maven-jar-plugin:2.5:jar (default-jar) @ api ---
+# [INFO] Building jar: /opt/hygieia/api/target/api.jar
+# [INFO]
+# [INFO] --- spring-boot-maven-plugin:1.3.0.RELEASE:repackage (default) @ api ---
+# [INFO] ------------------------------------------------------------------------
+# [INFO] BUILD SUCCESS
+# [INFO] ------------------------------------------------------------------------
+# [INFO] Total time: 52.666 s
+# [INFO] Finished at: 2018-06-08T16:04:22+00:00
+# [INFO] Final Memory: 48M/118M
+# [INFO] ------------------------------------------------------------------------
+# [root@ip-172-31-45-126 api]#
 
-# Final states follow.  
+# After maven successfuly finishes compiling and building, the final stages follow.  
 # Some additional required modules installs required gulp-angular-templatecache, gulp-change
  npm install --save gulp-angular-templatecache
  
